@@ -16,6 +16,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
     Route::get('user', 'Auth\UserController@current');
+    Route::patch('settings/profile', 'Auth\UserController@update');
+    // Route::patch('settings/password', [PasswordController::class, 'update']);
 
 });
 Route::group(['middleware' => 'guest:api'], function () {

@@ -17,7 +17,7 @@
                                         type="text"
                                         id="email_address"
                                         class="form-control"
-                                        v-model="email"
+                                        v-model="form.email"
                                         autofocus
                                     />
                                 </div>
@@ -34,15 +34,19 @@
                                         type="password"
                                         id="password"
                                         class="form-control"
-                                        v-model="password"
+                                        v-model="form.password"
                                     />
                                 </div>
                             </div>
 
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <v-button
+                                    type="submit"
+                                    :loading="form.busy"
+                                    class="btn btn-primary"
+                                >
                                     Login
-                                </button>
+                                </v-button>
                             </div>
                         </form>
                     </div>
@@ -55,6 +59,7 @@
 <script>
 import Cookies from "js-cookie";
 
+import Form from "vform";
 export default {
     name: "login",
     middleware: "guest",
@@ -62,18 +67,16 @@ export default {
     metaInfo() {
         return { title: "Login" };
     },
-    data() {
-        return {
+    data: () => ({
+        form: new Form({
             email: "administrator@app.com",
             password: "password",
-        };
-    },
+        }),
+        remember: false,
+    }),
     methods: {
         async handleSubmit() {
-            const res = await axios.post("/api/login", {
-                email: this.email,
-                password: this.password,
-            });
+            const res = await this.form.post("/api/login");
 
             this.$store.dispatch("Auth/saveToken", { token: res.data.token });
             await this.$store.dispatch("Auth/fetchUser");

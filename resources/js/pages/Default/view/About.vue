@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
     layout: "basic",
 
@@ -26,10 +24,6 @@ export default {
 
     data: () => ({
         title: window.config.appName,
-    }),
-
-    computed: mapGetters({
-        authenticated: "auth/check",
     }),
 };
 </script>

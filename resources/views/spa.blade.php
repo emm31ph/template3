@@ -32,6 +32,8 @@ $config = [
 
     {{-- Load the application scripts --}}
     <script src="{{ mix('dist/js/app.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
 </body>
 
 </html>

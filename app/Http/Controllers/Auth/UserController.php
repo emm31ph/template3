@@ -11,4 +11,16 @@ class UserController extends Controller
     {
         return response()->json($request->user());
     }
+
+    public function update(Request $request)
+    {
+        $user = $request->user();
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+        ]);
+
+        return tap($user)->update($request->only('name', 'email'));
+    }
 }

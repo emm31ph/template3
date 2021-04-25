@@ -16,6 +16,7 @@ export default {
 
     props: {
         title: { type: String, default: null },
+        styles: { type: String, default: null },
     },
 };
 </script>

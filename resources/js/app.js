@@ -12,6 +12,9 @@ import '~/components'
 import '~/dynamics'
 import '~/mixins'
 
+
+window.Swal = require('sweetalert2')
+
 const app = new Vue({
     // i18n,
     store,

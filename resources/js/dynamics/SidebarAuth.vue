@@ -33,7 +33,7 @@
         <div class="sidebar-heading">Interface</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item" :class="this.segment == 'item' ? 'active' : false">
             <a
                 class="nav-link collapsed"
                 href="#"
@@ -48,16 +48,23 @@
             <div
                 id="collapseTwo"
                 class="collapse"
+                :class="this.segment == 'item' ? 'show' : false"
                 aria-labelledby="headingTwo"
                 data-parent="#accordionSidebar"
             >
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Inventory:</h6>
+                    <router-link :to="{ name: 'item' }" class="collapse-item">
+                        Dashboard
+                    </router-link>
+                    <router-link :to="{ name: 'import' }" class="collapse-item">
+                        Import
+                    </router-link>
                     <router-link
-                        :to="{ name: 'dashboard' }"
+                        :to="{ name: 'delivery' }"
                         class="collapse-item"
                     >
-                        Dashboard
+                        Delivery
                     </router-link>
                 </div>
             </div>
@@ -107,7 +114,7 @@
         <div class="sidebar-heading">Addons</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item active">
+        <li class="nav-item">
             <a
                 class="nav-link"
                 href="#"
@@ -121,7 +128,7 @@
             </a>
             <div
                 id="collapsePages"
-                class="collapse show"
+                class="collapse"
                 aria-labelledby="headingPages"
                 data-parent="#accordionSidebar"
             >

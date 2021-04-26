@@ -23,4 +23,17 @@ class UserController extends Controller
 
         return tap($user)->update($request->only('name', 'email'));
     }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        return response()->json(null, 204);
+    }
 }

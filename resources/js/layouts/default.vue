@@ -1,37 +1,41 @@
 <template>
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <sidebar-auth></sidebar-auth>
-        <!-- End of Sidebar -->
+    <div>
+        <auto-logout v-if="isLogged" />
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <!-- Topbar -->
-                <topbar-auth></topbar-auth>
-                <!-- End of Topbar -->
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <sidebar-auth></sidebar-auth>
+            <!-- End of Sidebar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <child></child>
-                </div>
-                <!-- /.container-fluid -->
-            </div>
-            <!-- End of Main Content -->
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Topbar -->
+                    <topbar-auth></topbar-auth>
+                    <!-- End of Topbar -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2020</span>
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <child></child>
                     </div>
+                    <!-- /.container-fluid -->
                 </div>
-            </footer>
-            <!-- End of Footer -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright © Your Website 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+            </div>
+            <!-- End of Content Wrapper -->
         </div>
-        <!-- End of Content Wrapper -->
     </div>
 </template>
 

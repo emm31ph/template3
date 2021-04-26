@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,9 +16,20 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'branch', 'username', 'status',
     ];
 
+    protected $appends = [
+        'photo_url',
+    ];
+
+    public function getPhotoUrlAttribute()
+    {
+        return vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
+            md5(strtolower($this->email)),
+            $this->name ? urlencode("https://ui-avatars.com/api/$this->name") : 'mp',
+        ]);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -53,4 +64,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function branch()
+    {
+        return hasOne('App\Models\Branch', 'branch', 'branch');
+    }
 }

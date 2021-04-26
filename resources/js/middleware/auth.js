@@ -7,6 +7,7 @@ export default async(to, from, next) => {
         Cookies.set('intended_url', to.path)
         next({ name: 'login' })
     } else {
+
         next()
     }
 }

@@ -260,6 +260,11 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
+                    <img
+                        :src="isUser.photo_url"
+                        class="img-profile rounded-circle mr-1"
+                    />
+
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{
                         this.isUser.name
                     }}</span>

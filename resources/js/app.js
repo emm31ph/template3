@@ -12,8 +12,10 @@ import '~/components'
 import '~/dynamics'
 import '~/mixins'
 
-
+window.moment = require('moment')
 window.Swal = require('sweetalert2')
+window.XLSX = require('xlsx')
+
 
 const app = new Vue({
     // i18n,

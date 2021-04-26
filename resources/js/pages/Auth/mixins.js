@@ -2,8 +2,16 @@ import Vue from 'vue'
 import store from '~/store'
 import axios from 'axios'
 
+
 Vue.mixin({
+
     computed: {
+        segment: function() {
+            const pathArray = window.location.pathname.split("/");
+            const segment_1 = pathArray[1];
+
+            return segment_1
+        },
         isLogged: function() {
             const isLoggedIn = store.getters['Auth/check']
             if (isLoggedIn) {
@@ -22,6 +30,17 @@ Vue.mixin({
 
 
     methods: {
+        async autologout() {
+            await this.$store.dispatch('Auth/logout')
+                // await this.$store.dispatch('Items/clear')
+                // await this.$store.dispatch('Settings/clear')
+                // await this.$store.dispatch('Customer/clear')
+
+            // Redirect to login.
+            this.$router.push({
+                name: 'login'
+            })
+        },
         logout() {
             Swal.fire({
                 title: 'Ready to Leave?',

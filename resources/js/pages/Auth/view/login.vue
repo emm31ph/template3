@@ -5,37 +5,50 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <form @submit.prevent="handleSubmit">
+                        <form
+                            @submit.prevent="handleSubmit"
+                            @keydown="form.onKeydown($event)"
+                        >
                             <div class="form-group row">
                                 <label
-                                    for="email_address"
-                                    class="col-md-4 col-form-label text-md-right"
-                                    >E-Mail Address</label
+                                    class="col-md-3 col-form-label text-md-right"
+                                    >Email Address</label
                                 >
-                                <div class="col-md-6">
+                                <div class="col-md-7">
                                     <input
-                                        type="text"
-                                        id="email_address"
-                                        class="form-control"
                                         v-model="form.email"
-                                        autofocus
+                                        :class="{
+                                            'is-invalid': form.errors.has(
+                                                'email'
+                                            ),
+                                        }"
+                                        class="form-control"
+                                        type="email"
+                                        name="email"
                                     />
+                                    <has-error :form="form" field="email" />
                                 </div>
                             </div>
 
+                            <!-- Password -->
                             <div class="form-group row">
                                 <label
-                                    for="password"
-                                    class="col-md-4 col-form-label text-md-right"
+                                    class="col-md-3 col-form-label text-md-right"
                                     >Password</label
                                 >
-                                <div class="col-md-6">
+                                <div class="col-md-7">
                                     <input
-                                        type="password"
-                                        id="password"
-                                        class="form-control"
                                         v-model="form.password"
+                                        :class="{
+                                            'is-invalid': form.errors.has(
+                                                'password'
+                                            ),
+                                        }"
+                                        class="form-control"
+                                        type="password"
+                                        name="password"
                                     />
+                                    <has-error :form="form" field="password" />
                                 </div>
                             </div>
 

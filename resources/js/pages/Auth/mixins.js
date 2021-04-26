@@ -6,20 +6,20 @@ import axios from 'axios'
 Vue.mixin({
 
     computed: {
-        segment: function() {
+        segment: function () {
             const pathArray = window.location.pathname.split("/");
             const segment_1 = pathArray[1];
 
             return segment_1
         },
-        isLogged: function() {
+        isLogged: function () {
             const isLoggedIn = store.getters['Auth/check']
             if (isLoggedIn) {
                 return true
             }
             return false
         },
-        isUser: function() {
+        isUser: function () {
             const user = store.getters['Auth/user']
             if (user) {
                 return user
@@ -32,9 +32,9 @@ Vue.mixin({
     methods: {
         async autologout() {
             await this.$store.dispatch('Auth/logout')
-                // await this.$store.dispatch('Items/clear')
-                // await this.$store.dispatch('Settings/clear')
-                // await this.$store.dispatch('Customer/clear')
+            await this.$store.dispatch('Item/clear')
+            await this.$store.dispatch('Settings/clear')
+            // await this.$store.dispatch('Customer/clear')
 
             // Redirect to login.
             this.$router.push({
@@ -54,9 +54,9 @@ Vue.mixin({
                 if (result.isConfirmed) {
                     // Log out the user.
                     this.$store.dispatch('Auth/logout')
-                        // await this.$store.dispatch('Items/clear')
-                        // await this.$store.dispatch('Settings/clear')
-                        // await this.$store.dispatch('Customer/clear')
+                    // await this.$store.dispatch('Items/clear')
+                    // await this.$store.dispatch('Settings/clear')
+                    // await this.$store.dispatch('Customer/clear')
 
                     // Redirect to login.
                     this.$router.push({

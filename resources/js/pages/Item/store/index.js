@@ -54,10 +54,10 @@ export const actions = {
 
     async fetchAllItems({ commit }) {
         try {
-            const { data } = await axios.get('/api/auth/items/getallitems')
-            // console.log(data);
+            const { data } = await axios.get('/api/items/getAllitems')
+
             commit(types.FETCH_ALL_ITEMS_SUCCESS, {
-                allitems: data.results
+                allitems: data
             })
         } catch (e) {
             commit(types.FETCH_ALL_ITEMS_FAILURE)

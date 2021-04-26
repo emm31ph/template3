@@ -20,9 +20,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'items', 'as' => 'item'], function () {
         Route::post('import', 'Api\ItemController@import')->name('-import');
         Route::get('/getitems', 'Api\ItemBranchController@getItems')->name('-all');
+        Route::get('/getAllitems', 'Api\ItemBranchController@getAllItems');
+
         // Route::get('/search', 'Api\Inventory\ItemController@search')->name('search');
         // Route::get('/getallitems', 'Api\Inventory\ItemController@getAllitems')->name('getallitems');
-        // Route::post('/transaction', 'Api\Inventory\ItemController@sumbitTrans')->name('transaction');
+        Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
     });
 
     Route::group(['prefix' => 'branches', 'as' => 'branch'], function () {

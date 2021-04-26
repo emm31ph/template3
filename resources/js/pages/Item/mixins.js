@@ -17,7 +17,7 @@ Vue.mixin({
             return false
         },
         getAllItems() {
-            const data = store.getters['Items/allitems']
+            const data = store.getters['Item/allitems']
             if (data) {
                 return data
             }
@@ -26,10 +26,10 @@ Vue.mixin({
     },
     methods: {
         async fetchAllItems() {
-            await this.$store.dispatch("Items/fetchAllItems");
+            await this.$store.dispatch("Item/fetchAllItems");
         },
         async fetchItems() {
-            await this.$store.dispatch("Items/fetchItems");
+            await this.$store.dispatch("Item/fetchItems");
         },
 
         onChangeItems(value) {

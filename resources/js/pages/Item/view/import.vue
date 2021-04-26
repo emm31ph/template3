@@ -171,7 +171,7 @@
 <script>
 import Form from "vform";
 export default {
-	//   middleware: "auth",
+	middleware: "auth",
 	name: "import",
 	metaInfo() {
 		return { title: "Import" };
@@ -302,7 +302,6 @@ export default {
 			};
 		},
 		async handleSubmit() {
-	 
 			if (this.form.importItems.length != 0) {
 				try {
 					const res = await this.form.post("/api/items/import ");

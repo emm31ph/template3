@@ -197,6 +197,7 @@
 <script>
 export default {
 	name: "items",
+	middleware: "auth",
 	data() {
 		return {
 			pagename: "Item List",

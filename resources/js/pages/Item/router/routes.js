@@ -1,6 +1,6 @@
 function page(path) {
     return () =>
-        import ( /* webpackChunkName: '' */ `~/pages/${path}`).then(
+        import( /* webpackChunkName: '' */ `~/pages/${path}`).then(
             m => m.default || m
         )
 }
@@ -22,5 +22,13 @@ export default [{
         path: 'list',
         name: 'items-list',
         component: page('Item/view/list.vue')
-    }, ]
+    }, {
+        path: 'recieve',
+        name: 'items-recieve',
+        component: page('Item/view/recieve.vue')
+    }, {
+        path: 'fptd',
+        name: 'items-fptd',
+        component: page('Item/view/fptd.vue')
+    },]
 }]

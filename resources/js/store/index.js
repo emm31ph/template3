@@ -18,8 +18,7 @@ const modules = requireContext
         if (module.namespaced === undefined) {
             module.namespaced = true
         }
-
-        return {...modules, [name]: module }
+        return { ...modules, [name]: module }
     }, {})
 
 
@@ -35,7 +34,7 @@ const modulesInside = requireContextInside.keys()
             module.namespaced = true
         }
 
-        return {...modulesInside, [name]: module }
+        return { ...modulesInside, [name]: module }
     }, {})
 
 export default new Vuex.Store({

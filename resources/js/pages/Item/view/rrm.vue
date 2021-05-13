@@ -2,7 +2,7 @@
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">
-				Finished Product Transfer Document
+				Receipt for Return Merchandise
 			</h6>
 		</div>
 		<div class="card-body">
@@ -39,7 +39,7 @@
 						<div class="col-sm-8">
 							<input
 								v-model="form.trndate"
-								type="date"
+								type="text"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('trndate'),
@@ -120,11 +120,9 @@
 									Case/Tins
 								</th>
 								<th class="text-center" style="width: 15%">
-									DR QTY
+									Quantity
 								</th>
-								<th class="text-center" style="width: 15%">
-									CR QTY
-								</th>
+
 								<th style="width: 50px"></th>
 							</tr>
 						</thead>
@@ -192,42 +190,24 @@
 								</td>
 								<td>
 									<input
-										v-model="item.drqty"
+										v-model="item.qty"
 										type="number"
 										class="form-control form-control-sm text-center"
 										min="0"
-										@change="calculateTotalDr(item)"
+										@change="calculateTotal(item)"
 										:class="{
 											'is-invalid': form.errors.has(
-												`items.${k}.drqty`
+												`items.${k}.qty`
 											),
 										}"
-										:name="`items.${k}.drqty`"
+										:name="`items.${k}.qty`"
 									/>
 									<has-error
 										:form="form"
-										:field="`items.${k}.drqty`"
+										:field="`items.${k}.qty`"
 									/>
 								</td>
-								<td>
-									<input
-										v-model="item.crqty"
-										type="number"
-										class="form-control form-control-sm text-center"
-										min="0"
-										@change="calculateTotalCr(item)"
-										:class="{
-											'is-invalid': form.errors.has(
-												`items.${k}.crqty`
-											),
-										}"
-										:name="`items.${k}.crqty`"
-									/>
-									<has-error
-										:form="form"
-										:field="`items.${k}.crqty`"
-									/>
-								</td>
+
 								<td
 									class="align-middle text-center text-danger"
 								>
@@ -242,27 +222,9 @@
 							<tr>
 								<td colspan="3" class="text-right">Total</td>
 								<td class="text-center">
-									{{ items_dr_total }}
+									{{ items_total }}
 								</td>
-								<td class="text-center">
-									{{ items_cr_total }}
 
-									<input
-										v-model="form.crqty_total"
-										type="hidden"
-										class="form-control form-control-sm"
-										:class="{
-											'is-invalid': form.errors.has(
-												'crqty_total'
-											),
-										}"
-										name="crqty_total"
-									/>
-									<has-error
-										:form="form"
-										field="crqty_total"
-									/>
-								</td>
 								<td></td>
 							</tr>
 						</tfoot>
@@ -290,24 +252,21 @@ export default {
 	middleware: "auth",
 	name: "inv-delivery",
 	metaInfo() {
-		return { title: "Finished Product Transfer Document" };
+		return { title: "Receipt for Return Merchandise" };
 	},
 	data: () => ({
 		form: new Form({
 			userid: "",
 			trndate: "",
-			trnmode: "FPTD",
+			trnmode: "RRM",
 			from: "",
 			to: "",
 			refno: "",
-			drqty_total: 0,
-			crqty_total: 0,
 			remarks: "",
 			items: [
 				{
-					drqty: 0,
-					crqty: 0,
-					trntype: "WP",
+					qty: 0,
+					trntype: "RR",
 					itemcode: null,
 					expdate: null,
 					unit: "case",
@@ -316,8 +275,7 @@ export default {
 		}),
 		btn: false,
 		success: false,
-		items_dr_total: "0",
-		items_cr_total: "0",
+		items_total: 0,
 		unit_options: [
 			{
 				text: "Case",
@@ -339,11 +297,11 @@ export default {
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
-			this.calculateTotalDr();
+			this.calculateTotal();
 		},
 
 		handleSubmit() {
-			const res = this.form.post("/api/items/fptd-trans");
+			const res = this.form.post("/api/items/rrm-trans");
 
 			this.$router.push({
 				name: "report-fptd",
@@ -352,9 +310,8 @@ export default {
 		},
 		addNewLine() {
 			this.form.items.push({
-				drqty: 0,
-				crqty: 0,
-				trntype: "WP",
+				qty: 0,
+				trntype: "RR",
 				itemcode: null,
 				expdate: null,
 				unit: "case",
@@ -383,30 +340,16 @@ export default {
 			this.$children[0].selectedItem = null;
 			this.form.userid = this.isUser.id;
 		},
-		calculateTotalDr() {
+		calculateTotal() {
 			var subtotaldr;
 			subtotaldr = this.form.items.reduce(function (sum, item) {
-				var lineTotal = parseFloat(item.drqty);
+				var lineTotal = parseFloat(item.qty);
 				if (!isNaN(lineTotal)) {
 					return sum + lineTotal;
 				}
 				return sum;
 			}, 0);
-			this.items_dr_total = subtotaldr;
-			this.form.drqty_total = subtotaldr;
-			this.checkBtn();
-		},
-		calculateTotalCr() {
-			var subtotalcr;
-			subtotalcr = this.form.items.reduce(function (sum, item) {
-				var lineTotal = parseFloat(item.crqty);
-				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
-				}
-				return sum;
-			}, 0);
-			this.items_cr_total = subtotalcr;
-			this.form.crqty_total = subtotalcr;
+			this.items_total = subtotaldr;
 			this.checkBtn();
 		},
 		checkBtn() {

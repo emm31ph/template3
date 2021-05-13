@@ -19,24 +19,24 @@ class CounterSeeder extends Seeder
         ]);
 
         Counter::create([
-            'key' => 'RR',
-            'prefix' => 'RR-',
+            'key' => 'RRM',
+            'prefix' => 'RRM-',
             'value' => 1,
         ]);
         Counter::create([
-            'key' => 'WP',
+            'key' => 'FPTD',
             'prefix' => 'WP-',
             'value' => 1,
         ]);
 
         Counter::create([
-            'key' => 'BL',
-            'prefix' => 'BL-',
+            'key' => 'RJCT',
+            'prefix' => 'RJ-',
             'value' => 1,
         ]);
         Counter::create([
-            'key' => 'RT',
-            'prefix' => 'RT-',
+            'key' => 'RR',
+            'prefix' => 'RR-',
             'value' => 1,
         ]);
         Counter::create([

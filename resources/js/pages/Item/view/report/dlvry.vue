@@ -1,0 +1,436 @@
+<template>
+	<div>
+		<div class="card shadow mb-4">
+			<div class="card-header py-3 d-flex justify-content-between">
+				<h6 class="m-0 font-weight-bold text-primary">Print Preview</h6>
+			</div>
+			<div class="card-body">
+				<div class="warp">
+					<div id="printme">
+						<page v-if="data">
+							<div class="row p-2">
+								<div class="col-12">
+									<div class="card border-0">
+										<div class="card-body p-0">
+											<div
+												class="container-fluid py-0 pl-0"
+											>
+												<div class="row mb-2">
+													<div class="col-3">
+														<img
+															src="/img/logo.png"
+															class="rounded float-left img-thumbnail mr-2"
+															style="width: 75px"
+														/>
+														<p
+															class="h2 font-weight-bold mb-0 pb-0"
+														>
+															TOSEN
+														</p>
+
+														<sub> FOODS, INC. </sub>
+													</div>
+													<div
+														class="col-6 text-center position-relative"
+													>
+														<p
+															class="h5 font-weight-bold mb-1 mt-5"
+														>
+															DELIVERY DOCUMENT
+														</p>
+													</div>
+													<div
+														class="col-3 text-right"
+													>
+														<p
+															class="font-weight-bold mb-1"
+														>
+															{{
+																this.data[
+																	"batch"
+																]
+															}}
+														</p>
+														<sub
+															class="text-muted mb-1"
+														>
+															Printed Date:
+															{{ this.dateTime }}
+														</sub>
+													</div>
+												</div>
+											</div>
+
+											<hr class="my-2" />
+
+											<div class="pb-1 px-2 py-2">
+												<div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="col-4 text-right font-weight-bold"
+															>
+																Reference No:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"refno"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="col-6 text-right font-weight-bold"
+															>
+																Supporting
+																Document:
+															</div>
+															<div class="col-6">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"rono"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="col-4 text-right font-weight-bold"
+															>
+																Issued Date:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"trndate"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="col-6 text-right font-weight-bold"
+															>
+																Prepared By:
+															</div>
+															<div class="col-6">
+																{{
+																	this.Ucase(
+																		this
+																			.isUser
+																			.name
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																style="
+																	height: 70px;
+																"
+																class="col-4 text-right font-weight-bold"
+															>
+																Customer Name:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"customer"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="col-6 text-right font-weight-bold"
+															>
+																Remarks
+															</div>
+															<div class="col-6">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"remark"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row h6">
+												<div class="col-md-12">
+													<table class="mytable">
+														<thead>
+															<tr
+																class="text-uppercase small font-weight-bold"
+															>
+																<th
+																	class="border-0"
+																>
+																	Item
+																	Description
+																</th>
+																<th
+																	class="border-0 text-center"
+																>
+																	Expire Date
+																</th>
+																<th
+																	class="border-0"
+																>
+																	SHORT CODE
+																</th>
+																<th
+																	class="border-0 text-center"
+																>
+																	Issue Qty
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr
+																v-for="(
+																	item, i
+																) in data[
+																	'hist'
+																]"
+																:key="i"
+															>
+																<td>
+																	{{
+																		Ucase(
+																			item[
+																				"items"
+																			][
+																				"itemdesc"
+																			]
+																		)
+																	}}
+																</td>
+																<td
+																	class="text-center"
+																>
+																	{{
+																		item[
+																			"expdate"
+																		]
+																	}}
+																</td>
+
+																<td>
+																	{{
+																		Ucase(
+																			item[
+																				"items"
+																			][
+																				"shortcode"
+																			]
+																		)
+																	}}
+
+																	{{
+																		Ucase(
+																			item[
+																				"items"
+																			][
+																				"pckgsize"
+																			]
+																		)
+																	}}
+																</td>
+
+																<td
+																	class="text-center"
+																>
+																	{{
+																		formatNumber(
+																			item[
+																				"drqty"
+																			] /
+																				100
+																		)
+																	}}
+																</td>
+															</tr>
+															<tr
+																v-for="i in this
+																	.countitems"
+																:key="i"
+															>
+																<td>&nbsp;</td>
+																<td></td>
+																<td></td>
+																<td></td>
+															</tr>
+														</tbody>
+														<tfoot>
+															<tr>
+																<td
+																	class="text-right font-weight-bold"
+																	colspan="3"
+																>
+																	Sub Total
+																</td>
+																<td
+																	class="text-center"
+																>
+																	{{
+																		formatNumber(
+																			this
+																				.drQty /
+																				100
+																		)
+																	}}
+																</td>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</page>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-footer">
+				<button
+					class="btn btn-sm btn-primary"
+					@click.prevent="printing()"
+				>
+					<i class="fa fa-print"></i> Print
+				</button>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import print from "print-js";
+export default {
+	name: "report",
+	middleware: "auth",
+	data() {
+		return {
+			id: this.$route.params.id,
+			data: null,
+			countitems: 0,
+			drtotal: 0,
+			crtotal: 0,
+		};
+	},
+	metaInfo() {
+		return { title: "Report" };
+	},
+	created() {
+		this.handleSubmit();
+		this.repType;
+	},
+	computed: {
+		repType() {
+			switch (this.id.slice(0, this.id.search("-"))) {
+				case "DLVR":
+					return true;
+					break;
+				default:
+					this.$router.push({
+						name: "report-fptd",
+						params: { id: this.id },
+					});
+			}
+		},
+		drQty: function () {
+			let sum = 0;
+			this.data["hist"].forEach(function (item) {
+				sum += parseFloat(item.drqty);
+			});
+
+			return sum;
+		},
+		crQty: function () {
+			let sum = 0;
+			this.data["hist"].forEach(function (item) {
+				sum += parseFloat(item.crqty);
+			});
+
+			return sum;
+		},
+	},
+	methods: {
+		async handleSubmit() {
+			const res = await axios.get("/api/items/reportItem", {
+				params: { id: this.id },
+			});
+			this.data = res.data;
+			this.countitems = 24 - res.data["hist"].length;
+		},
+		printing() {
+			var style = [
+				window.location.origin + "/dist/css/app.css",
+				window.location.origin + "/dist/css/print.css",
+			];
+			printJS({
+				name: "_blank",
+				specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+				printable: "printme",
+				type: "html",
+				css: style,
+				//style: "@page {size: 5.5in 8.5in;size: landscape;}",
+				// style: "@page {size: 5.5in 4.25in;size: landscape;}",
+				style: "@page {size: 5.5in 8.5in;}",
+				// header: "Multiple Images",
+				scanStyles: false,
+				onPrintDialogClose: () =>
+					console.log("The print dialog was closed"),
+				onError: (e) => console.log(e),
+			});
+		},
+		printVisit(id) {
+			this.$htmlToPaper("printme");
+			this.$htmlToPaper("printme", () => {
+				console.log("Printing completed or was cancelled!");
+			});
+		},
+	},
+};
+</script>
+
+<style>
+</style>

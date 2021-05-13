@@ -21,10 +21,16 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('import', 'Api\ItemController@import')->name('-import');
         Route::get('/getitems', 'Api\ItemBranchController@getItems')->name('-all');
         Route::get('/getAllitems', 'Api\ItemBranchController@getAllItems');
+        Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
+        Route::get('/getItemsOut', 'Api\ItemBranchController@getItemsOut');
 
         // Route::get('/search', 'Api\Inventory\ItemController@search')->name('search');
         // Route::get('/getallitems', 'Api\Inventory\ItemController@getAllitems')->name('getallitems');
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
+        Route::post('/fptd-trans', 'Api\ItemController@FPTDRJCTTrans')->name('-FptdTrans');
+        Route::post('/rrm-trans', 'Api\ItemController@RRMRRTrans')->name('-RRMTrans');
+        Route::get('/reportItem', 'Api\ItemBranchController@reportItem')->name('-Report');
+
     });
 
     Route::group(['prefix' => 'branches', 'as' => 'branch'], function () {

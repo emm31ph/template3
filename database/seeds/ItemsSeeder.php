@@ -2,7 +2,6 @@
 
 use App\Models\Item;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ItemsSeeder extends Seeder
 {
@@ -961,7 +960,8 @@ class ItemsSeeder extends Seeder
             ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G ', 'itemcode' => 'RAUNMWH0600000', 'itemdesc' => 'WHOLE MUSHROOM IN BRINE IN DRUM'],
             ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G ', 'itemcode' => 'RPUBXGU1000001', 'itemdesc' => 'XANTAN GUM'],
             ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G (EOC)', 'itemcode' => 'FSAUNUSPEY20155100', 'itemdesc' => 'UNLABELLED SARDINES PLAIN EOC 100/155G YT'],
-            ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G (EOC)', 'itemcode' => 'WLA PA', 'itemdesc' => 'SENORITA SARDINES SUPER HOT EOC 100/155G'],
+            ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G (EOC)', 'itemcode' => 'FSASESSSHE10155100', 'itemdesc' => 'SENORITA SARDINES SUPER HOT EOC 100/155G'],
+            ['u_skucode' => '', 'shortcode' => '', 'pckgsize' => '100/155G (EOC)', 'itemcode' => 'SSREL100155', 'itemdesc' => 'SENORITA SARDINES RED EOC LITHOGRAPH 100/155G'],
 
         ];
         Item::insert($data);

@@ -13,7 +13,8 @@ const path = require('path')
  */
 
 mix.js('resources/js/app.js', 'public/dist/js')
-    .sass('resources/sass/app.scss', 'public/dist/css');
+    .sass('resources/sass/app.scss', 'public/dist/css')
+    .sass('resources/sass/print.scss', 'public/dist/css');
 
 
 mix.disableNotifications();
@@ -22,8 +23,8 @@ mix.disableNotifications();
 
 if (mix.inProduction()) {
     mix
-    // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
-    // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
+        // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
+        // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
         .versionHash()
 } else {
     mix.sourceMaps()
@@ -36,8 +37,8 @@ fs.readdir(path.resolve(buildDir), (err, files) => {
     if (err) {
         console.log(err);
     } else {
-        files.forEach(function(file) {
-            fs.unlink(path.resolve(buildDir + file), function() {
+        files.forEach(function (file) {
+            fs.unlink(path.resolve(buildDir + file), function () {
                 console.log(buildDir + file + ' - deleted');
             });
         });

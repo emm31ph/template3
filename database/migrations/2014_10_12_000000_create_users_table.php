@@ -35,6 +35,22 @@ class CreateUsersTable extends Migration
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         ]);
 
+        User::create([
+            'name' => 'Christian',
+            'email' => 'chris@app.com',
+            'branch' => 'CEB',
+            'username' => 'chris',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ]);
+
+        User::create([
+            'name' => 'Stephanie',
+            'email' => 'step@app.com',
+            'branch' => 'ILO',
+            'username' => 'step',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ]);
+
     }
 
     /**

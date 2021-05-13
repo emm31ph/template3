@@ -50,13 +50,19 @@
 			>
 				<ul class="list-group">
 					<li
-						class="list-group-item"
+						class="list-group-item d-flex flex-row p-1"
 						v-for="(match, index) in matches"
 						:key="index"
 						:class="{ selected: selected == index }"
 						@click="itemClicked(index)"
-						v-text="match[filterby]"
-					></li>
+					>
+						<div class="col-10">
+							{{ match[filterby] }}
+						</div>
+						<div class="col-2 px-0 text-right">
+							{{ match[addOnDisplay] }}
+						</div>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -86,6 +92,9 @@ export default {
 			type: Array,
 		},
 		filterby: {
+			type: String,
+		},
+		addOnDisplay: {
 			type: String,
 		},
 		title: {

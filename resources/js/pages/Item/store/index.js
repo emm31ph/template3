@@ -66,7 +66,31 @@ export const actions = {
     async clear({ commit }) {
 
         commit(types.CLEAR_ALL)
-    }
+    },
+
+    async fetchItemsOut({ commit }) {
+        try {
+            const { data } = await axios.get('/api/items/getItemsOut')
+
+            commit(types.FETCH_ITEMS_SUCCESS, {
+                items: data
+            })
+        } catch (e) {
+            commit(types.FETCH_ITEMS_FAILURE)
+        }
+    },
+    async fetchAllItemsBranch({ commit }) {
+        try {
+            const { data } = await axios.get('/api/items/getAllitemsBranch')
+
+            commit(types.FETCH_ITEMS_SUCCESS, {
+                items: data
+            })
+        } catch (e) {
+            commit(types.FETCH_ITEMS_FAILURE)
+        }
+    },
+
 }
 export default {
     namespaced: true,

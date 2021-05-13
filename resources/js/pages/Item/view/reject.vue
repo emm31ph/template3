@@ -2,7 +2,7 @@
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">
-				Finished Product Transfer Document
+				Reject Transaction
 			</h6>
 		</div>
 		<div class="card-body">
@@ -39,7 +39,7 @@
 						<div class="col-sm-8">
 							<input
 								v-model="form.trndate"
-								type="date"
+								type="text"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('trndate'),
@@ -290,24 +290,24 @@ export default {
 	middleware: "auth",
 	name: "inv-delivery",
 	metaInfo() {
-		return { title: "Finished Product Transfer Document" };
+		return { title: "Reject Transaction" };
 	},
 	data: () => ({
 		form: new Form({
 			userid: "",
 			trndate: "",
-			trnmode: "FPTD",
+			trnmode: "RJCT",
 			from: "",
 			to: "",
 			refno: "",
+			remarks: "",
 			drqty_total: 0,
 			crqty_total: 0,
-			remarks: "",
 			items: [
 				{
 					drqty: 0,
 					crqty: 0,
-					trntype: "WP",
+					trntype: "RJ",
 					itemcode: null,
 					expdate: null,
 					unit: "case",

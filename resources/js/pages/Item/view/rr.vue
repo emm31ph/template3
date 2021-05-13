@@ -2,7 +2,7 @@
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">
-				Delivery Transaction
+				Recieving Report Transaction
 			</h6>
 		</div>
 		<div class="card-body">
@@ -15,9 +15,67 @@
 						<label
 							for="inputCustomer"
 							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>Reference No :</label
+							>From :</label
 						>
 						<div class="col-sm-9">
+							<input
+								v-model="form.from"
+								type="text"
+								class="form-control form-control-sm"
+								:class="{
+									'is-invalid': form.errors.has('from'),
+								}"
+								name="from"
+							/>
+							<has-error :form="form" field="from" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group row">
+						<label
+							for="inputCustomer"
+							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							>Date :</label
+						>
+						<div class="col-sm-8">
+							<input
+								v-model="form.trndate"
+								type="date"
+								class="form-control form-control-sm"
+								:class="{
+									'is-invalid': form.errors.has('trndate'),
+								}"
+								name="trndate"
+							/>
+							<has-error :form="form" field="trndate" />
+						</div>
+					</div>
+
+					<div class="col-md-6 form-group row">
+						<label
+							for="inputCustomer"
+							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							>To :</label
+						>
+						<div class="col-sm-9">
+							<input
+								v-model="form.to"
+								type="text"
+								class="form-control form-control-sm"
+								:class="{
+									'is-invalid': form.errors.has('to'),
+								}"
+								name="to"
+							/>
+							<has-error :form="form" field="to" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group row">
+						<label
+							for="inputCustomer"
+							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							>RS No :</label
+						>
+						<div class="col-sm-8">
 							<input
 								v-model="form.refno"
 								type="text"
@@ -33,52 +91,13 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
-							>Supporting Document :</label
-						>
-						<div class="col-sm-8">
-							<input
-								v-model="form.rono"
-								type="text"
-								class="form-control form-control-sm"
-								:class="{
-									'is-invalid': form.errors.has('rono'),
-								}"
-								name="rono"
-							/>
-							<has-error :form="form" field="rono" />
-						</div>
-					</div>
-
-					<div class="col-md-6 form-group row">
-						<label
-							for="inputCustomer"
 							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>Issued Date :</label
-						>
-						<div class="col-sm-9">
-							<input
-								v-model="form.trndate"
-								type="text"
-								class="form-control form-control-sm"
-								:class="{
-									'is-invalid': form.errors.has('trndate'),
-								}"
-								name="trndate"
-							/>
-							<has-error :form="form" field="trndate" />
-						</div>
-					</div>
-					<div class="col-md-6 form-group row">
-						<label
-							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
 							>Remarks :</label
 						>
-						<div class="col-sm-8">
-							<input
+						<div class="col-sm-9">
+							<textarea
 								v-model="form.remarks"
-								type="text"
+								rows="3"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('remarks'),
@@ -86,25 +105,6 @@
 								name="remarks"
 							/>
 							<has-error :form="form" field="remarks" />
-						</div>
-					</div>
-					<div class="col-md-6 form-group row">
-						<label
-							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>Customer :</label
-						>
-						<div class="col-sm-9">
-							<textarea
-								v-model="form.customer"
-								rows="3"
-								class="form-control form-control-sm"
-								:class="{
-									'is-invalid': form.errors.has('customer'),
-								}"
-								name="customer"
-							/>
-							<has-error :form="form" field="customer" />
 						</div>
 					</div>
 				</div>
@@ -122,6 +122,7 @@
 								<th class="text-center" style="width: 15%">
 									Quantity
 								</th>
+
 								<th style="width: 50px"></th>
 							</tr>
 						</thead>
@@ -144,18 +145,6 @@
 										}"
 										:name="`items.${k}.itemcode`"
 									/>
-									<!-- <input
-										v-model="form.items[k].itemcode"
-										type="text"
-										class="form-control form-control-sm"
-										:class="{
-											'is-invalid': form.errors.has(
-												`items.${k}.itemcode`
-											),
-										}"
-										:name="`items.${k}.itemcode`"
-									/> -->
-
 									<has-error
 										:form="form"
 										:field="`items.${k}.itemcode`"
@@ -163,6 +152,9 @@
 								</td>
 								<td>
 									<input
+										:disabled="
+											item.expdate != null ? true : false
+										"
 										v-model="item.expdate"
 										type="date"
 										class="form-control form-control-sm text-center"
@@ -214,6 +206,7 @@
 										:field="`items.${k}.qty`"
 									/>
 								</td>
+
 								<td
 									class="align-middle text-center text-danger"
 								>
@@ -227,12 +220,15 @@
 						<tfoot>
 							<tr>
 								<td colspan="3" class="text-right">Total</td>
-								<td class="text-center">{{ items_total }}</td>
+								<td class="text-center">
+									{{ items_total }}
+								</td>
+
 								<td></td>
 							</tr>
 						</tfoot>
 					</table>
-
+					<has-error :form="form" field="crqty_total" />
 					<div class="d-flex justify-content-between">
 						<button class="btn btn-success" @click="addNewLine">
 							Add
@@ -255,20 +251,21 @@ export default {
 	middleware: "auth",
 	name: "inv-delivery",
 	metaInfo() {
-		return { title: "Delivery Transaction" };
+		return { title: "Recieving Report Transaction" };
 	},
 	data: () => ({
 		form: new Form({
-			trndate: "",
-			customer: "Edmund, Acc",
 			userid: "",
-			rono: "2031",
-			refno: "09982",
-			remarks: "edgar/ndb-3308",
+			trndate: "",
+			trnmode: "RR",
+			from: "",
+			to: "",
+			refno: "",
+			remarks: "",
 			items: [
 				{
 					qty: 0,
-					trntype: "OD",
+					trntype: "RR",
 					itemcode: null,
 					expdate: null,
 					unit: "case",
@@ -276,9 +273,8 @@ export default {
 			],
 		}),
 		btn: false,
-		allerrors: [],
 		success: false,
-		items_total: "0",
+		items_total: 0,
 		unit_options: [
 			{
 				text: "Case",
@@ -292,7 +288,6 @@ export default {
 	}),
 	watch: {},
 	mounted() {
-		this.form.prepared = this.isUser.name;
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
 		this.fetchAllItems();
@@ -303,31 +298,18 @@ export default {
 			this.calculateTotal();
 		},
 
-		customerSelected(customer) {
-			// this.form.custid = customer.cid;
-		},
-		async handleSubmit() {
-			const res = await this.form.post("/api/items/dlvry-trans");
-
-			Swal.fire({
-				text: "Sucessfully Process",
-				target: "#custom-target",
-				customClass: {
-					container: "position-absolute",
-				},
-				toast: true,
-				timer: 1500,
-				position: "top-right",
-			});
+		handleSubmit() {
+			const res = this.form.post("/api/items/rrm-trans");
 
 			this.$router.push({
-				name: "dashboard",
+				name: "report-fptd",
+				params: { id: res.data.id },
 			});
 		},
 		addNewLine() {
 			this.form.items.push({
 				qty: 0,
-
+				trntype: "RR",
 				itemcode: null,
 				expdate: null,
 				unit: "case",
@@ -357,15 +339,15 @@ export default {
 			this.form.userid = this.isUser.id;
 		},
 		calculateTotal() {
-			var subtotal;
-			subtotal = this.form.items.reduce(function (sum, item) {
+			var subtotaldr;
+			subtotaldr = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.qty);
 				if (!isNaN(lineTotal)) {
 					return sum + lineTotal;
 				}
 				return sum;
 			}, 0);
-			this.items_total = subtotal;
+			this.items_total = subtotaldr;
 			this.checkBtn();
 		},
 		checkBtn() {

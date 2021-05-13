@@ -23,15 +23,15 @@ class CreateItemsBatchesTable extends Migration
             $table->string('refno')->nullable();
             $table->string('remarks')->nullable();
             $table->text('customer')->nullable();
-            $table->integer('from')->nullable();
-            $table->integer('to')->nullable();
+            $table->string('from')->nullable();
+            $table->string('to')->nullable();
             $table->date('trndate')->nullable();
             $table->string('year', 4)->nullable();
             $table->integer('approvedby')->nullable();
             $table->integer('preparedby')->nullable();
             $table->integer('receivedby')->nullable();
             $table->string('status', 3)->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

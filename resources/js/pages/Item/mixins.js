@@ -9,7 +9,7 @@ Vue.mixin({
         getItems() {
             if (this.isUser) {
                 const data = store.getters['Item/items']
-                console.log(data);
+
                 if (data) {
                     return data
                 }
@@ -23,8 +23,30 @@ Vue.mixin({
             }
 
         },
+
+        getAllItemsBranch() {
+            const data = store.getters['Item/items']
+            if (data) {
+                return data
+            }
+
+        },
+
+        getItemsOut() {
+            const data = store.getters['Item/items']
+            if (data) {
+                return data
+            }
+
+        },
     },
     methods: {
+        async fetchItemsOut() {
+            await this.$store.dispatch("Item/fetchItemsOut");
+        },
+        async fetchAllItemsBranch() {
+            await this.$store.dispatch("Item/fetchAllItemsBranch");
+        },
         async fetchAllItems() {
             await this.$store.dispatch("Item/fetchAllItems");
         },

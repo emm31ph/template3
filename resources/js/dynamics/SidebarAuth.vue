@@ -57,14 +57,11 @@
 					<router-link :to="{ name: 'item' }" class="collapse-item">
 						Dashboard
 					</router-link>
-					<router-link :to="{ name: 'import' }" class="collapse-item">
-						Import
-					</router-link>
 					<router-link
-						:to="{ name: 'items-recieve' }"
+						:to="{ name: 'delivery' }"
 						class="collapse-item"
 					>
-						Recieving Report
+						Delivery
 					</router-link>
 					<router-link
 						:to="{ name: 'items-fptd' }"
@@ -73,10 +70,25 @@
 						FPTD
 					</router-link>
 					<router-link
-						:to="{ name: 'delivery' }"
+						:to="{ name: 'items-rr' }"
 						class="collapse-item"
 					>
-						Delivery
+						Recieving Report
+					</router-link>
+					<router-link
+						:to="{ name: 'items-rrm' }"
+						class="collapse-item"
+					>
+						RRM
+					</router-link>
+					<router-link
+						:to="{ name: 'items-reject' }"
+						class="collapse-item"
+					>
+						Reject
+					</router-link>
+					<router-link :to="{ name: 'import' }" class="collapse-item">
+						Import
 					</router-link>
 				</div>
 			</div>

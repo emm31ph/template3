@@ -59,7 +59,7 @@
 						<div class="col-sm-9">
 							<input
 								v-model="form.trndate"
-								type="text"
+								type="date"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('trndate'),
@@ -130,9 +130,10 @@
 								<td>
 									<typeahead
 										v-model="item.itemcode"
-										:items="getAllItems"
+										:items="getItemsOut"
 										:index="`${k}`"
 										filterby="itemdesc"
+										addOnDisplay="expdate"
 										@change="onChangeItems"
 										title="Type Itemdesc"
 										@selected="itemSelected"
@@ -144,18 +145,6 @@
 										}"
 										:name="`items.${k}.itemcode`"
 									/>
-									<!-- <input
-										v-model="form.items[k].itemcode"
-										type="text"
-										class="form-control form-control-sm"
-										:class="{
-											'is-invalid': form.errors.has(
-												`items.${k}.itemcode`
-											),
-										}"
-										:name="`items.${k}.itemcode`"
-									/> -->
-
 									<has-error
 										:form="form"
 										:field="`items.${k}.itemcode`"
@@ -163,6 +152,9 @@
 								</td>
 								<td>
 									<input
+										:disabled="
+											item.expdate != null ? true : false
+										"
 										v-model="item.expdate"
 										type="date"
 										class="form-control form-control-sm text-center"
@@ -238,7 +230,10 @@
 							Add
 						</button>
 
-						<button class="btn btn-primary" @click="handleSubmit">
+						<button
+							class="btn btn-primary"
+							@click="handleSubmitDelivery"
+						>
 							Submit
 						</button>
 					</div>
@@ -260,11 +255,12 @@ export default {
 	data: () => ({
 		form: new Form({
 			trndate: "",
-			customer: "Edmund, Acc",
+			trnmode: "DELIVERY",
+			customer: "",
 			userid: "",
-			rono: "2031",
-			refno: "09982",
-			remarks: "edgar/ndb-3308",
+			rono: "",
+			refno: "",
+			remarks: "",
 			items: [
 				{
 					qty: 0,
@@ -292,37 +288,42 @@ export default {
 	}),
 	watch: {},
 	mounted() {
-		this.form.prepared = this.isUser.name;
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
-		this.fetchAllItems();
+
+		this.fetchItemsOut();
 	},
 	methods: {
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
+			this.form.items[item.id].expdate = item.expdate;
 			this.calculateTotal();
 		},
 
 		customerSelected(customer) {
 			// this.form.custid = customer.cid;
 		},
-		async handleSubmit() {
+		async handleSubmitDelivery() {
 			const res = await this.form.post("/api/items/dlvry-trans");
 
-			Swal.fire({
-				text: "Sucessfully Process",
-				target: "#custom-target",
-				customClass: {
-					container: "position-absolute",
-				},
-				toast: true,
-				timer: 1500,
-				position: "top-right",
-			});
-
 			this.$router.push({
-				name: "dashboard",
+				name: "report-dlvry",
+				params: { id: res.data.id },
 			});
+			// Swal.fire({
+			// 	text: "Sucessfully Process",
+			// 	target: "#custom-target",
+			// 	customClass: {
+			// 		container: "position-absolute",
+			// 	},
+			// 	toast: true,
+			// 	timer: 1500,
+			// 	position: "top-right",
+			// });
+
+			// this.$router.push({
+			// 	name: "dashboard",
+			// });
 		},
 		addNewLine() {
 			this.form.items.push({

@@ -228,65 +228,67 @@ export default {
 
 					var e = 0;
 					for (var i = 0; i < _JsonData.length - 1; i++) {
-						if (_JsonData[i]["BR"] != 0) {
-							this.form.importItems.push({
-								ITEMDESC: _JsonData[i]["ITEMDESC"],
-								ITEMCODE: _JsonData[i]["ITEMCODE"],
-								SHORTCODE: _JsonData[i]["SHORTCODE"],
-								PCNT: _JsonData[i]["PCNT"],
-								EXPDATE: _JsonData[i]["EXPDATE"],
-								FWD: _JsonData[i]["FWD"],
-								END: _JsonData[i]["END"],
-								QTY: _JsonData[i]["BR"],
-								TRNTYPE: "BR",
-								REMARKS: remarks,
-								TRNDATE: trndate,
-							});
-						}
-						if (_JsonData[i]["RR"] != 0) {
-							this.form.importItems.push({
-								ITEMDESC: _JsonData[i]["ITEMDESC"],
-								ITEMCODE: _JsonData[i]["ITEMCODE"],
-								SHORTCODE: _JsonData[i]["SHORTCODE"],
-								PCNT: _JsonData[i]["PCNT"],
-								EXPDATE: _JsonData[i]["EXPDATE"],
-								FWD: _JsonData[i]["FWD"],
-								END: _JsonData[i]["END"],
-								QTY: _JsonData[i]["RR"],
-								TRNTYPE: "RR",
-								REMARKS: remarks,
-								TRNDATE: trndate,
-							});
-						}
-						if (_JsonData[i]["WP"] != 0) {
-							this.form.importItems.push({
-								ITEMDESC: _JsonData[i]["ITEMDESC"],
-								ITEMCODE: _JsonData[i]["ITEMCODE"],
-								SHORTCODE: _JsonData[i]["SHORTCODE"],
-								PCNT: _JsonData[i]["PCNT"],
-								EXPDATE: _JsonData[i]["EXPDATE"],
-								FWD: _JsonData[i]["FWD"],
-								END: _JsonData[i]["END"],
-								QTY: _JsonData[i]["WP"],
-								TRNTYPE: "WP",
-								REMARKS: remarks,
-								TRNDATE: trndate,
-							});
-						}
-						if (_JsonData[i]["OD"] != 0) {
-							this.form.importItems.push({
-								ITEMDESC: _JsonData[i]["ITEMDESC"],
-								ITEMCODE: _JsonData[i]["ITEMCODE"],
-								SHORTCODE: _JsonData[i]["SHORTCODE"],
-								PCNT: _JsonData[i]["PCNT"],
-								EXPDATE: _JsonData[i]["EXPDATE"],
-								FWD: _JsonData[i]["FWD"],
-								END: _JsonData[i]["END"],
-								QTY: _JsonData[i]["OD"],
-								TRNTYPE: "OD",
-								REMARKS: remarks,
-								TRNDATE: trndate,
-							});
+						if (_JsonData[i]["ITEMCODE"] != "") {
+							if (_JsonData[i]["BR"] != 0) {
+								this.form.importItems.push({
+									ITEMDESC: _JsonData[i]["ITEMDESC"],
+									ITEMCODE: _JsonData[i]["ITEMCODE"],
+									SHORTCODE: _JsonData[i]["SHORTCODE"],
+									PCNT: _JsonData[i]["PCNT"],
+									EXPDATE: _JsonData[i]["EXPDATE"],
+									FWD: _JsonData[i]["FWD"],
+									END: _JsonData[i]["END"],
+									QTY: _JsonData[i]["BR"],
+									TRNTYPE: "BR",
+									REMARKS: remarks,
+									TRNDATE: trndate,
+								});
+							}
+							if (_JsonData[i]["RR"] != 0) {
+								this.form.importItems.push({
+									ITEMDESC: _JsonData[i]["ITEMDESC"],
+									ITEMCODE: _JsonData[i]["ITEMCODE"],
+									SHORTCODE: _JsonData[i]["SHORTCODE"],
+									PCNT: _JsonData[i]["PCNT"],
+									EXPDATE: _JsonData[i]["EXPDATE"],
+									FWD: _JsonData[i]["FWD"],
+									END: _JsonData[i]["END"],
+									QTY: _JsonData[i]["RR"],
+									TRNTYPE: "RR",
+									REMARKS: remarks,
+									TRNDATE: trndate,
+								});
+							}
+							if (_JsonData[i]["WP"] != 0) {
+								this.form.importItems.push({
+									ITEMDESC: _JsonData[i]["ITEMDESC"],
+									ITEMCODE: _JsonData[i]["ITEMCODE"],
+									SHORTCODE: _JsonData[i]["SHORTCODE"],
+									PCNT: _JsonData[i]["PCNT"],
+									EXPDATE: _JsonData[i]["EXPDATE"],
+									FWD: _JsonData[i]["FWD"],
+									END: _JsonData[i]["END"],
+									QTY: _JsonData[i]["WP"],
+									TRNTYPE: "WP",
+									REMARKS: remarks,
+									TRNDATE: trndate,
+								});
+							}
+							if (_JsonData[i]["OD"] != 0) {
+								this.form.importItems.push({
+									ITEMDESC: _JsonData[i]["ITEMDESC"],
+									ITEMCODE: _JsonData[i]["ITEMCODE"],
+									SHORTCODE: _JsonData[i]["SHORTCODE"],
+									PCNT: _JsonData[i]["PCNT"],
+									EXPDATE: _JsonData[i]["EXPDATE"],
+									FWD: _JsonData[i]["FWD"],
+									END: _JsonData[i]["END"],
+									QTY: _JsonData[i]["OD"],
+									TRNTYPE: "OD",
+									REMARKS: remarks,
+									TRNDATE: trndate,
+								});
+							}
 						}
 					}
 				} else {
@@ -294,7 +296,7 @@ export default {
 
 					Swal.fire({
 						title: "Error!",
-						text: "Something error in your data",
+						text: "Something error in your data 1",
 						icon: "error",
 						confirmButtonText: "Ok",
 					});
@@ -305,7 +307,7 @@ export default {
 			if (this.form.importItems.length != 0) {
 				try {
 					const res = await this.form.post("/api/items/import ");
-					console.log(res);
+
 					this.form.importItems = [];
 					document.getElementById("input-excel").value = null;
 					if (res.status == 200) {

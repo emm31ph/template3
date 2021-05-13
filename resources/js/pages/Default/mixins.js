@@ -9,11 +9,12 @@ const date = (
     "-" +
     today.getDate()
 ).toString();
-
+var moment = require('moment');
 Vue.mixin({
     data() {
         return {
-            datenow: date
+            datenow: moment(today).format('YYYY-MM-DD'),
+            dateTime: moment(today).format('DD MMMM, YYYY h:mm a')
         }
     }
 

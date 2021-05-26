@@ -15,19 +15,19 @@
 						<label
 							for="inputCustomer"
 							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>From :</label
+							>Customer :</label
 						>
 						<div class="col-sm-9">
 							<input
-								v-model="form.from"
+								v-model="form.customer"
 								type="text"
 								class="form-control form-control-sm"
 								:class="{
-									'is-invalid': form.errors.has('from'),
+									'is-invalid': form.errors.has('customer'),
 								}"
-								name="from"
+								name="customer"
 							/>
-							<has-error :form="form" field="from" />
+							<has-error :form="form" field="customer" />
 						</div>
 					</div>
 					<div class="col-md-6 form-group row">
@@ -54,26 +54,26 @@
 						<label
 							for="inputCustomer"
 							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>To :</label
+							>Van No. :</label
 						>
 						<div class="col-sm-9">
 							<input
-								v-model="form.to"
+								v-model="form.van_no"
 								type="text"
 								class="form-control form-control-sm"
 								:class="{
-									'is-invalid': form.errors.has('to'),
+									'is-invalid': form.errors.has('van_no'),
 								}"
-								name="to"
+								name="van_no"
 							/>
-							<has-error :form="form" field="to" />
+							<has-error :form="form" field="van_no" />
 						</div>
 					</div>
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
 							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
-							>RS No :</label
+							>PO No :</label
 						>
 						<div class="col-sm-8">
 							<input
@@ -88,13 +88,33 @@
 							<has-error :form="form" field="refno" />
 						</div>
 					</div>
+
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
 							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
-							>Remarks :</label
+							>Seal No. :</label
 						>
 						<div class="col-sm-9">
+							<input
+								v-model="form.seal_no"
+								type="text"
+								class="form-control form-control-sm"
+								:class="{
+									'is-invalid': form.errors.has('seal_no'),
+								}"
+								name="seal_no"
+							/>
+							<has-error :form="form" field="seal_no" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group row">
+						<label
+							for="inputCustomer"
+							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							>Remarks :</label
+						>
+						<div class="col-sm-8">
 							<textarea
 								v-model="form.remarks"
 								rows="3"
@@ -152,11 +172,9 @@
 								</td>
 								<td>
 									<input
-										:disabled="
-											item.expdate != null ? true : false
-										"
 										v-model="item.expdate"
 										type="date"
+										:maxlength="max"
 										class="form-control form-control-sm text-center"
 										:class="{
 											'is-invalid': form.errors.has(
@@ -194,6 +212,7 @@
 										class="form-control form-control-sm text-center"
 										min="0"
 										@change="calculateTotal(item)"
+										@keypress="validateNumber"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.qty`
@@ -254,12 +273,14 @@ export default {
 		return { title: "Recieving Report Transaction" };
 	},
 	data: () => ({
+		max: 10,
 		form: new Form({
 			userid: "",
 			trndate: "",
 			trnmode: "RR",
-			from: "",
-			to: "",
+			customer: "",
+			van_no: "",
+			seal_no: "",
 			refno: "",
 			remarks: "",
 			items: [
@@ -268,7 +289,7 @@ export default {
 					trntype: "RR",
 					itemcode: null,
 					expdate: null,
-					unit: "case",
+					unit: "CASE",
 				},
 			],
 		}),
@@ -278,11 +299,11 @@ export default {
 		unit_options: [
 			{
 				text: "Case",
-				value: "case",
+				value: "CASE",
 			},
 			{
 				text: "Tins",
-				value: "tins",
+				value: "TIN",
 			},
 		],
 	}),
@@ -298,13 +319,25 @@ export default {
 			this.calculateTotal();
 		},
 
-		handleSubmit() {
-			const res = this.form.post("/api/items/rrm-trans");
-
-			this.$router.push({
-				name: "report-fptd",
-				params: { id: res.data.id },
+		async handleSubmit() {
+			const { value: result } = await Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, processed!",
 			});
+			if (result) {
+				const res = await this.form.post("/api/items/rr-trans");
+
+				this.$router.push({
+					name: "report-rr",
+					params: { id: res.data.id },
+				});
+				this.resetForm();
+			}
 		},
 		addNewLine() {
 			this.form.items.push({
@@ -312,7 +345,7 @@ export default {
 				trntype: "RR",
 				itemcode: null,
 				expdate: null,
-				unit: "case",
+				unit: "CASE",
 			});
 			this.checkBtn();
 		},

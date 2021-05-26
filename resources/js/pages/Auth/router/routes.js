@@ -1,6 +1,6 @@
 function page(path) {
     return () =>
-        import ( /* webpackChunkName: '' */ `~/pages/${path}`).then(
+        import( /* webpackChunkName: '' */ `~/pages/${path}`).then(
             m => m.default || m
         )
 }
@@ -15,4 +15,4 @@ export default [{
     name: 'dashboard',
     meta: { layout: 'default' },
     component: page('Auth/view/dashboard.vue')
-}, ]
+},]

@@ -23,6 +23,8 @@ class DeliveryRequest extends FormRequest
      */
     public function rules()
     {
+
+        $checkbal = $this->bal * $this->numperuompu;
         return [
             'refno' => 'required',
             'rono' => 'required',
@@ -34,7 +36,8 @@ class DeliveryRequest extends FormRequest
             // "items.qty" => 'required|array|min:1',
             "items.*.itemcode" => 'required',
             "items.*.expdate" => 'required|date|after:tomorrow',
-            "items.*.qty" => 'required|integer|min:1',
+            // "items.*.qty" => 'required|integer|min:1',
+            "items.*.tins" => 'required|integer|min:1|lte:items.*.bal',
         ];
     }
 
@@ -50,9 +53,10 @@ class DeliveryRequest extends FormRequest
             'customer.required' => 'The Customer field is require.',
             'items.*.itemcode.required' => 'The Item product field is require.',
             'items.*.expdate.required' => 'The Expiry Date field is require.',
-            'items.*.expdate.after' => 'The Expiry Date must be a date after tomorrow.',
+            'items.*.expdate.after' => 'The Item is Expired',
             'items.*.qty.required' => 'The Quantity field is require.',
-            'items.*.qty.min' => 'The Quantity must be at least 1.',
+            'items.*.tins.min' => 'The Quantity must be at least 1.',
+            'items.*.tins.lte' => 'The Quantity must be less than or equal :value tins',
         ];
     }
 }

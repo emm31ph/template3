@@ -41,9 +41,11 @@ export const actions = {
             const { data } = await axios.get('/api/items/getitems', {
                 params: {
                     branch: payload.branch,
-                    trndate: payload.trndate
+                    trndatefrom: payload.trndatefrom,
+                    trndateto: payload.trndateto
                 }
             })
+
             commit(types.FETCH_ITEMS_SUCCESS, {
                 items: data
             })
@@ -54,7 +56,7 @@ export const actions = {
 
     async fetchAllItems({ commit }) {
         try {
-            const { data } = await axios.get('/api/items/getAllitems')
+            const { data } = await axios.get('/api/items/getAllItems')
 
             commit(types.FETCH_ALL_ITEMS_SUCCESS, {
                 allitems: data

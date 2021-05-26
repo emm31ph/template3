@@ -1,0 +1,9 @@
+// auth.js
+export const FETCH_ROLES = 'FETCH_ROLES'
+export const FETCH_ROLES_SUCCESS = 'FETCH_ROLES_SUCCESS'
+export const FETCH_ROLES_FAILURE = 'FETCH_ROLES_FAILURE'
+export const UPDATE_ROLES = 'UPDATE_ROLES'
+
+export const GET_ROLES_IMPORT = 'GET_ROLES_IMPORT'
+
+export const CLEAR_ALL = 'CLEAR_ALL'

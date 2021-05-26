@@ -33,7 +33,7 @@
 		<div class="sidebar-heading">Interface</div>
 
 		<!-- Nav Item - Pages Collapse Menu -->
-		<li class="nav-item" :class="this.segment == 'item' ? 'active' : false">
+		<li class="nav-item">
 			<a
 				class="nav-link collapsed"
 				href="#"
@@ -48,7 +48,6 @@
 			<div
 				id="collapseTwo"
 				class="collapse"
-				:class="this.segment == 'item' ? 'show' : false"
 				aria-labelledby="headingTwo"
 				data-parent="#accordionSidebar"
 			>
@@ -183,9 +182,9 @@
 
 		<!-- Nav Item - Tables -->
 		<li class="nav-item">
-			<a class="nav-link" href="tables.html">
-				<i class="fas fa-fw fa-table"></i>
-				<span>Tables</span></a
+			<router-link :to="{ name: 'users' }" class="nav-link">
+				<i class="fas fa-fw fa-users"></i>
+				<span>Users</span></router-link
 			>
 		</li>
 

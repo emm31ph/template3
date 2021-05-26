@@ -36,8 +36,7 @@
 														<p
 															class="h5 font-weight-bold mb-1 mt-5"
 														>
-															FINISHED PRODUCT
-															TRANSFER DOCUMENT
+															RECEIVING REPORT
 														</p>
 													</div>
 													<div
@@ -65,22 +64,22 @@
 											<div class="row pb-2">
 												<div class="container-fluid">
 													<div class="row">
-														<div class="col-8">
+														<div class="col-6">
 															<div class="row">
 																<div
-																	class="col-1 px-0"
+																	class="col-2 px-0"
 																>
-																	From :
+																	Supplier :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-11 border-bottom border-dark"
+																	class="col-10 border-bottom border-dark"
 																>
 																	{{
 																		this.Ucase(
 																			this
 																				.data[
-																				"from"
+																				"customer"
 																			]
 																		)
 																	}}
@@ -88,26 +87,46 @@
 															</div>
 															<div class="row">
 																<div
-																	class="col-1 px-0"
+																	class="col-2 px-0"
 																>
-																	To :
+																	Van No. :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-11 border-bottom border-dark"
+																	class="col-10 border-bottom border-dark"
 																>
 																	{{
 																		this.Ucase(
 																			this
 																				.data[
-																				"to"
+																				"van_no"
+																			]
+																		)
+																	}}
+																</div>
+															</div>
+															<div class="row">
+																<div
+																	class="col-2 px-0"
+																>
+																	Seal No. :
+																</div>
+																<div
+																	v-if="data"
+																	class="col-10 border-bottom border-dark"
+																>
+																	{{
+																		this.Ucase(
+																			this
+																				.data[
+																				"seal_no"
 																			]
 																		)
 																	}}
 																</div>
 															</div>
 														</div>
-														<div class="col-4">
+														<div class="col-6">
 															<div class="row">
 																<div
 																	class="col-3 text-right"
@@ -125,6 +144,8 @@
 																		]
 																	}}
 																</div>
+															</div>
+															<div class="row">
 																<div
 																	class="col-3 text-right"
 																>
@@ -144,30 +165,30 @@
 																	}}
 																</div>
 															</div>
-														</div>
-													</div>
-													<div class="row">
-														<div
-															class="col-12 px-0"
-															style="height: 70px"
-														>
-															<span
-																class="col-1 px-0"
-															>
-																Remarks :
-															</span>
-															<span
-																v-if="data"
-																class="col-10"
-																>{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"remark"
-																		]
-																	)
-																}}</span
-															>
+
+															<div class="row">
+																<div
+																	class="col-3 text-right"
+																>
+																	Remarks :
+																</div>
+																<div
+																	v-if="data"
+																	class="col-9 border-dark"
+																	style="
+																		height: 70px;
+																	"
+																>
+																	{{
+																		this.Ucase(
+																			this
+																				.data[
+																				"remark"
+																			]
+																		)
+																	}}
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -357,7 +378,7 @@
 														<div
 															class="border-top font-weight-bold border-dark"
 														>
-															PREPARED BY
+															Whse. In-Charge
 														</div>
 													</div>
 													<div class="col-3"></div>
@@ -423,31 +444,21 @@ export default {
 	computed: {
 		repType() {
 			switch (this.id.slice(0, this.id.search("-"))) {
-				case "RRM":
-					return "1";
-					break;
 				case "RR":
-					this.$router.push({
-						name: "report-rr",
-						params: { id: this.id },
-					});
+					return true;
 					break;
-				case "WP":
-					return "2";
-					break;
-				case "RJ":
-					return "2";
-					break;
-				case "DLVR":
+				// 	case "WP":
+				// 		return true;
+				// 		break;
+				// 	case "RR":
+				// 		return true;
+				// 		break;
+				default:
 					this.$router.push({
 						name: "report-dlvry",
 						params: { id: this.id },
 					});
-					break;
-				default:
-					return true;
 			}
-
 			// this.$router.push({
 			// 	name: "inv-delivery-report",
 			// 	params: { id: response.data.batch },

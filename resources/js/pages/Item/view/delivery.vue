@@ -133,7 +133,8 @@
 										:items="getItemsOut"
 										:index="`${k}`"
 										filterby="itemdesc"
-										addOnDisplay="expdate"
+										addOnDisplay1="expdate"
+										addOnDisplay="qtyDesc"
 										@change="onChangeItems"
 										title="Type Itemdesc"
 										@selected="itemSelected"
@@ -152,9 +153,7 @@
 								</td>
 								<td>
 									<input
-										:disabled="
-											item.expdate != null ? true : false
-										"
+										disabled="true"
 										v-model="item.expdate"
 										type="date"
 										class="form-control form-control-sm text-center"
@@ -177,6 +176,7 @@
 										class="form-control form-control-sm text-center"
 										v-model="item.unit"
 										:key="k"
+										@change="toTin(k)"
 									>
 										<option
 											v-for="option in unit_options"
@@ -193,17 +193,20 @@
 										type="number"
 										class="form-control form-control-sm text-center"
 										min="0"
-										@change="calculateTotal(item)"
+										@change="calculateTotal(item), toTin(k)"
+										@keypress="validateNumber"
 										:class="{
 											'is-invalid': form.errors.has(
-												`items.${k}.qty`
+												`items.${k}.tins`
 											),
 										}"
-										:name="`items.${k}.qty`"
+										:name="`items.${k}.tins`"
 									/>
+
 									<has-error
+										class="text-sm"
 										:form="form"
-										:field="`items.${k}.qty`"
+										:field="`items.${k}.tins`"
 									/>
 								</td>
 								<td
@@ -267,7 +270,10 @@ export default {
 					trntype: "OD",
 					itemcode: null,
 					expdate: null,
-					unit: "case",
+					unit: "CASE",
+					bal: 0,
+					tins: 0,
+					numperuompu: 0,
 				},
 			],
 		}),
@@ -278,11 +284,11 @@ export default {
 		unit_options: [
 			{
 				text: "Case",
-				value: "case",
+				value: "CASE",
 			},
 			{
 				text: "Tins",
-				value: "tins",
+				value: "TIN",
 			},
 		],
 	}),
@@ -297,41 +303,45 @@ export default {
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
+			this.form.items[item.id].bal = item.qty;
+			this.form.items[item.id].numperuompu = item.numperuompu;
+			this.toTin(item.id);
+			console.log(this.form.items);
 			this.calculateTotal();
 		},
-
 		customerSelected(customer) {
 			// this.form.custid = customer.cid;
 		},
 		async handleSubmitDelivery() {
-			const res = await this.form.post("/api/items/dlvry-trans");
-
-			this.$router.push({
-				name: "report-dlvry",
-				params: { id: res.data.id },
+			const { value: result } = await Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, processed!",
 			});
-			// Swal.fire({
-			// 	text: "Sucessfully Process",
-			// 	target: "#custom-target",
-			// 	customClass: {
-			// 		container: "position-absolute",
-			// 	},
-			// 	toast: true,
-			// 	timer: 1500,
-			// 	position: "top-right",
-			// });
-
-			// this.$router.push({
-			// 	name: "dashboard",
-			// });
+			if (result) {
+				const res = await this.form.post("/api/items/dlvry-trans");
+				console.log(res);
+				this.$router.push({
+					name: "report-dlvry",
+					params: { id: res.data.id },
+				});
+				this.resetForm();
+			}
 		},
 		addNewLine() {
 			this.form.items.push({
 				qty: 0,
-
+				bal: 0,
+				tins: 0,
+				numperuompu: 0,
+				trntype: "OD",
 				itemcode: null,
 				expdate: null,
-				unit: "case",
+				unit: "CASE",
 			});
 			this.checkBtn();
 		},
@@ -359,6 +369,7 @@ export default {
 		},
 		calculateTotal() {
 			var subtotal;
+			console.log(this.form.items);
 			subtotal = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.qty);
 				if (!isNaN(lineTotal)) {
@@ -369,6 +380,18 @@ export default {
 			this.items_total = subtotal;
 			this.checkBtn();
 		},
+
+		toTin(k) {
+			if (this.form.items[k].unit == "CASE") {
+				this.form.items[k].tins =
+					this.form.items[k].qty * this.form.items[k].numperuompu;
+			} else {
+				this.form.items[k].tins = this.form.items[k].qty;
+			}
+
+			// console.log(this.form.items[k].tins);
+		},
+
 		checkBtn() {
 			const even = (element) =>
 				element.qty === 0 || element.itemdesc === null;

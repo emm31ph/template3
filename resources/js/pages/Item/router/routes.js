@@ -18,6 +18,10 @@ export default [{
         path: 'report-dlvry/:id',
         name: 'report-dlvry',
         component: page('Item/view/report/dlvry.vue')
+    }, {
+        path: 'report-rr/:id',
+        name: 'report-rr',
+        component: page('Item/view/report/rrrep.vue')
     },
     {
         path: 'delivery',

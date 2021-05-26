@@ -20,6 +20,9 @@ class CreateItemsTable extends Migration
             $table->string('itemcode', 50);
             $table->string('itemdesc');
             $table->string('pckgsize', 15)->nullable();
+            $table->string('uompu', 15)->nullable();
+            $table->decimal('numperuompu', 36, 0)->nullable();
+
             $table->string('status', 3)->nullable();
             $table->timestamps();
         });

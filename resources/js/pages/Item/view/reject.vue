@@ -197,6 +197,7 @@
 										class="form-control form-control-sm text-center"
 										min="0"
 										@change="calculateTotalDr(item)"
+										@keypress="validateNumber"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.drqty`
@@ -216,6 +217,7 @@
 										class="form-control form-control-sm text-center"
 										min="0"
 										@change="calculateTotalCr(item)"
+										@keypress="validateNumber"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.crqty`
@@ -310,7 +312,7 @@ export default {
 					trntype: "RJ",
 					itemcode: null,
 					expdate: null,
-					unit: "case",
+					unit: "CASE",
 				},
 			],
 		}),
@@ -321,11 +323,11 @@ export default {
 		unit_options: [
 			{
 				text: "Case",
-				value: "case",
+				value: "CASE",
 			},
 			{
 				text: "Tins",
-				value: "tins",
+				value: "TIN",
 			},
 		],
 	}),
@@ -342,13 +344,25 @@ export default {
 			this.calculateTotalDr();
 		},
 
-		handleSubmit() {
-			const res = this.form.post("/api/items/fptd-trans");
-
-			this.$router.push({
-				name: "report-fptd",
-				params: { id: res.data.id },
+		async handleSubmit() {
+			const { value: result } = await Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, processed!",
 			});
+			if (result) {
+				const res = this.form.post("/api/items/fptd-trans");
+
+				this.$router.push({
+					name: "report-fptd",
+					params: { id: res.data.id },
+				});
+				this.resetForm();
+			}
 		},
 		addNewLine() {
 			this.form.items.push({
@@ -357,7 +371,7 @@ export default {
 				trntype: "WP",
 				itemcode: null,
 				expdate: null,
-				unit: "case",
+				unit: "CASE",
 			});
 			this.checkBtn();
 		},

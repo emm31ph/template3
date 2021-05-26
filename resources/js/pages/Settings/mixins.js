@@ -5,6 +5,9 @@ import axios from 'axios'
 
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
+
+var moment = require('moment');
+
 Vue.mixin({
 
     computed: {
@@ -18,9 +21,12 @@ Vue.mixin({
                 }
             }
             return false
-        }
+        },
     },
     methods: {
+        dataF(value) {
+            return moment(value).format('YYYY-MM-DD');
+        },
         Ucase(value) {
             return (value || '').toUpperCase()
         },
@@ -35,6 +41,12 @@ Vue.mixin({
         },
         printme() {
             this.$htmlToPaper('printMe')
+        },
+        validateNumber: (event) => {
+            let keyCode = event.keyCode;
+            if (keyCode < 48 || keyCode > 57) {
+                event.preventDefault();
+            }
         },
 
     }

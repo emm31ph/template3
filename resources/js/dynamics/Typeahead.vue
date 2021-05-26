@@ -56,11 +56,25 @@
 						:class="{ selected: selected == index }"
 						@click="itemClicked(index)"
 					>
-						<div class="col-10">
+						<div
+							:class="
+								match[addOnDisplay1] == null
+									? 'col-10'
+									: 'col-8'
+							"
+						>
 							{{ match[filterby] }}
 						</div>
 						<div class="col-2 px-0 text-right">
 							{{ match[addOnDisplay] }}
+						</div>
+						<div
+							class="col-2 px-0 text-right"
+							:class="
+								match[addOnDisplay1] == null ? 'd-none' : ''
+							"
+						>
+							{{ match[addOnDisplay1] }}
 						</div>
 					</li>
 				</ul>
@@ -95,6 +109,10 @@ export default {
 			type: String,
 		},
 		addOnDisplay: {
+			type: String,
+		},
+
+		addOnDisplay1: {
 			type: String,
 		},
 		title: {

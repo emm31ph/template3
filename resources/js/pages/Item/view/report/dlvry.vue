@@ -289,7 +289,7 @@
 															<tr
 																v-for="i in this
 																	.countitems"
-																:key="i"
+																:key="i + 1"
 															>
 																<td>&nbsp;</td>
 																<td></td>
@@ -337,6 +337,10 @@
 				>
 					<i class="fa fa-print"></i> Print
 				</button>
+
+				<a @click="$router.back()" class="btn btn-sm btn-secondary"
+					>back</a
+				>
 			</div>
 		</div>
 	</div>
@@ -368,6 +372,12 @@ export default {
 			switch (this.id.slice(0, this.id.search("-"))) {
 				case "DLVR":
 					return true;
+					break;
+				case "RR":
+					this.$router.push({
+						name: "report-rr",
+						params: { id: this.id },
+					});
 					break;
 				default:
 					this.$router.push({

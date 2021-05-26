@@ -8,6 +8,30 @@
 // @import '~bootstrap/scss/bootstrap';
 @import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+.asc:after {
+    content: "\25B2";
+}
+
+.desc:after {
+    content: "\25BC";
+}
+
+.remarks {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 300px;
+    text-overflow: ellipsis;
+}
+@media print {
+    .remarks {
+        white-space: normal;
+        width: 100%;
+        overflow: visible;
+        text-overflow: ellipsis;
+    }
+}
+
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
         display: none;

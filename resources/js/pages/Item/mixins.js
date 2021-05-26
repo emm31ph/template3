@@ -5,6 +5,11 @@ import axios from 'axios'
 
 Vue.mixin({
     computed: {
+        checkBal(perBox = 0, qty = 0, numperuompu = 0, bal = 0, uom = 'CASE') {
+
+            return bal - (uom == 'CASE' ? qty * perbox : qty);
+        },
+
 
         getItems() {
             if (this.isUser) {
@@ -41,6 +46,19 @@ Vue.mixin({
         },
     },
     methods: {
+        toCase(perBox = 0, qty = 0) {
+            return (qty > 0 ? 1 : -1) *
+                (Math.floor(
+                    qty /
+                    ((qty >= 0 ? 1 : -1) *
+                        perBox)
+                ) +
+                    (qty %
+                        ((qty >= 0 ? 1 : -1) *
+                            perBox)) /
+                    ((qty >= 0 ? 1 : -1) *
+                        100))
+        },
         async fetchItemsOut() {
             await this.$store.dispatch("Item/fetchItemsOut");
         },

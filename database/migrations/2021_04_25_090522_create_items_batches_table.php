@@ -25,6 +25,8 @@ class CreateItemsBatchesTable extends Migration
             $table->text('customer')->nullable();
             $table->string('from')->nullable();
             $table->string('to')->nullable();
+            $table->string('van_no')->nullable();
+            $table->string('seal_no')->nullable();
             $table->date('trndate')->nullable();
             $table->string('year', 4)->nullable();
             $table->integer('approvedby')->nullable();

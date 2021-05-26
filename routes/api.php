@@ -11,7 +11,17 @@
 |
  */
 
+// Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
+
 Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('users', 'Auth\UserController@index');
+    Route::patch('user/update', 'Auth\UserController@updateUser');
+    Route::post('user/create', 'Auth\UserController@store');
+    Route::delete('user/{user}', 'Auth\UserController@destroy');
+
+    Route::get('roles', 'Api\RolesController@index');
+
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('user', 'Auth\UserController@current');
     Route::patch('settings/profile', 'Auth\UserController@update');
@@ -20,15 +30,18 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'items', 'as' => 'item'], function () {
         Route::post('import', 'Api\ItemController@import')->name('-import');
         Route::get('/getitems', 'Api\ItemBranchController@getItems')->name('-all');
-        Route::get('/getAllitems', 'Api\ItemBranchController@getAllItems');
+        Route::get('/getTrnHist', 'Api\ItemBranchController@getTrnHist')->name('-trn');
+
+        Route::get('/getAllItems', 'Api\ItemBranchController@getAllItems');
         Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
         Route::get('/getItemsOut', 'Api\ItemBranchController@getItemsOut');
+        Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
 
-        // Route::get('/search', 'Api\Inventory\ItemController@search')->name('search');
-        // Route::get('/getallitems', 'Api\Inventory\ItemController@getAllitems')->name('getallitems');
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
         Route::post('/fptd-trans', 'Api\ItemController@FPTDRJCTTrans')->name('-FptdTrans');
-        Route::post('/rrm-trans', 'Api\ItemController@RRMRRTrans')->name('-RRMTrans');
+        Route::post('/rrm-trans', 'Api\ItemController@RRMTrans')->name('-RRMTrans');
+        Route::post('/rr-trans', 'Api\ItemController@RRTrans')->name('-RRTrans');
+
         Route::get('/reportItem', 'Api\ItemBranchController@reportItem')->name('-Report');
 
     });

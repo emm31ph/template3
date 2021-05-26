@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DeliveryRequest;
 use App\Http\Requests\FptdRequest;
 use App\Http\Requests\RRMRequest;
+use App\Http\Requests\RRRequest;
 use App\Models\Counter;
 use App\Models\ItemsBatch;
 use App\Models\ItemsBranch;
@@ -36,13 +37,19 @@ class ItemController extends Controller
 
             foreach ($data as $rows) {
 
-                $totaldr = $totaldr + ((float) (($rows['TRNTYPE'] == 'OD') ? $rows['QTY'] : 0) * 100);
-                $totalcr = $totalcr + ((float) (($rows['TRNTYPE'] != 'OD') ? $rows['QTY'] : 0) * 100);
+                $uom = getUOM($rows['ITEMCODE']);
+
+                $n = $rows['QTY'];
+                $whole = floor($n); // 1
+                $fraction = ($n - $whole) * 100; // .25
+
+                $totaldr = $totaldr + ((float) (($rows['TRNTYPE'] == 'OD') ? convertTinImport($whole, $uom) + $fraction : 0));
+                $totalcr = $totalcr + ((float) (($rows['TRNTYPE'] != 'OD') ? convertTinImport($whole, $uom) + $fraction : 0));
                 $curr = getCurrQty([
                     'ITEMCODE' => $rows['ITEMCODE'],
                     'EXPDATE' => $rows['EXPDATE'],
                     'BRANCH' => $branch,
-                ]) + ((float) (($rows['TRNTYPE'] != 'OD') ? $rows['QTY'] : ($rows['QTY'] * -1)) * 100);
+                ]) + ((float) (($rows['TRNTYPE'] != 'OD') ? (convertTinImport($whole, $uom) + $fraction) : ((convertTinImport($whole, $uom) + $fraction) * -1)));
 
                 $prev = getPrevQty([
                     'ITEMCODE' => $rows['ITEMCODE'],
@@ -57,10 +64,10 @@ class ItemController extends Controller
                     'branch' => $branch,
                     'itemcode' => $rows['ITEMCODE'],
                     'p' => $rows['PCNT'] ?: '',
-                    'unit' => 'case',
+                    'unit' => 'TIN',
                     'preqty' => $prev,
-                    'drqty' => ((float) (($rows['TRNTYPE'] == 'OD') ? $rows['QTY'] : 0) * 100),
-                    'crqty' => ((float) (($rows['TRNTYPE'] != 'OD') ? $rows['QTY'] : 0) * 100),
+                    'drqty' => ((float) (($rows['TRNTYPE'] == 'OD') ? convertTinImport($whole, $uom) + $fraction : 0)),
+                    'crqty' => ((float) (($rows['TRNTYPE'] != 'OD') ? convertTinImport($whole, $uom) + $fraction : 0)),
                     'curqty' => $curr,
                     'expdate' => $rows['EXPDATE'],
                     'year' => getYear(),
@@ -102,7 +109,8 @@ class ItemController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => 'something error in data'], 400);
+            // return response()->json(['error' => 'something error in data'], 400);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
         return response()->json($data, 200);
     }
@@ -110,7 +118,7 @@ class ItemController extends Controller
     public function DeliveryTrans(DeliveryRequest $request)
     {
 
-        // return response()->json($request->all(), 200);
+        return response()->json($request->all(), 400);
 
         DB::disableQueryLog();
         DB::beginTransaction();
@@ -128,13 +136,14 @@ class ItemController extends Controller
 
             foreach ($data as $rows) {
 
-                $totaldr = $totaldr + ((float) (($rows['trntype'] == 'OD') ? $rows['qty'] : 0) * 100);
-                $totalcr = $totalcr + ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : 0) * 100);
+                $uom = getUOM($rows['itemcode']);
+                $totaldr = $totaldr + ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
+                $totalcr = $totalcr + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
                 $curr = getCurrQty([
                     'ITEMCODE' => $rows['itemcode'],
                     'EXPDATE' => $rows['expdate'],
                     'BRANCH' => $branch,
-                ]) + ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : ($rows['qty'] * -1)) * 100);
+                ]) + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : (convertTin($rows['unit'], $rows['qty'], $uom) * -1)));
 
                 $prev = getPrevQty([
                     'ITEMCODE' => $rows['itemcode'],
@@ -151,8 +160,8 @@ class ItemController extends Controller
                     'unit' => $rows['unit'],
                     'p' => '',
                     'preqty' => $prev,
-                    'drqty' => ((float) (($rows['trntype'] == 'OD') ? $rows['qty'] : 0) * 100),
-                    'crqty' => ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : 0) * 100),
+                    'drqty' => ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'crqty' => ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
                     'curqty' => $curr,
                     'expdate' => $rows['expdate'],
                     'year' => getYear(),
@@ -200,7 +209,8 @@ class ItemController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => 'something error in data'], 400);
+            // return response()->json(['error' => 'something error in data'], 400);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
         return response()->json($data, 200);
 
@@ -227,13 +237,14 @@ class ItemController extends Controller
 
             foreach ($data as $rows) {
 
-                $totaldr = $totaldr + ((float) ($rows['drqty']) * 100);
-                $totalcr = $totalcr + ((float) ($rows['crqty']) * 100);
+                $uom = getUOM($rows['itemcode']);
+                $totaldr = $totaldr + ((float) (convertTin($rows['unit'], $rows['drqty'], $uom)));
+                $totalcr = $totalcr + ((float) (convertTin($rows['unit'], $rows['crqty'], $uom)));
                 $curr = getCurrQty([
                     'ITEMCODE' => $rows['itemcode'],
                     'EXPDATE' => $rows['expdate'],
                     'BRANCH' => $branch,
-                ]) + ((float) ($rows['crqty'] + ($rows['drqty'] * -1)) * 100);
+                ]) + ((float) ($rows['crqty'] + ($rows['drqty'] * -1)));
 
                 $prev = getPrevQty([
                     'ITEMCODE' => $rows['itemcode'],
@@ -247,11 +258,11 @@ class ItemController extends Controller
                     'status' => '01',
                     'branch' => $branch,
                     'itemcode' => $rows['itemcode'],
-                    'unit' => $rows['unit'],
+                    'unit' => 'TIN',
                     'p' => '',
                     'preqty' => $prev,
-                    'drqty' => ((float) ($rows['drqty']) * 100),
-                    'crqty' => ((float) ($rows['crqty']) * 100),
+                    'drqty' => ((float) convertTin($rows['unit'], $rows['drqty'], $uom)),
+                    'crqty' => ((float) convertTin($rows['unit'], $rows['crqty'], $uom)),
                     'curqty' => $curr,
                     'expdate' => $rows['expdate'],
                     'year' => getYear(),
@@ -303,7 +314,7 @@ class ItemController extends Controller
 
     }
 
-    public function RRMRRTrans(RRMRequest $request)
+    public function RRMTrans(RRMRequest $request)
     {
 
         // return response()->json($request->all(), 200);
@@ -324,13 +335,14 @@ class ItemController extends Controller
 
             foreach ($data as $rows) {
 
-                $totaldr = $totaldr + ((float) (($rows['trntype'] == 'OD') ? $rows['qty'] : 0) * 100);
-                $totalcr = $totalcr + ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : 0) * 100);
+                $uom = getUOM($rows['itemcode']);
+                $totaldr = $totaldr + ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
+                $totalcr = $totalcr + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
                 $curr = getCurrQty([
                     'ITEMCODE' => $rows['itemcode'],
                     'EXPDATE' => $rows['expdate'],
                     'BRANCH' => $branch,
-                ]) + ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : ($rows['qty'] * -1)) * 100);
+                ]) + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : (convertTin($rows['unit'], $rows['qty'], $uom) * -1)));
 
                 $prev = getPrevQty([
                     'ITEMCODE' => $rows['itemcode'],
@@ -347,8 +359,8 @@ class ItemController extends Controller
                     'unit' => $rows['unit'],
                     'p' => '',
                     'preqty' => $prev,
-                    'drqty' => ((float) (($rows['trntype'] == 'OD') ? $rows['qty'] : 0) * 100),
-                    'crqty' => ((float) (($rows['trntype'] != 'OD') ? $rows['qty'] : 0) * 100),
+                    'drqty' => ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'crqty' => ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
                     'curqty' => $curr,
                     'expdate' => $rows['expdate'],
                     'year' => getYear(),
@@ -394,6 +406,104 @@ class ItemController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => 'something error in data'], 400);
+        }
+        return response()->json($data, 200);
+
+    }
+
+    public function RRTrans(RRRequest $request)
+    {
+
+        // return response()->json($request->all(), 200);
+
+        DB::disableQueryLog();
+        DB::beginTransaction();
+
+        try {
+
+            $counter = Counter::where('key', $request->get('trnmode'))->first();
+
+            $items = [];
+            $batch = $counter->prefix . $counter->value;
+            $totalcr = 0;
+            $totaldr = 0;
+            $branch = auth()->user()->branch;
+            $data = $request->get('items');
+
+            foreach ($data as $rows) {
+
+                $uom = getUOM($rows['itemcode']);
+                $totaldr = $totaldr + ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
+                $totalcr = $totalcr + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0));
+                $curr = getCurrQty([
+                    'ITEMCODE' => $rows['itemcode'],
+                    'EXPDATE' => $rows['expdate'],
+                    'BRANCH' => $branch,
+                ]) + ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : (convertTin($rows['unit'], $rows['qty'], $uom) * -1)));
+
+                $prev = getPrevQty([
+                    'ITEMCODE' => $rows['itemcode'],
+                    'EXPDATE' => $rows['expdate'],
+                    'BRANCH' => $branch,
+                ]);
+
+                ItemsTrnHist::create([
+                    'trntype' => $rows['trntype'],
+                    'batch' => $batch,
+                    'status' => '01',
+                    'branch' => $branch,
+                    'itemcode' => $rows['itemcode'],
+                    'unit' => $rows['unit'],
+                    'p' => '',
+                    'preqty' => $prev,
+                    'drqty' => ((float) (($rows['trntype'] == 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'crqty' => ((float) (($rows['trntype'] != 'OD') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'curqty' => $curr,
+                    'expdate' => $rows['expdate'],
+                    'year' => getYear(),
+                    'trndate' => substr($request->get('trndate'), 0, 10),
+                ]);
+
+                $itembranch = ItemsBranch::where('branch', '=', $branch)
+                    ->where('itemcode', '=', $rows['itemcode'])
+                    ->where('expdate', '=', $rows['expdate'])->first();
+
+                if ($itembranch !== null) {
+
+                    ItemsBranch::where('branch', '=', $branch)
+                        ->where('itemcode', '=', $rows['itemcode'])
+                        ->where('expdate', '=', $rows['expdate'])
+                        ->update(['qty' => $curr]);
+
+                } else {
+                    ItemsBranch::create(['branch' => $branch, 'itemcode' => $rows['itemcode'], 'expdate' => $rows['expdate'], 'qty' => $curr]);
+                }
+
+            }
+
+            $dateInvt['batch'] = $counter->prefix . $counter->value;
+            $dateInvt['remarks'] = $request->get('remarks');
+
+            $dateInvt['trndate'] = substr($request->get('trndate'), 0, 10);
+            $dateInvt['trntype'] = '001';
+            $dateInvt['drqty'] = $totaldr;
+            $dateInvt['crqty'] = $totalcr;
+            $dateInvt['refno'] = $request->get('refno');
+            $dateInvt['van_no'] = $request->get('van_no');
+            $dateInvt['customer'] = $request->get('customer');
+            $dateInvt['seal_no'] = $request->get('seal_no');
+            $dateInvt['user_id'] = auth()->user()->id;
+            $dateInvt['status'] = '01';
+            $dateInvt['year'] = getYear();
+            $counter->increment('value');
+            ItemsBatch::create($dateInvt);
+            \DB::commit();
+            return response()->json(['status' => 'success', 'id' => $batch], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // return response()->json(['error' => 'something error in data'], 400);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
         return response()->json($data, 200);
 

@@ -36,46 +36,143 @@ class CreateItemsTrnHistsTable extends Migration
         });
 
         DB::unprepared("
-          DROP PROCEDURE IF EXISTS sp_items;
-          CREATE PROCEDURE sp_items (
-            IN pi_branch VARCHAR(10),
-            IN pi_trndate VARCHAR(10)
-          )
-          BEGIN
+
+            PROCEDURE spa3.sp_items(
+                        IN pi_branch VARCHAR(10),
+                        IN pi_trndatefrom VARCHAR(10),
+                        IN pi_trndateto VARCHAR(10)
+                      )
+            BEGIN
             select * from (
             select *,
               ((bal+ifnull((select  sum(itr.drqty) from items_trn_hists itr
-                                where itr.trndate > pi_trndate
+                                where itr.trndate > pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
                               ),0))- ifnull((select  sum(itr.crqty) from items_trn_hists itr
-                                where itr.trndate > pi_trndate
+                                where itr.trndate > pi_trndateto
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
                               ),0)) as qty,
                 ifnull((select  max(itr.trndate ) from items_trn_hists itr
-                                where itr.trndate <= pi_trndate
+                                where itr.trndate <= pi_trndateto
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01') limit 1
                               ),0) as lasttrn,
                 ifnull((select  max(p) from items_trn_hists itr
-                                where itr.trndate <= pi_trndate
+                                where itr.trndate <= pi_trndateto
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01') limit 1
                               ),'') as p
               from (
-              select i.itemdesc, IF(pi_branch='','ALL',ib.branch) branch,ib.itemcode,ifnull(ib.expdate,'1900-01-01') as expdate
-              , sum(ib.qty)  as bal, i.u_skucode, i.pckgsize
-            from items i
-              left join items_branches ib on i.itemcode=ib.itemcode
+              select itemdesc, ib.branch  ,ib.itemcode,ifnull(ib.expdate,'1900-01-01') as expdate
+              , sum(ib.qty)  as bal, u_skucode, pckgsize,numperuompu
+            from items
+              left join items_branches ib on items.itemcode=ib.itemcode
               where  IF(pi_branch='',''='',ib.branch=pi_branch )
-            GROUP by 1,2,3,4 ) as q ) as qq where qq.qty!=0   order by qq.branch,qq.itemdesc  asc;
+            GROUP by 1,2,3,4 ) as q ) as qq where qq.qty!=0
+                                and lasttrn BETWEEN pi_trndatefrom and pi_trndateto  order by qq.branch,qq.itemdesc  asc;
             END;
         ");
+
+        DB::unprepared("
+         CREATE DEFINER = 'root'@'localhost'
+PROCEDURE spa3.sp_items_detialed(
+            IN pi_branch VARCHAR(10),
+            IN pi_trndatefrom VARCHAR(10),
+            IN pi_trndateto VARCHAR(10)
+          )
+BEGIN
+            select * from (
+            select *,
+
+              ((bal +
+                  ifnull((select  sum(itr.drqty) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0) )-
+                                ifnull((select  sum(itr.crqty) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0)) as preqty,
+                                ifnull((select  sum(if(itr.trntype='BR', itr.crqty,0)) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0) as BR,
+
+                                ifnull((select  sum(if(itr.trntype='RR', itr.crqty,0)) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0) as RR,
+
+                                ifnull((select  sum(if(itr.trntype='WP', itr.crqty,0)) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0) as WP,
+                            ifnull((select  sum(itr.drqty) from items_trn_hists itr
+                                where itr.trndate >= pi_trndatefrom
+                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0) as OD,
+                              ((bal+ifnull((select  sum(itr.drqty) from items_trn_hists itr
+                                where itr.trndate > pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0))- ifnull((select  sum(itr.crqty) from items_trn_hists itr
+                                where itr.trndate > pi_trndateto
+
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0)) as qty,
+
+                            ifnull((select  max(itr.trndate ) from items_trn_hists itr
+                                where itr.trndate <= pi_trndateto
+
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01') limit 1
+                              ),'') as lasttrn,
+                              ifnull((select  max(p) from items_trn_hists itr
+                                where itr.trndate <= pi_trndateto
+
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01') limit 1
+                              ),'') as p
+              from (
+              select itemdesc, ib.branch  ,ib.itemcode,ifnull(ib.expdate,'1900-01-01') as expdate
+              , sum(ib.qty)  as bal, u_skucode, pckgsize,numperuompu
+            from items
+              left join items_branches ib on items.itemcode=ib.itemcode
+              where  IF(pi_branch='',''='',ib.branch=pi_branch )
+            GROUP by 1,2,3,4 ) as q ) as qq where qq.lasttrn!=0
+                                  order by qq.branch,qq.itemdesc  asc;
+            END;
+         ");
 
     }
 

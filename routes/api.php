@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
         Route::post('/fptd-trans', 'Api\ItemController@FPTDRJCTTrans')->name('-FptdTrans');
+        Route::post('/reject-trans', 'Api\ItemController@RJCTTrans')->name('-RJCTTrans');
+
         Route::post('/rrm-trans', 'Api\ItemController@RRMTrans')->name('-RRMTrans');
         Route::post('/rr-trans', 'Api\ItemController@RRTrans')->name('-RRTrans');
 

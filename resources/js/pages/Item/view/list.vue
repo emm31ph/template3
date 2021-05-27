@@ -12,6 +12,7 @@
 					</a>
 				</h6>
 			</div>
+
 			<div class="card-body">
 				<div
 					class="d-flex text-capitalize font-weight-bold"
@@ -327,21 +328,21 @@
 							&times;
 						</button>
 					</div>
-					<div class="modal-body pt-2" id="printme">
+					<div class="modal-body pt-4" id="printme">
 						<div class="row pb-3">
 							<div class="col-8">
-								<sub class="col-2 font-weight-bold"
+								<span class="col-2 font-weight-bold"
 									>Branch :
-								</sub>
-								<sub class="col-10 font-weight-bold">{{
+								</span>
+								<span class="col-10 font-weight-bold">{{
 									trnHistData["branch"]
-								}}</sub>
+								}}</span>
 							</div>
 							<div class="col-4">
-								<sub class="col-2 font-weight-bold text-right"
-									>Balance Qty :</sub
+								<span class="col-2 font-weight-bold text-right"
+									>Balance Qty :</span
 								>
-								<sub class="col-10 font-weight-bold">
+								<span class="col-10 font-weight-bold">
 									{{
 										formatNumber(
 											toCase(
@@ -349,42 +350,44 @@
 												trnHistData["qty"]
 											)
 										)
-									}}</sub
+									}}</span
 								>
 							</div>
 							<div class="col-8">
-								<sub class="col-2 font-weight-bold">DESC :</sub>
-								<sub class="col-10 font-weight-bold">
+								<span class="col-2 font-weight-bold"
+									>DESC :</span
+								>
+								<span class="col-10 font-weight-bold">
 									{{ trnHistData["itemdesc"] }}
-								</sub>
+								</span>
 							</div>
 							<div class="col-4">
-								<sub class="col-2 font-weight-bold text-right"
-									>SKU :</sub
+								<span class="col-2 font-weight-bold text-right"
+									>SKU :</span
 								>
-								<sub class="col-10 font-weight-bold">
+								<span class="col-10 font-weight-bold">
 									{{ trnHistData["itemcode"] }}
-								</sub>
+								</span>
 							</div>
 							<div class="col-8">
-								<sub class="col-2 font-weight-bold"
-									>PCKGSIZE :</sub
+								<span class="col-2 font-weight-bold"
+									>LAST UPDATE :</span
 								>
-								<sub class="col-10 font-weight-bold">
-									{{ trnHistData["pckgsize"] }}
-								</sub>
+								<span class="col-10 font-weight-bold">
+									{{ dateF(trnHistData["updated_at"]) }}
+								</span>
 							</div>
 							<div class="col-4 font-weight-bold">
-								<sub class="col-2 font-weight-bold text-right"
-									>EXP. DATE :</sub
+								<span class="col-2 font-weight-bold text-right"
+									>EXP. DATE :</span
 								>
-								<sub class="col-10 font-weight-bold">
+								<span class="col-10 font-weight-bold">
 									{{ trnHistData["expdate"] }}
-								</sub>
+								</span>
 							</div>
 						</div>
 						<div class="tableFixHead">
-							<table class="table table-sm small">
+							<table class="table table-sm">
 								<thead>
 									<tr>
 										<th
@@ -623,11 +626,13 @@
 
 <script>
 import print from "print-js";
+import bus from "../../../EventBus";
 export default {
 	name: "items",
 	middleware: "auth",
 	data() {
 		return {
+			query: "",
 			pagename: "Item List",
 			trndatefrom: "",
 			trndateto: "",
@@ -665,29 +670,63 @@ export default {
 	mounted() {
 		this.fetchItems();
 		this.fetchBranch();
-		this.trndatefrom = this.datenow;
+		this.trndatefrom = this.monthdayyear(this.datenow, -20);
 		this.trndateto = this.datenow;
 		this.branches = this.isUser.branch;
-
+		this.onLoad;
 		this.currentPage = 1;
+		bus.$on("send", (data) => {
+			this.query = data;
+			this.drQty();
+		});
 	},
 	computed: {
+		onLoad() {
+			this.$store.dispatch("Item/fetchItems", {
+				trndatefrom: this.monthdayyear(this.datenow, -20),
+				trndateto: this.monthdayyear(this.datenow),
+				branch: this.isUser.branch,
+			});
+		},
 		allPosts() {
 			if (this.action == "preview") {
 				const data = this.getItems ? this.getItems : "";
 				if (this.getItems != "undefined ") {
-					// return Object.keys(data).map((itemcode) => data[itemcode]);
-					return Object.keys(data)
-						.map((itemcode) => data[itemcode])
-						.sort((p1, p2) => {
-							let modifier = 1;
-							if (this.sortDirection === "desc") modifier = -1;
-							if (p1[this.sortBy] < p2[this.sortBy])
-								return -1 * modifier;
-							if (p1[this.sortBy] > p2[this.sortBy])
-								return 1 * modifier;
-							return 0;
-						});
+					// this.$emit("change", this.query);
+					if (!this.query == "") {
+						return data
+							.filter(
+								(item) =>
+									item["itemdesc"]
+										.toLowerCase()
+										// .startsWith(this.query) //search start left side
+										.includes(this.query.toLowerCase()) //search match letter
+							)
+							.sort((p1, p2) => {
+								let modifier = 1;
+								if (this.sortDirection === "desc")
+									modifier = -1;
+								if (p1[this.sortBy] < p2[this.sortBy])
+									return -1 * modifier;
+								if (p1[this.sortBy] > p2[this.sortBy])
+									return 1 * modifier;
+								return 0;
+							});
+					} else {
+						// return Object.keys(data).map((itemcode) => data[itemcode]);
+						return Object.keys(data)
+							.map((itemcode) => data[itemcode])
+							.sort((p1, p2) => {
+								let modifier = 1;
+								if (this.sortDirection === "desc")
+									modifier = -1;
+								if (p1[this.sortBy] < p2[this.sortBy])
+									return -1 * modifier;
+								if (p1[this.sortBy] > p2[this.sortBy])
+									return 1 * modifier;
+								return 0;
+							});
+					}
 				}
 			}
 			return false;
@@ -710,13 +749,13 @@ export default {
 		},
 		drQty: function () {
 			var sum = 0;
-			for (var i = 0; i < this.getItems.length; i++) {
+			for (var i = 0; i < this.allPosts.length; i++) {
 				this.record = +i;
 				sum =
 					sum +
 					this.toCase(
-						this.getItems[i]["numperuompu"],
-						this.getItems[i]["qty"]
+						this.allPosts[i]["numperuompu"],
+						this.allPosts[i]["qty"]
 					);
 			}
 			return sum;
@@ -736,51 +775,53 @@ export default {
 				.then((res) => {
 					var items = res.data;
 
-					var data = [];
+					var item = [];
 
 					for (var i = 0; i < items.length; i++) {
-						// console.log(items[i]);
-						data.push({
-							SKU: items[i]["itemcode"],
-							ITEMDESC: items[i]["itemdesc"],
-							EXPDATE: items[i]["expdate"],
-							BRANCH: items[i]["branch"],
-							FWD: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["preqty"]
-							),
-							BR: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["BR"]
-							),
-							RR: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["RR"]
-							),
-							WP: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["WP"]
-							),
-							OD: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["OD"]
-							),
-							ENDING: this.toCase(
-								items[i]["numperuompu"],
-								items[i]["qty"]
-							),
-							CASESIZE: items[i]["pckgsize"],
-						});
+						var data = [];
+						data["SKU"] = items[i]["itemcode"];
+						data["ITEMDESC"] = items[i]["itemdesc"];
+						data["EXPDATE"] = items[i]["expdate"];
+						data["BRANCH"] = items[i]["branch"];
+						data[
+							"FWDS " + this.monthday(this.trndatefrom, -1)
+						] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["preqty"]
+						);
+						data["BR"] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["BR"]
+						);
+						data["RR"] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["RR"]
+						);
+						data["WP"] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["WP"]
+						);
+						data["OD"] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["OD"]
+						);
+						data[
+							"ENDING " + this.monthday(this.trndateto)
+						] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["qty"]
+						);
+						data["CASESIZE"] = items[i]["pckgsize"];
+						item.push(data);
 					}
 
-					// console.log(data);
 					var header = [];
 					header.push({
 						0: "Inventory Detailed",
 						1: "Date " + this.trndatefrom + " - " + this.trndateto,
 						2: "Branch " + this.branches,
 					});
-					this.export(this.branches + " detailed", data, header);
+					this.export(this.branches + " detailed", item, header);
 				});
 		},
 		handleDownload: function () {
@@ -926,6 +967,23 @@ export default {
 					console.log("The print dialog was closed"),
 				onError: (e) => console.log(e),
 			});
+		},
+		matches() {
+			this.$emit("change", this.query);
+			if (this.query == "") {
+				return [];
+			}
+
+			// let matches = this.items.filter((item) => {
+			// 	const regex = new RegExp(`^${this.query}`, "gi");
+
+			// 	return this.items.match(regex) || this.items.abbr.match(regex);
+			// });
+
+			return this.filteredPosts.filter(
+				(item) => item["itemname"].toLowerCase().startsWith(this.query) //search start left side
+				// .includes(this.query.toLowerCase()) //search match letter
+			);
 		},
 	},
 };

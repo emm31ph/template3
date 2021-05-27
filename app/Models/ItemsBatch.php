@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemsBatch extends Model
 {
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
     protected $fillable = ['trnType', 'batch', 'drqty', 'crqty', 'user_id', 'rono', 'refno', 'remarks', 'customer',
         'from', 'to', 'van_no', 'seal_no', 'trndate', 'year', 'approvedby', 'preparedby', 'receivedby', 'status'];
 

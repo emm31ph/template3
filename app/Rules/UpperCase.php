@@ -2,21 +2,18 @@
 
 namespace App\Rules;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class ltqty implements Rule
+class UpperCase implements Rule
 {
-    public $legalAge = 18;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($age)
+    public function __construct()
     {
-        $this->legalAge = $age;
-
+        //
     }
 
     /**
@@ -28,10 +25,7 @@ class ltqty implements Rule
      */
     public function passes($attribute, $value)
     {
-
-        $formattedValue = new Carbon((int) $value);
-        $legalAge = Carbon::now()->subYears($this->legalAge);
-        return false;
+        return '0' === (string) $value;
 
     }
 
@@ -42,7 +36,7 @@ class ltqty implements Rule
      */
     public function message()
     {
-        return 'You must be at least ' . $this->legalAge . ' years old!';
+        return 'The :attribute must be uppercase. :input ;;;a';
 
     }
 }

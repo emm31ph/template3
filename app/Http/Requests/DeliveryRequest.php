@@ -35,7 +35,7 @@ class DeliveryRequest extends FormRequest
             // "items.expdate" => 'required|array|min:1|after:tomorrow',
             // "items.qty" => 'required|array|min:1',
             "items.*.itemcode" => 'required',
-            "items.*.expdate" => 'required|date|after:tomorrow',
+            "items.*.expdate" => 'required_if:items.*.itemcode,!=,null|nullable|date|after:tomorrow',
             // "items.*.qty" => 'required|integer|min:1',
             "items.*.tins" => 'required|integer|min:1|lte:items.*.bal',
         ];
@@ -53,6 +53,7 @@ class DeliveryRequest extends FormRequest
             'customer.required' => 'The Customer field is require.',
             'items.*.itemcode.required' => 'The Item product field is require.',
             'items.*.expdate.required' => 'The Expiry Date field is require.',
+            'items.*.expdate.date' => 'The Expiry Date is not a valid date.',
             'items.*.expdate.after' => 'The Item is Expired',
             'items.*.qty.required' => 'The Quantity field is require.',
             'items.*.tins.min' => 'The Quantity must be at least 1.',

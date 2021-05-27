@@ -12,7 +12,9 @@ class ItemsBranch extends Model
     // protected $primaryKey = 'itemcode';
     // public $incrementing = false;
     // protected $keyType = 'string';
-
+    protected $hidden = [
+        'created_at',
+    ];
     protected $fillable = ['branch', 'itemcode', 'expdate', 'status', 'qty'];
 
     public function branch()

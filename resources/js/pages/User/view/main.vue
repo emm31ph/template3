@@ -1,15 +1,12 @@
 <template>
-    <div>
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">User</h1>
-
-        <router-view></router-view>
-    </div>
+	<div>
+		<router-view></router-view>
+	</div>
 </template>
 
 <script>
 export default {
-    middleware: "auth",
+	middleware: "auth",
 };
 </script>
 

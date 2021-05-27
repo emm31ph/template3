@@ -19,12 +19,14 @@ class ItemBranchController extends Controller
         $pars['trndatefrom'] = $request->trndatefrom;
         $pars['trndateto'] = $request->trndateto;
 
-        $data = ItemsBranch::leftJoin('items', 'items.itemcode', 'items_branches.itemcode')
+        $data = ItemsBranch::select('items.*', 'items_branches.*')->leftJoin('items', 'items.itemcode', 'items_branches.itemcode')
             ->with(['TrnHist' => function ($q) use ($pars) {
                 $q->leftJoin('items_batches', 'items_batches.batch', 'items_trn_hists.batch')
                     ->where('branch', '=', $pars['branch'])
                     ->whereBetween('items_trn_hists.trndate', [$pars['trndatefrom'], $pars['trndateto']])
                     ->whereRaw("ifnull(expdate,'1900-01-01')='" . $pars['expdate'] . "'")
+
+                // ->selectRaw('')
                     ->select('items_trn_hists.*', 'rono', 'refno', 'remarks', 'customer',
                         'from', 'to', 'van_no', 'seal_no');
             }])

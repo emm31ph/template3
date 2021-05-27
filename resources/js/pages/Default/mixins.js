@@ -18,7 +18,29 @@ Vue.mixin({
         }
     },
     methods: {
+        signalChange: function (evt) {
+            console.log(this.$emit("change", evt));
+        },
+        dateF(date) {
+            return moment(date).format('YYYY-MM-DD')
+        },
 
+        monthday(date, addless) {
+            if (addless < 0) {
+                return moment(date).add(addless, 'd').format('MMMM DD')
+            } else {
+                return moment(date).subtract(addless, 'd').format('MMMM DD')
+            }
+
+        },
+        monthdayyear(date, addless) {
+            if (addless < 0) {
+                return moment(date).add(addless, 'd').format('YYYY-MM-DD')
+            } else {
+                return moment(date).subtract(addless, 'd').format('YYYY-MM-DD')
+            }
+
+        }
     }
 
 

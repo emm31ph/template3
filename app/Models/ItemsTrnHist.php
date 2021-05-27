@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemsTrnHist extends Model
 {
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
 
     protected $fillable = ['_trn', 'trntype', 'branch', 'status', 'batch', '_cancelled', 'itemcode', 'p', 'preqty', 'drqty', 'crqty', 'curqty', 'trndate', 'expdate', 'year', 'unit'];
 

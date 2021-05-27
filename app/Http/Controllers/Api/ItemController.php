@@ -314,6 +314,104 @@ class ItemController extends Controller
 
     }
 
+    public function RJCTTrans(RJCTRequest $request)
+    {
+
+        // return response()->json($request->all(), 200);
+
+        DB::disableQueryLog();
+        DB::beginTransaction();
+
+        try {
+
+            $counter = Counter::where('key', 'FPTD')->first();
+
+            $items = [];
+            $batch = $counter->prefix . $counter->value;
+            $totalcr = 0;
+            $totaldr = 0;
+            $branch = auth()->user()->branch;
+            $data = $request->get('items');
+
+            foreach ($data as $rows) {
+
+                $uom = getUOM($rows['itemcode']);
+                $totaldr = $totaldr + ((float) (convertTin($rows['unit'], $rows['drqty'], $uom)));
+                $totalcr = $totalcr + ((float) (convertTin($rows['unit'], $rows['crqty'], $uom)));
+                $curr = getCurrQty([
+                    'ITEMCODE' => $rows['itemcode'],
+                    'EXPDATE' => $rows['expdate'],
+                    'BRANCH' => $branch,
+                ]) + ((float) ($rows['crqty'] + ($rows['drqty'] * -1)));
+
+                $prev = getPrevQty([
+                    'ITEMCODE' => $rows['itemcode'],
+                    'EXPDATE' => $rows['expdate'],
+                    'BRANCH' => $branch,
+                ]);
+
+                ItemsTrnHist::create([
+                    'trntype' => $rows['trntype'],
+                    'batch' => $batch,
+                    'status' => '01',
+                    'branch' => $branch,
+                    'itemcode' => $rows['itemcode'],
+                    'unit' => 'TIN',
+                    'p' => '',
+                    'preqty' => $prev,
+                    'drqty' => ((float) convertTin($rows['unit'], $rows['drqty'], $uom)),
+                    'crqty' => ((float) convertTin($rows['unit'], $rows['crqty'], $uom)),
+                    'curqty' => $curr,
+                    'expdate' => $rows['expdate'],
+                    'year' => getYear(),
+                    'trndate' => substr($request->get('trndate'), 0, 10),
+                ]);
+
+                $itembranch = ItemsBranch::where('branch', '=', $branch)
+                    ->where('itemcode', '=', $rows['itemcode'])
+                    ->where('expdate', '=', $rows['expdate'])->first();
+
+                if ($itembranch !== null) {
+
+                    ItemsBranch::where('branch', '=', $branch)
+                        ->where('itemcode', '=', $rows['itemcode'])
+                        ->where('expdate', '=', $rows['expdate'])
+                        ->update(['qty' => $curr]);
+
+                } else {
+                    ItemsBranch::create(['branch' => $branch, 'itemcode' => $rows['itemcode'], 'expdate' => $rows['expdate'], 'qty' => $curr]);
+                }
+
+            }
+
+            $dateInvt['batch'] = $counter->prefix . $counter->value;
+            $dateInvt['remarks'] = $request->get('remarks');
+
+            $dateInvt['trndate'] = substr($request->get('trndate'), 0, 10);
+            $dateInvt['trntype'] = '001';
+            $dateInvt['drqty'] = $totaldr;
+            $dateInvt['crqty'] = $totalcr;
+            $dateInvt['user_id'] = auth()->user()->id;
+            $dateInvt['status'] = '01';
+            $dateInvt['refno'] = $request->get('refno');
+            $dateInvt['rono'] = $request->get('rono');
+            $dateInvt['from'] = $request->get('from');
+            $dateInvt['to'] = $request->get('to');
+
+            $dateInvt['year'] = getYear();
+            $counter->increment('value');
+            ItemsBatch::create($dateInvt);
+            \DB::commit();
+            return response()->json(['status' => 'success', 'id' => $batch], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'something error in data'], 400);
+        }
+        return response()->json($data, 200);
+
+    }
+
     public function RRMTrans(RRMRequest $request)
     {
 

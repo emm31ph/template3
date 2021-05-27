@@ -41,4 +41,7 @@ td {
 }
 
 @media print {
+    body {
+        padding-top: 10px;
+    }
 }

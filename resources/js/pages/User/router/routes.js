@@ -6,16 +6,17 @@ function page(path) {
 }
 
 export default [{
-    path: '/user',
-    name: 'user',
+    path: '/users',
+    name: 'users',
+    redirect: { name: 'users-list' },
     component: page('User/view/main.vue'),
     children: [{
         path: 'profile',
         name: 'profile',
         component: page('User/view/profile.vue')
     }, {
-        path: '/users',
-        name: 'users',
+        path: '/users-list',
+        name: 'users-list',
         meta: { layout: 'default' },
         component: page('User/view/list.vue')
     },]

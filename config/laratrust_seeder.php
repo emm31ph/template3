@@ -23,7 +23,6 @@ return [
             'profile' => 'r,u',
         ],
         'ilo' => [
-
             'profile' => 'r,u',
         ],
     ],
@@ -33,6 +32,5 @@ return [
         'r' => 'read',
         'u' => 'update',
         'd' => 'delete',
-        'im' => 'import',
     ],
 ];

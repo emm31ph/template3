@@ -15,7 +15,7 @@ export default [{
         name: 'profile',
         component: page('User/view/profile.vue')
     }, {
-        path: '/users-list',
+        path: 'list',
         name: 'users-list',
         meta: { layout: 'default' },
         component: page('User/view/list.vue')

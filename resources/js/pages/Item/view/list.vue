@@ -677,7 +677,7 @@ export default {
 		this.currentPage = 1;
 		bus.$on("send", (data) => {
 			this.query = data;
-			this.drQty();
+			this.drQty;
 		});
 	},
 	computed: {
@@ -917,13 +917,6 @@ export default {
 				Swal.close();
 			}
 		},
-		sort: function (s) {
-			if (s === this.sortBy) {
-				this.sortDirection =
-					this.sortDirection === "asc" ? "desc" : "asc";
-			}
-			this.sortBy = s;
-		},
 		handleTrnHist(data) {
 			$("#trnModal").modal("show");
 
@@ -968,17 +961,18 @@ export default {
 				onError: (e) => console.log(e),
 			});
 		},
+		sort: function (s) {
+			if (s === this.sortBy) {
+				this.sortDirection =
+					this.sortDirection === "asc" ? "desc" : "asc";
+			}
+			this.sortBy = s;
+		},
 		matches() {
 			this.$emit("change", this.query);
 			if (this.query == "") {
 				return [];
 			}
-
-			// let matches = this.items.filter((item) => {
-			// 	const regex = new RegExp(`^${this.query}`, "gi");
-
-			// 	return this.items.match(regex) || this.items.abbr.match(regex);
-			// });
 
 			return this.filteredPosts.filter(
 				(item) => item["itemname"].toLowerCase().startsWith(this.query) //search start left side

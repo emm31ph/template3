@@ -18,6 +18,16 @@ Vue.mixin({
         }
     },
     methods: {
+        pluck(objs, name) {
+            var sol = [];
+            for (var i in objs) {
+                if (objs[i].hasOwnProperty(name)) {
+                    // console.log(objs[i][name]);
+                    sol.push(objs[i][name]);
+                }
+            }
+            return sol;
+        },
         signalChange: function (evt) {
             console.log(this.$emit("change", evt));
         },

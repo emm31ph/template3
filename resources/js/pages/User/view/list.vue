@@ -4,35 +4,83 @@
 			<div class="card-header py-3 d-flex justify-content-between">
 				<h6 class="m-0 font-weight-bold text-primary">Users</h6>
 
-				<h6 class="m-0 font-weight-bold text-primary">
-					<a
-						data-toggle="modal"
-						data-target="#AddModal"
-						@click="openModalWindow"
-					>
+				<h6
+					class="m-0 font-weight-bold text-primary"
+					v-if="can('users-create')"
+				>
+					<a @click="openModalWindow">
 						<i class="fas fa-cogs"></i>
 					</a>
 				</h6>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover">
+					<table class="table table-sm table-hover">
 						<thead class="thead-dark">
 							<tr>
-								<th>ID</th>
-								<th>Name</th>
-								<th>Email</th>
-								<th>Username</th>
-								<th>Branch</th>
-								<th>Status</th>
+								<th
+									v-bind:class="[
+										sortBy === 'id' ? sortDirection : '',
+									]"
+									@click="sort('id')"
+								>
+									ID
+								</th>
+								<th
+									v-bind:class="[
+										sortBy === 'name' ? sortDirection : '',
+									]"
+									@click="sort('name')"
+								>
+									Name
+								</th>
+								<th
+									v-bind:class="[
+										sortBy === 'email' ? sortDirection : '',
+									]"
+									@click="sort('email')"
+								>
+									Email
+								</th>
+								<th
+									v-bind:class="[
+										sortBy === 'username'
+											? sortDirection
+											: '',
+									]"
+									@click="sort('username')"
+								>
+									Username
+								</th>
+								<th
+									v-bind:class="[
+										sortBy === 'branch'
+											? sortDirection
+											: '',
+									]"
+									@click="sort('branch')"
+								>
+									Branch
+								</th>
+								<th
+									v-bind:class="[
+										sortBy === 'status'
+											? sortDirection
+											: '',
+									]"
+									@click="sort('status')"
+								>
+									Status
+								</th>
+								<th>Roles</th>
 								<th>Created</th>
-								<th>Modify</th>
+								<th class="text-center">Modify</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="user in users" :key="user.id">
+							<tr v-for="user in filteredUsers" :key="user.id">
 								<td>{{ user.id }}</td>
-								<td>{{ user.name }}</td>
+								<td class="text-capitalize">{{ user.name }}</td>
 								<td>{{ user.email }}</td>
 								<td>{{ user.username }}</td>
 								<td>{{ user.branch }}</td>
@@ -51,29 +99,49 @@
 										}}</span
 									>
 								</td>
+								<td>
+									<span
+										v-for="role in user.roles"
+										:key="role.id"
+										class="badge badge-success mr-1 text-capitalize"
+										>{{ role.display_name }}</span
+									>
+								</td>
+
 								<td>{{ dataF(user.created_at) }}</td>
 
-								<td>
+								<td class="text-center">
 									<div v-if="user.status != '99'">
 										<a
 											href="#"
 											data-id="user.id"
 											@click="editModalWindow(user)"
+											v-if="can('users-update')"
 										>
 											<i class="fa fa-edit blue"></i>
 										</a>
-										|
+
 										<a
 											href="#"
 											@click="deleteUser(user.id)"
+											v-if="can('users-delete')"
 										>
-											<i class="fa fa-trash red"></i>
+											<i
+												class="fa fa-trash text-danger"
+											></i>
 										</a>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
+					<vue-plain-pagination
+						v-if="allUsers"
+						v-model="currentPage"
+						:page-count="totalPages"
+						:classes="bootstrapPaginationClasses"
+						:labels="customLabels"
+					/>
 				</div>
 			</div>
 		</div>
@@ -180,6 +248,7 @@
 									name="username"
 									id="username"
 									placeholder="Enter username"
+									:disabled="editMode"
 									class="form-control"
 									:class="{
 										'is-invalid': form.errors.has(
@@ -216,27 +285,16 @@
 									field="branch"
 								></has-error>
 							</div>
-							<div :class="{ invalid: isInvalid }">
+							<div>
 								<label class="typo__label">Roles</label>
-								<multiselect
-									placeholder="Pick at least one"
-									select-label="Enter doesn’t work here!"
-									:value="value"
-									:options="options"
-									:multiple="true"
-									:searchable="true"
-									:allow-empty="false"
-									:hide-selected="true"
-									:max-height="150"
-									:max="5"
-									:block-keys="['Tab', 'Enter']"
-									@input="onChange"
-									@close="onTouch"
-									@select="onSelect"
-								></multiselect>
-								<label
-									class="typo__label form__label"
-									v-show="isInvalid"
+								<multi-select
+									:options="roles"
+									display-property="name"
+									value-property="id"
+									v-model="form.selectedOptions"
+								/>
+
+								<label class="typo__label form__label"
 									>Must have at least one value</label
 								>
 							</div>
@@ -274,29 +332,16 @@
 
 <script>
 import Form from "vform";
-import Multiselect from "vue-multiselect";
-
+import bus from "../../../EventBus";
 export default {
-	components: { Multiselect },
+	name: "UsersList",
 	middleware: "auth",
 	data() {
 		return {
 			pagename: "Users",
-
 			editMode: false,
-			users: [],
-			isDisabled: false,
-			isTouched: false,
 			value: [],
-			options: [
-				"Select option",
-				"Disable me!",
-				"Reset me!",
-				"mulitple",
-				"label",
-				"searchable",
-			],
-
+			roles: [],
 			form: new Form({
 				id: "",
 				name: "",
@@ -305,33 +350,47 @@ export default {
 				username: "",
 				status: "",
 				branch: "MAIN",
-				roles: "",
+				selectedOptions: [],
 			}),
+			query: "",
+			page: 1,
+			items: 6,
+			currentPage: 1,
+			postsPerPage: 20,
+			sortBy: "",
+			sortDirection: "desc",
+			bootstrapPaginationClasses: {
+				// http://getbootstrap.com/docs/4.1/components/pagination/
+				ul: "pagination",
+				li: "page-item",
+				liActive: "active",
+				liDisable: "disabled",
+				button: "page-link",
+			},
+			customLabels: {
+				first: "First",
+				prev: "Previous",
+				next: "Next",
+				last: "Last",
+			},
 		};
 	},
 	metaInfo() {
 		return { title: "Users" };
 	},
 	methods: {
-		onChange(value) {
-			this.value = value;
-			if (value.indexOf("Reset me!") !== -1) this.value = [];
-		},
-		onSelect(option) {
-			if (option === "Disable me!") this.isDisabled = true;
-		},
-		onTouch() {
-			this.isTouched = true;
-		},
-		loadUsers() {
-			axios.get("/api/users").then((data) => (this.users = data.data));
-		},
 		editModalWindow(user) {
+			let roleid = user.roles.map(function (item) {
+				return item.id;
+			});
+
 			this.form.clear();
-			this.editMode = true;
 			this.form.reset();
+			console.log(roleid);
+			this.editMode = true;
 			$("#AddModal").modal("show");
 			this.form.fill(user);
+			this.form.selectedOptions = roleid;
 		},
 		async updateUser() {
 			await this.form
@@ -343,11 +402,12 @@ export default {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-					$("#AddModal").modal("hide");
-					this.loadUsers();
+
+					this.fetchUsers();
 					this.closeModal();
 				})
-				.catch(() => {
+				.catch((error) => {
+					console.log(error);
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
@@ -357,9 +417,9 @@ export default {
 				});
 		},
 		openModalWindow() {
+			$("#AddModal").modal("show");
 			this.editMode = false;
 			this.form.reset();
-			// $("#addNew").modal("show");
 		},
 		createUser() {
 			this.form
@@ -371,7 +431,8 @@ export default {
 						showConfirmButton: false,
 						timer: 1500,
 					});
-					this.loadUsers();
+
+					this.fetchUsers();
 					this.closeModal();
 				})
 				.catch(() => {
@@ -379,12 +440,12 @@ export default {
 						icon: "error",
 						title: "Oops...",
 						text: "Something went wrong!",
-						footer: "<a href>Why do I have this issue?</a>",
 					});
 				});
 		},
 		closeModal() {
 			$("#AddModal").modal("hide");
+			$(".modal-backdrop").remove();
 			this.form.errors.errors = "";
 		},
 		deleteUser(id) {
@@ -407,7 +468,7 @@ export default {
 								"User deleted successfully",
 								"success"
 							);
-							this.loadUsers();
+							this.fetchUsers();
 						})
 						.catch(() => {
 							Swal.fire({
@@ -420,19 +481,138 @@ export default {
 				}
 			});
 		},
+		sort: function (s) {
+			if (s.toLowerCase() === this.sortBy) {
+				this.sortDirection =
+					this.sortDirection === "asc" ? "desc" : "asc";
+			}
+			this.sortBy = s;
+		},
+		matches() {
+			this.$emit("change", this.query);
+			if (this.query == "") {
+				return [];
+			}
+			console.log(this.query);
+
+			return this.filteredUsers.filter(
+				(item) => item["name"].toLowerCase().startsWith(this.query) //search start left side
+				// .includes(this.query.toLowerCase()) //search match letter
+			);
+		},
+		reload() {
+			this.fetchUsers();
+		},
 	},
-	created() {
-		this.loadUsers();
-	},
+
 	mounted() {
 		this.fetchBranch();
 		this.fetchRoles();
+		this.fetchUsers();
+		this.getRole;
+		this.currentPage = 1;
+		bus.$on("send", (data) => {
+			this.query = data;
+		});
 	},
+
 	computed: {
-		isInvalid() {
-			return this.isTouched && this.value.length === 0;
+		getRole() {
+			axios.get("/api/roles").then((res) => {
+				this.roles = res.data;
+			});
+		},
+		allUsers() {
+			const data = this.getUsers ? this.getUsers : "";
+
+			if (this.getUsers != "undefined ") {
+				this.$emit("change", this.query);
+				if (!this.query == "") {
+					return data
+						.filter(
+							(item) =>
+								item["name"]
+									.toLowerCase()
+									// .startsWith(this.query) //search start left side
+									.includes(this.query.toLowerCase()) //search match letter
+						)
+						.sort((p1, p2) => {
+							let modifier = 1;
+							if (p1[this.sortBy] != undefined) {
+								if (this.sortDirection === "desc")
+									modifier = -1;
+								if (parseInt(p1[this.sortBy])) {
+									if (p1[this.sortBy] < p2[this.sortBy])
+										return -1 * modifier;
+									if (p1[this.sortBy] > p2[this.sortBy])
+										return 1 * modifier;
+								} else {
+									if (
+										p1[this.sortBy]
+											.toString()
+											.toLowerCase() <
+										p2[this.sortBy].toString().toLowerCase()
+									)
+										return -1 * modifier;
+									if (
+										p1[this.sortBy]
+											.toString()
+											.toLowerCase() >
+										p2[this.sortBy].toString().toLowerCase()
+									)
+										return 1 * modifier;
+								}
+							}
+							return 0;
+						});
+				} else {
+					// return Object.keys(data).map((itemcode) => data[itemcode]);
+					return Object.keys(data)
+						.map((name) => data[name])
+						.sort((p1, p2) => {
+							let modifier = 1;
+							if (p1[this.sortBy] != undefined) {
+								if (this.sortDirection === "desc")
+									modifier = -1;
+								if (parseInt(p1[this.sortBy])) {
+									if (p1[this.sortBy] < p2[this.sortBy])
+										return -1 * modifier;
+									if (p1[this.sortBy] > p2[this.sortBy])
+										return 1 * modifier;
+								} else {
+									if (
+										p1[this.sortBy]
+											.toString()
+											.toLowerCase() <
+										p2[this.sortBy].toString().toLowerCase()
+									)
+										return -1 * modifier;
+									if (
+										p1[this.sortBy]
+											.toString()
+											.toLowerCase() >
+										p2[this.sortBy].toString().toLowerCase()
+									)
+										return 1 * modifier;
+								}
+							}
+							return 0;
+						});
+				}
+			}
+
+			return false;
+		},
+		filteredUsers() {
+			var page = this.currentPage;
+			var perPage = this.postsPerPage;
+			var from = page * perPage - perPage;
+			var to = page * perPage;
+			return this.allUsers.slice(from, to);
+		},
+		totalPages() {
+			return Math.ceil(this.allUsers.length / this.postsPerPage);
 		},
 	},
 };
-</script>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+</script> 

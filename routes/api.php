@@ -19,13 +19,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('user/update', 'Auth\UserController@updateUser');
     Route::post('user/create', 'Auth\UserController@store');
     Route::delete('user/{user}', 'Auth\UserController@destroy');
-
-    Route::get('roles', 'Api\RolesController@index');
-
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('user', 'Auth\UserController@current');
     Route::patch('settings/profile', 'Auth\UserController@update');
-    // Route::patch('settings/password', [PasswordController::class, 'update']);
+
+    Route::apiResource('roles', 'Api\RolesController');
+
+    Route::apiResource('permissions', 'Api\PermissionsController');
 
     Route::group(['prefix' => 'items', 'as' => 'item'], function () {
         Route::post('import', 'Api\ItemController@import')->name('-import');

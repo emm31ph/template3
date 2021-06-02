@@ -11,21 +11,97 @@ var moment = require('moment');
 Vue.mixin({
 
     computed: {
-        getRoles() {
-            if (this.isUser) {
 
-                const getRole = store.getters['Roles/roles']
-                if (getRole) {
-                    return getRole
-                }
+        getRoles() {
+            // if (this.isUser) { 
+            const getRole = store.getters['Roles/role']
+            if (getRole) {
+                return getRole
             }
-            return false
+            // }
+            // return false
+        },
+
+        getPermissions() {
+            // if (this.isUser) { 
+            const getPermission = store.getters['Roles/permission']
+            if (getPermission) {
+                return getPermission
+            }
+            // }
+            // return false
         },
     },
 
     methods: {
         fetchRoles() {
             this.$store.dispatch("Roles/fetchRoles");
+        },
+
+        fetchPermissions() {
+            this.$store.dispatch("Roles/fetchPermissions");
+        },
+        isAbleTo(permission) {
+            console.log(Array.isArray(permission));
+            const authUser = store.getters['Auth/user'];
+            if (authUser != null) {
+                const uPermission = authUser.allPermissions;
+
+                if (Array.isArray(permission)) {
+                    var i;
+                    for (i = 0; i < permission.length; i++) {
+                        const aa = uPermission.filter(function (item) {
+                            return (item["name"].toLowerCase().startsWith(permission[i].replace("*", "")))
+                        });
+
+                        if (aa.length) {
+                            return true;
+                        }
+                    }
+
+                } else {
+                    const aa = uPermission.filter(function (item) {
+                        return (item["name"].toLowerCase().startsWith(permission.replace("*", "")))
+                    });
+
+                    if (aa.length) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        },
+        can(permission) {
+            const authUser = store.getters['Auth/user'];
+            if (authUser != null) {
+                const uPermission = authUser.allPermissions;
+                if (Array.isArray(permission)) {
+                    var i;
+                    for (i = 0; i < permission.length; i++) {
+                        const aa = uPermission.filter(function (item) {
+                            return (item["name"].toLowerCase().startsWith(permission[i].replace("*", "")))
+                        });
+
+                        if (aa.length) {
+                            return true;
+                        }
+                    }
+
+                } else {
+                    const aa = uPermission.filter(function (item) {
+                        return (item["name"].toLowerCase().startsWith(permission.replace("*", "")))
+                    });
+
+                    if (aa.length) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
         },
     }
 

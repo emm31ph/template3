@@ -33,7 +33,7 @@
 		<div class="sidebar-heading">Interface</div>
 
 		<!-- Nav Item - Pages Collapse Menu -->
-		<li class="nav-item">
+		<li class="nav-item" v-if="isAbleTo(['items-*'])">
 			<a
 				class="nav-link collapsed"
 				href="#"
@@ -53,40 +53,53 @@
 			>
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Custom Inventory:</h6>
-					<router-link :to="{ name: 'item' }" class="collapse-item">
+					<router-link
+						:to="{ name: 'item' }"
+						class="collapse-item"
+						v-if="can('items-read')"
+					>
 						Dashboard
 					</router-link>
 					<router-link
 						:to="{ name: 'delivery' }"
 						class="collapse-item"
+						v-if="can('items-delivery')"
 					>
 						Delivery
 					</router-link>
 					<router-link
 						:to="{ name: 'items-fptd' }"
 						class="collapse-item"
+						v-if="can('items-fptd')"
 					>
 						FPTD
 					</router-link>
 					<router-link
 						:to="{ name: 'items-rr' }"
 						class="collapse-item"
+						v-if="can('items-rr')"
 					>
 						Recieving Report
 					</router-link>
 					<router-link
 						:to="{ name: 'items-rrm' }"
 						class="collapse-item"
+						v-if="can('items-rrm')"
 					>
 						RRM
 					</router-link>
 					<router-link
 						:to="{ name: 'items-reject' }"
 						class="collapse-item"
+						v-if="can('items-reject')"
 					>
 						Reject
 					</router-link>
-					<router-link :to="{ name: 'import' }" class="collapse-item">
+					<router-link
+						:to="{ name: 'import' }"
+						class="collapse-item"
+						v-if="can('items-import')"
+					>
 						Import
 					</router-link>
 				</div>
@@ -94,7 +107,7 @@
 		</li>
 
 		<!-- Nav Item - Utilities Collapse Menu -->
-		<li class="nav-item">
+		<li class="nav-item" v-if="isAbleTo(['role-*'])">
 			<a
 				class="nav-link collapsed"
 				href="#"
@@ -113,75 +126,19 @@
 				data-parent="#accordionSidebar"
 			>
 				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Custom Utilities:</h6>
-					<a class="collapse-item" href="utilities-color.html"
-						>Colors</a
+					<router-link
+						:to="{ name: 'roles' }"
+						class="collapse-item"
+						v-if="can('role-read')"
 					>
-					<a class="collapse-item" href="utilities-border.html"
-						>Borders</a
-					>
-					<a class="collapse-item" href="utilities-animation.html"
-						>Animations</a
-					>
-					<a class="collapse-item" href="utilities-other.html"
-						>Other</a
-					>
+						Roles
+					</router-link>
 				</div>
 			</div>
-		</li>
-
-		<!-- Divider -->
-		<hr class="sidebar-divider" />
-
-		<!-- Heading -->
-		<div class="sidebar-heading">Addons</div>
-
-		<!-- Nav Item - Pages Collapse Menu -->
-		<li class="nav-item">
-			<a
-				class="nav-link"
-				href="#"
-				data-toggle="collapse"
-				data-target="#collapsePages"
-				aria-expanded="true"
-				aria-controls="collapsePages"
-			>
-				<i class="fas fa-fw fa-folder"></i>
-				<span>Pages</span>
-			</a>
-			<div
-				id="collapsePages"
-				class="collapse"
-				aria-labelledby="headingPages"
-				data-parent="#accordionSidebar"
-			>
-				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Login Screens:</h6>
-					<a class="collapse-item" href="login.html">Login</a>
-					<a class="collapse-item" href="register.html">Register</a>
-					<a class="collapse-item" href="forgot-password.html"
-						>Forgot Password</a
-					>
-					<div class="collapse-divider"></div>
-					<h6 class="collapse-header">Other Pages:</h6>
-					<a class="collapse-item" href="404.html">404 Page</a>
-					<a class="collapse-item active" href="blank.html"
-						>Blank Page</a
-					>
-				</div>
-			</div>
-		</li>
-
-		<!-- Nav Item - Charts -->
-		<li class="nav-item">
-			<a class="nav-link" href="charts.html">
-				<i class="fas fa-fw fa-chart-area"></i>
-				<span>Charts</span></a
-			>
 		</li>
 
 		<!-- Nav Item - Tables -->
-		<li class="nav-item">
+		<li class="nav-item" v-if="isAbleTo(['users-*'])">
 			<router-link :to="{ name: 'users' }" class="nav-link">
 				<i class="fas fa-fw fa-users"></i>
 				<span>Users</span></router-link

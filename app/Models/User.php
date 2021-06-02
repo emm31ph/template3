@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laratrust\Traits\LaratrustUserTrait;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -23,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $appends = [
         'photo_url',
+        'allPermissions',
     ];
 
     public function getPhotoUrlAttribute()
@@ -39,6 +40,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password', 'remember_token',
+        'created_at', 'updated_at',
     ];
 
     /**
@@ -69,5 +71,10 @@ class User extends Authenticatable implements JWTSubject
     public function branch()
     {
         return hasOne('App\Models\Branch', 'branch', 'branch');
+    }
+
+    public function getAllPermissionsAttribute()
+    {
+        return ($this->allPermissions());
     }
 }

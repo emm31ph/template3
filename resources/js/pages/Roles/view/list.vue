@@ -256,6 +256,10 @@ export default {
 			},
 		};
 	},
+
+	created() {
+		this.isLoggedCheck;
+	},
 	metaInfo() {
 		return { title: "Users" };
 	},

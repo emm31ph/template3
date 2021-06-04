@@ -34,7 +34,7 @@ Vue.mixin({
         dateF(date) {
             return moment(date).format('YYYY-MM-DD')
         },
-
+        longDate(date) { return moment(date).format('DD MMMM, YYYY h:mm a') },
         monthday(date, addless) {
             if (addless < 0) {
                 return moment(date).add(addless, 'd').format('MMMM DD')

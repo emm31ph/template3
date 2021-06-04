@@ -1,11 +1,11 @@
 <template>
-    <div id="app">
-        <loading ref="loading" />
+	<div id="app">
+		<loading ref="loading" />
 
-        <transition name="page" mode="out-in">
-            <component :is="layout" v-if="layout" />
-        </transition>
-    </div>
+		<transition name="page" mode="out-in">
+			<component :is="layout" v-if="layout" />
+		</transition>
+	</div>
 </template>
 
 <script>
@@ -13,47 +13,47 @@
 const requireContext = require.context("~/layouts", false, /.*\.vue$/);
 
 const layouts = requireContext
-    .keys()
-    .map((file) => [file.replace(/(^.\/)|(\.vue$)/g, ""), requireContext(file)])
-    .reduce((components, [name, component]) => {
-        components[name] = component.default || component;
-        return components;
-    }, {});
+	.keys()
+	.map((file) => [file.replace(/(^.\/)|(\.vue$)/g, ""), requireContext(file)])
+	.reduce((components, [name, component]) => {
+		components[name] = component.default || component;
+		return components;
+	}, {});
 
 export default {
-    el: "#app",
+	el: "#app",
 
-    data: () => ({
-        layout: null,
-        defaultLayout: "default",
-    }),
+	data: () => ({
+		layout: null,
+		defaultLayout: "default",
+	}),
 
-    metaInfo() {
-        const { appName } = window.config;
+	metaInfo() {
+		const { appName } = window.config;
 
-        return {
-            title: appName,
-            titleTemplate: `%s · ${appName}`,
-        };
-    },
+		return {
+			title: appName,
+			titleTemplate: `%s · ${appName}`,
+		};
+	},
 
-    mounted() {
-        this.$loading = this.$refs.loading;
-    },
+	mounted() {
+		this.$loading = this.$refs.loading;
+	},
 
-    methods: {
-        /**
-         * Set the application layout.
-         *
-         * @param {String} layout
-         */
-        setLayout(layout) {
-            if (!layout || !layouts[layout]) {
-                layout = this.defaultLayout;
-            }
+	methods: {
+		/**
+		 * Set the application layout.
+		 *
+		 * @param {String} layout
+		 */
+		setLayout(layout) {
+			if (!layout || !layouts[layout]) {
+				layout = this.defaultLayout;
+			}
 
-            this.layout = layouts[layout];
-        },
-    },
+			this.layout = layouts[layout];
+		},
+	},
 };
 </script>

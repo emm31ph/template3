@@ -13,7 +13,7 @@ return [
     |
     | Supported: "pusher", "redis", "log", "null"
     |
-    */
+     */
 
     'default' => env('BROADCAST_DRIVER', 'null'),
 
@@ -26,7 +26,7 @@ return [
     | to broadcast events to other systems or over websockets. Samples of
     | each available type of connection are provided inside this array.
     |
-    */
+     */
 
     'connections' => [
 
@@ -38,6 +38,9 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
+                'host' => env('APP_HOST'),
+                'port' => 6001,
+                'scheme' => 'http',
             ],
         ],
 

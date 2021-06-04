@@ -667,6 +667,9 @@ export default {
 	metaInfo() {
 		return { title: "Item" };
 	},
+	created() {
+		this.isLoggedCheck;
+	},
 	mounted() {
 		this.fetchItems();
 		this.fetchBranch();

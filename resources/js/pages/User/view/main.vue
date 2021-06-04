@@ -7,7 +7,11 @@
 <script>
 export default {
 	name: "User",
+	layout: "default",
 	middleware: "auth",
+	created() {
+		this.isLoggedCheck;
+	},
 };
 </script>
 

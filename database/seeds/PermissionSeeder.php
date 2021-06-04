@@ -13,6 +13,10 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $data = [[
+            'name' => 'users-notify',
+            'display_name' => 'Notification', // optional
+            'description' => 'Alert user', // optional
+        ], [
             'name' => 'role-create',
             'display_name' => 'Create Roles', // optional
             'description' => 'create new roles', // optional
@@ -49,9 +53,21 @@ class PermissionSeeder extends Seeder
             'display_name' => 'Reject', // optional
             'description' => 'Reject', // optional
         ], [
-            'name' => 'item-import',
-            'display_name' => 'Import', // optional
-            'description' => 'Import', // optional
+            'name' => 'products-create',
+            'display_name' => 'Product Create New', // optional
+            'description' => 'Product Create New', // optional
+        ], [
+            'name' => 'products-read',
+            'display_name' => 'Product read', // optional
+            'description' => 'Product read', // optional
+        ], [
+            'name' => 'products-update',
+            'display_name' => 'Product update', // optional
+            'description' => 'Product update', // optional
+        ], [
+            'name' => 'products-delete',
+            'display_name' => 'Product delete', // optional
+            'description' => 'Product delete', // optional
         ]];
 
         Permission::insert($data);

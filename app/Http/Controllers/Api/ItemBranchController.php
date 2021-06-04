@@ -60,7 +60,9 @@ class ItemBranchController extends Controller
 
     public function getAllItems(Request $request)
     {
-        $data = Item::orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc")
+        $data = Item::orderByRaw("status asc")->orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc")
+            ->orderByRaw("itemdesc asc")
+
         #->where('itemdesc', 'not like', '%LABEL%')
         #->where('itemdesc', 'not like', '%CTN%')
 

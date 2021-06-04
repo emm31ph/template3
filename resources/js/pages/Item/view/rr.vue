@@ -307,7 +307,10 @@ export default {
 			},
 		],
 	}),
-	watch: {},
+
+	created() {
+		this.isLoggedCheck;
+	},
 	mounted() {
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;

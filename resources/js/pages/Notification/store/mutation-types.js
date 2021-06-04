@@ -1,0 +1,7 @@
+// auth.js
+export const FETCH_UNREAD = 'FETCH_UNREAD'
+export const FETCH_UNREAD_SUCCESS = 'FETCH_UNREAD_SUCCESS'
+export const FETCH_UNREAD_FAILURE = 'FETCH_UNREAD_FAILURE'
+export const UPDATE_UNREAD = 'UPDATE_UNREAD'
+
+export const CLEAR_ALL = 'CLEAR_ALL'

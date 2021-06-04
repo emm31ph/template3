@@ -960,8 +960,20 @@ class ItemsSeeder extends Seeder
             ['u_skucode' => '', 'itemcode' => 'RAUNMWH0600000', 'itemdesc' => 'WHOLE MUSHROOM IN BRINE IN DRUM', 'pckgsize' => '100/155G ', 'numperuompu' => '100', 'uompu' => 'CASE'],
             ['u_skucode' => '', 'itemcode' => 'RPUBXGU1000001', 'itemdesc' => 'XANTAN GUM', 'pckgsize' => '100/155G ', 'numperuompu' => '100', 'uompu' => 'CASE'],
             ['u_skucode' => '', 'itemcode' => 'FSAUNUSPEY20155100', 'itemdesc' => 'UNLABELLED SARDINES PLAIN EOC 100/155G YT', 'pckgsize' => '100/155G (EOC)', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => 'UTHSE48110', 'itemcode' => 'FTUUNTH&SE10110048', 'itemdesc' => 'UNLABELLED TUNA HOT & SPICY EOC 48/110g', 'pcksize' => '48/110G', 'numperuompu' => '48', 'uompu' => 'CASE'],
             ['u_skucode' => '', 'itemcode' => 'FSASESSSHE10155100', 'itemdesc' => 'SENORITA SARDINES SUPER HOT EOC 100/155G', 'pckgsize' => '100/155G (EOC)', 'numperuompu' => '100', 'uompu' => 'CASE'],
-            ['u_skucode' => '', 'itemcode' => 'SSREL100155', 'itemdesc' => 'SENORITA SARDINES RED EOC LITHOGRAPH 100/155G', 'pckgsize' => '100/155G (EOC)', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FSATYSGEZP10155100', 'itemdesc' => 'TOYO SARDINES GREEN EOC (P) 100/155g', 'pcksize' => '100/155G', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FSATYSGPZZZ0155100', 'itemdesc' => 'TOYO SARDINES GREEN (P) 100/155g', 'pcksize' => '100/155G', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPSEBSBLZZ0150005', 'itemdesc' => 'B5 SENORITA BEEF LOAF 150G FREE SEN VS70G', 'pcksize' => '5/155G', 'numperuompu' => '5', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPSEBSMLZZ0150005', 'itemdesc' => 'B5 SENORITA MEAT LOAF 150G FREE SEN VS70G', 'pcksize' => '5/155G', 'numperuompu' => '5', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPSEBSCNZZ0150005', 'itemdesc' => 'B5 SENORITA CARNE NORTE 150G FREE SEN VS70G', 'pcksize' => '5/155G', 'numperuompu' => '5', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPSEBSCBZZ0150005', 'itemdesc' => 'B5 SENORITA CORNED BEEF REG 150G FREE SEN VS70G', 'pcksize' => '5/155G', 'numperuompu' => '5', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPTYBTSCE10155010', 'itemdesc' => 'B10 TOYO SARDINES CHILI EOC 155G FREE SEN VS70G', 'pcksize' => '10/155G', 'numperuompu' => '10', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FPPTYBTSGE10155010', 'itemdesc' => 'B10 TOYO SARDINES GREEN EOC 155G FREE SEN VS70G', 'pcksize' => '10/155G', 'numperuompu' => '10', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FSASESSSHE10155100', 'itemdesc' => 'SENORITA SARDINES SUPER HOT EOC 100/155G', 'pcksize' => '100/155G', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => '', 'itemcode' => 'FSASWSSCZY10155100', 'itemdesc' => 'SWAN SARDINES CHILI 100/155G YT', 'pcksize' => '100/155G', 'numperuompu' => '100', 'uompu' => 'CASE'],
+            ['u_skucode' => 'SCBE48150', 'itemcode' => 'FMSCBE0150048', 'itemdesc' => 'SENORITA CORNED BEEF EOC 48/150g.', 'pcksize' => '48/150G', 'numperuompu' => '48', 'uompu' => 'CASE'],
+            ['u_skucode' => 'SCBE48175', 'itemcode' => 'FMSCBE0175048', 'itemdesc' => 'SENORITA CORNED BEEF EOC 48/175g.', 'pcksize' => '48/150G', 'numperuompu' => '48', 'uompu' => 'CASE'],
 
         ];
         Item::insert($data);

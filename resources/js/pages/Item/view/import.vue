@@ -181,7 +181,10 @@ export default {
 			importItems: [],
 		}),
 	}),
-	mounted() {},
+
+	created() {
+		this.isLoggedCheck;
+	},
 
 	methods: {
 		handleFileUpload() {

@@ -13,8 +13,9 @@
 
 // Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'jwt.verify'], function () {
 
+    Route::get('unreadNotification', 'Auth\UserController@unreadNotification');
     Route::get('users', 'Auth\UserController@index');
     Route::patch('user/update', 'Auth\UserController@updateUser');
     Route::post('user/create', 'Auth\UserController@store');
@@ -24,7 +25,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/profile', 'Auth\UserController@update');
 
     Route::apiResource('roles', 'Api\RolesController');
-
     Route::apiResource('permissions', 'Api\PermissionsController');
 
     Route::group(['prefix' => 'items', 'as' => 'item'], function () {
@@ -45,6 +45,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/rr-trans', 'Api\ItemController@RRTrans')->name('-RRTrans');
 
         Route::get('/reportItem', 'Api\ItemBranchController@reportItem')->name('-Report');
+
+        Route::post('/create', 'Api\ItemController@store')->name('create');
+        Route::patch('/update', 'Api\ItemController@update')->name('update');
+        Route::delete('/{itemcode}', 'Api\ItemController@destroy');
 
     });
 

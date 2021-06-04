@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeliveryRequest;
 use App\Http\Requests\FptdRequest;
+use App\Http\Requests\ProductRequest;
 use App\Http\Requests\RRMRequest;
 use App\Http\Requests\RRRequest;
 use App\Models\Counter;
+use App\Models\Item;
 use App\Models\ItemsBatch;
 use App\Models\ItemsBranch;
 use App\Models\ItemsTrnHist;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
@@ -607,4 +611,49 @@ class ItemController extends Controller
 
     }
 
+    public function store(ProductRequest $request)
+    {
+        $product = new Item;
+        $product->itemcode = $request->itemcode;
+        $product->itemdesc = $request->itemdesc;
+        $product->u_skucode = $request->u_skucode;
+        $product->pckgsize = $request->pckgsize;
+        $product->uompu = $request->uompu;
+        $product->numperuompu = $request->numperuompu;
+        $product->save();
+        // $request['type'] = 'new';
+        // $user = User::WherePermissionIs('users-notify')->get();
+        // $user->each->notify(new ItemsNotify(Auth::user(), ['data' => $request->all()]));
+
+        return \response()->json(['message' => 'successfull'], 200);
+    }
+
+    public function update(ProductRequest $request)
+    {
+        $product = Item::where('itemcode', '=', $request->itemcode)
+            ->update([
+                'itemdesc' => $request->itemdesc,
+                'u_skucode' => $request->u_skucode,
+                'pckgsize' => $request->pckgsize,
+                'uompu' => $request->uompu,
+                'numperuompu' => $request->numperuompu,
+            ]);
+        // $request['type'] = 'update';
+        // $user = User::WherePermissionIs('users-notify')->get();
+        // $user->each->notify(new ItemsNotify(Auth::user(), ['data' => $request->all()]));
+
+        return \response()->json(['message' => 'successfull'], 200);
+    }
+
+    public function destroy($itemcode)
+    {
+
+        $request['type'] = 'delete';
+        $request['itemcode'] = $itemcode;
+        // $user = User::WherePermissionIs('users-notify')->get();
+        // $user->each->notify(new ItemsNotify(Auth::user(), ['data' => $request->all()]));
+        // Item::where('itemcode', '=', $itemcode)->update(['status' => '99']);
+
+        return \response()->json(['data' => 'successful'], 200);
+    }
 }

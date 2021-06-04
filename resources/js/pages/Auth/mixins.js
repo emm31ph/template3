@@ -2,7 +2,6 @@ import Vue from 'vue'
 import store from '~/store'
 import axios from 'axios'
 
-
 Vue.mixin({
 
     computed: {
@@ -18,6 +17,19 @@ Vue.mixin({
                 return true
             }
             return false
+        },
+        isLoggedCheck: function () {
+            axios.get('/api/user').then(res => {
+                if (res.data.id !== undefined) {
+                    return true;
+                }
+                if (res.data.status !== null) {
+                    this.autologout();
+
+                    return false;
+                }
+
+            });
         },
         isUser: function () {
             const user = store.getters['Auth/user']

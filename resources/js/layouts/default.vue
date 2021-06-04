@@ -40,10 +40,23 @@
 </template>
 
 <script>
-import Child from "../components/Child.vue";
 export default {
 	middleware: "auth",
 	name: "MainLayout",
+	mounted() {
+		// 	Echo.join(`chat`)
+		// 		.here((users) => {
+		// 			console.log(users);
+		// 		})
+		// 		.joining((user) => {
+		// 			console.log(user.name);
+		// 		})
+		// 		.leaving((user) => {
+		// 			console.log(user.name);
+		// 		})
+		// 		.error((error) => {
+		// 			console.error(error);
+		// 		});
+	},
 };
-Child;
 </script>

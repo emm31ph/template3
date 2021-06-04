@@ -53,7 +53,7 @@ async function beforeEach(to, from, next) {
     try {
         // Get the matched components and resolve them.
         components = await resolveComponents(
-            router.getMatchedComponents({...to })
+            router.getMatchedComponents({ ...to })
         )
     } catch (error) {
         if (/^Loading( CSS)? chunk (\d)+ failed\./.test(error.message)) {
@@ -78,7 +78,10 @@ async function beforeEach(to, from, next) {
     callMiddleware(middleware, to, from, (...args) => {
         // Set the application layout only if "next()" was called with no args.
         if (args.length === 0) {
+            // console.log(to.meta.layout);
+
             router.app.setLayout(components[0].layout || '')
+
         }
 
         next(...args)
@@ -198,7 +201,7 @@ function scrollBehavior(to, from, savedPosition) {
         return { selector: to.hash }
     }
 
-    const [component] = router.getMatchedComponents({...to }).slice(-1)
+    const [component] = router.getMatchedComponents({ ...to }).slice(-1)
 
     if (component && component.scrollToTop === false) {
         return {}
@@ -218,5 +221,5 @@ function scrollBehavior(to, from, savedPosition) {
 function resolveMiddleware(requireContext) {
     return requireContext.keys()
         .map(file => [file.replace(/(^.\/)|(\.js$)/g, ''), requireContext(file)])
-        .reduce((guards, [name, guard]) => ({...guards, [name]: guard.default }), {})
+        .reduce((guards, [name, guard]) => ({ ...guards, [name]: guard.default }), {})
 }

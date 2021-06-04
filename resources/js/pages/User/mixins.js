@@ -19,6 +19,15 @@ Vue.mixin({
         async fetchUsers() {
             await this.$store.dispatch("User/fetchUsers");
         },
+        isLogged1: function () {
+            axios.get('/api/user').then(res => {
+                if (res.data.id !== undefined) {
+                    console.log(res.data);
+                    return true;
+                }
+                return false;
+            });
+        },
 
 
 

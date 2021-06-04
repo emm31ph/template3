@@ -133,6 +133,13 @@
 					>
 						Roles
 					</router-link>
+					<router-link
+						:to="{ name: 'product' }"
+						class="collapse-item"
+						v-if="!can('product-read')"
+					>
+						Product
+					</router-link>
 				</div>
 			</div>
 		</li>

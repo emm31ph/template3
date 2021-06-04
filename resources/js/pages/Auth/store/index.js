@@ -67,7 +67,7 @@ export const actions = {
     async logout({ commit }) {
         try {
             await axios.post('/api/logout')
-        } catch (e) {}
+        } catch (e) { console.log(e); }
 
         commit(types.LOGOUT)
     },

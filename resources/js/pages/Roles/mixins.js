@@ -42,7 +42,7 @@ Vue.mixin({
             this.$store.dispatch("Roles/fetchPermissions");
         },
         isAbleTo(permission) {
-            console.log(Array.isArray(permission));
+
             const authUser = store.getters['Auth/user'];
             if (authUser != null) {
                 const uPermission = authUser.allPermissions;

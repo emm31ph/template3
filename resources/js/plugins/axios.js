@@ -28,22 +28,22 @@ axios.interceptors.response.use(response => response, error => {
     if (status >= 500) {
         Swal.fire({
             icon: 'error',
-            title: i18n.t('error_alert_title'),
-            text: i18n.t('error_alert_text'),
+            title: "Error",
+            text: "Something error occurred",
             reverseButtons: true,
-            confirmButtonText: i18n.t('ok'),
-            cancelButtonText: i18n.t('cancel')
+            confirmButtonText: "Ok",
+            cancelButtonText: "Cancel"
         })
     }
 
     if (status === 401 && store.getters['Auth/check']) {
         Swal.fire({
             icon: 'warning',
-            title: i18n.t('token_expired_alert_title'),
-            text: i18n.t('token_expired_alert_text'),
+            title: "Token",
+            text: "Token expired",
             reverseButtons: true,
-            confirmButtonText: i18n.t('ok'),
-            cancelButtonText: i18n.t('cancel')
+            confirmButtonText: "Ok",
+            cancelButtonText: "Cancel"
         }).then(() => {
             store.commit('auth/LOGOUT')
 

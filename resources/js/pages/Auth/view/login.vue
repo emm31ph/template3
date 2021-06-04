@@ -23,7 +23,7 @@
 											),
 										}"
 										class="form-control"
-										type="email"
+										type="text"
 										name="email"
 									/>
 									<has-error :form="form" field="email" />
@@ -82,7 +82,7 @@ export default {
 	},
 	data: () => ({
 		form: new Form({
-			email: "administrator@app.com",
+			email: "main@app.com",
 			password: "password",
 		}),
 		remember: false,

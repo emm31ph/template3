@@ -18,11 +18,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // DB::disableQueryLog();
-        // DB::beginTransaction();
-        // // return \response()->json(['data' => $request->selectedOptions], 400);
 
-        // try {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -31,13 +27,6 @@ class UserController extends Controller
             'branch' => 'required',
         ]);
 
-        // return User::create([
-        //     'name' => $request['name'],
-        //     'email' => $request['email'],
-        //     'username' => $request['username'],
-        //     'password' => Hash::make($request['password']),
-        //     'branch' => $request['branch'],
-        // ]);
         $user = new User;
         $user->name = $request->name;
         $user->username = $request->username;
@@ -54,11 +43,6 @@ class UserController extends Controller
             return \response()->json(['data' => 'successfull'], 200);
 
         }
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     // return response()->json(['error' => 'something error in data'], 400);
-        //     return response()->json(['error' => $e->getMessage()], 400);
-        // }
 
     }
     public function updateUser(Request $request)
@@ -123,5 +107,15 @@ class UserController extends Controller
         User::find($user)->update(['status' => '99']);
 
         return \response()->json(['data' => 'successful'], 200);
+    }
+
+    public function unreadNotification()
+    {
+
+        $user = Auth::user()->unreadNotifications;
+
+        return \response()->json($user, 200);
+        // $unreadNotifications = $user->unreadNotifications();
+        // return \response()->json($unreadNotifications, 400);
     }
 }

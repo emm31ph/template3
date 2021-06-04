@@ -3,48 +3,40 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 
 class LoginController extends Controller
 {
-
-    use AuthenticatesUsers;
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
 
-    protected function attemptLogin(Request $request)
+    protected function login(Request $request)
     {
-        $token = $this->guard()->attempt($this->credentials($request));
 
-        if (!$token) {
-            return false;
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = (array($fieldType => $request->email, 'password' => $request->password));
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
+        $cookie = cookie('jwt', $token, 60 * 24);
 
-        $this->guard()->setToken($token);
+        return \response()->json(['token' => $token], 200)->withCookie($cookie);
 
-        return true;
-    }
-
-    protected function sendLoginResponse(Request $request)
-    {
-        $this->clearLoginAttempts($request);
-
-        $token = (string) $this->guard()->getToken();
-        $expiration = $this->guard()->getPayload()->get('exp');
-
-        return response()->json([
-            'token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $expiration - time(),
-        ]);
     }
 
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+
+        $cookie = Cookie::forget('jwt');
+        return \response()->json(['message' => 'Successfully logged out'])->withCookie($cookie);
+
     }
 }

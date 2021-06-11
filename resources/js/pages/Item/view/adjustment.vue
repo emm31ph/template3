@@ -1,9 +1,7 @@
 <template>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3 d-flex justify-content-between">
-			<h6 class="m-0 font-weight-bold text-primary">
-				Reject Transaction
-			</h6>
+			<h6 class="m-0 font-weight-bold text-primary">Adjustment</h6>
 		</div>
 		<div class="card-body">
 			<form
@@ -45,7 +43,7 @@
 						<div class="col-sm-8">
 							<input
 								v-model="form.trndate"
-								type="text"
+								type="date"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('trndate'),
@@ -170,11 +168,13 @@
 								</td>
 								<td>
 									<input
-										:disabled="
-											item.expdate != null ? true : false
-										"
 										v-model="item.expdate"
 										type="date"
+										:disabled="
+											form.items[k].expdate == null
+												? true
+												: false
+										"
 										class="
 											form-control form-control-sm
 											text-center
@@ -219,6 +219,9 @@
 											form-control form-control-sm
 											text-center
 										"
+										:disabled="
+											item.crqty != 0 ? true : false
+										"
 										min="0"
 										@change="calculateTotalDr(item)"
 										@keypress="validateNumber"
@@ -241,6 +244,9 @@
 										class="
 											form-control form-control-sm
 											text-center
+										"
+										:disabled="
+											item.drqty != 0 ? true : false
 										"
 										min="0"
 										@change="calculateTotalCr(item)"
@@ -297,6 +303,28 @@
 								</td>
 								<td></td>
 							</tr>
+							<tr>
+								<td colspan="3" class="text-right"></td>
+
+								<td class="text-center" colspan="2">
+									<input
+										v-model="form.items_variance_total"
+										type="hidden"
+										class="form-control form-control-sm"
+										:class="{
+											'is-invalid': form.errors.has(
+												'items_variance_total'
+											),
+										}"
+										name="items_variance_total"
+									/>
+									<has-error
+										:form="form"
+										field="items_variance_total"
+									/>
+								</td>
+								<td></td>
+							</tr>
 						</tfoot>
 					</table>
 					<has-error :form="form" field="crqty_total" />
@@ -322,24 +350,25 @@ export default {
 	middleware: "auth",
 	name: "inv-delivery",
 	metaInfo() {
-		return { title: "Reject Transaction" };
+		return { title: "Finished Product Transfer Document" };
 	},
 	data: () => ({
 		form: new Form({
 			userid: "",
 			trndate: "",
-			trnmode: "RJCT",
+			trnmode: "ADJ",
 			from: "",
 			to: "",
 			refno: "",
-			remarks: "",
 			drqty_total: 0,
 			crqty_total: 0,
+			items_variance_total: 0,
+			remarks: "",
 			items: [
 				{
 					drqty: 0,
 					crqty: 0,
-					trntype: "RJ",
+					trntype: "ADJ",
 					itemcode: null,
 					expdate: null,
 					unit: "CASE",
@@ -361,15 +390,15 @@ export default {
 			},
 		],
 	}),
-
 	created() {
 		this.isLoggedCheck;
 	},
 	mounted() {
-		this.canAuth("items-reject");
+		this.canAuth("items-adjust");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
 		this.fetchAllItemsBranch();
+		this.items_variance_total = 0;
 	},
 	methods: {
 		itemSelected(item) {
@@ -389,20 +418,21 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				const res = this.form.post("/api/items/fptd-trans");
-
-				this.$router.push({
-					name: "report-fptd",
-					params: { id: res.data.id },
+				this.form.post("/api/items/adj-trans").then((res) => {
+					// console.log(res.data);
+					this.$router.push({
+						name: "report-fptd",
+						params: { id: res.data.id },
+					});
+					this.resetForm();
 				});
-				this.resetForm();
 			}
 		},
 		addNewLine() {
 			this.form.items.push({
 				drqty: 0,
 				crqty: 0,
-				trntype: "WP",
+				trntype: "ADJ",
 				itemcode: null,
 				expdate: null,
 				unit: "CASE",
@@ -442,6 +472,7 @@ export default {
 			}, 0);
 			this.items_dr_total = subtotaldr;
 			this.form.drqty_total = subtotaldr;
+
 			this.checkBtn();
 		},
 		calculateTotalCr() {
@@ -461,6 +492,9 @@ export default {
 			const even = (element) =>
 				element.qty === 0 || element.itemdesc === null;
 			this.btn = this.form.items.some(even);
+
+			this.form.items_variance_total =
+				this.items_dr_total - this.items_cr_total;
 		},
 	},
 };

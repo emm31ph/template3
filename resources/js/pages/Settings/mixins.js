@@ -39,6 +39,13 @@ Vue.mixin({
             }
             return value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
+
+        formatNumberD(value, dicimal) {
+            if (value == 0) {
+                return null;
+            }
+            return value.toFixed(dicimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
         printme() {
             this.$htmlToPaper('printMe')
         },

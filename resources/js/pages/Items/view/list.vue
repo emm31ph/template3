@@ -149,194 +149,220 @@
 		</div>
 
 		<!-- Modal -->
-		<div
-			id="AddModal"
-			class="modal fade"
-			data-backdrop="static"
-			data-keyboard="false"
-			role="dialog"
-		>
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5
-							v-show="!editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Add New Product
-						</h5>
-						<h5
-							v-show="editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Update Product
-						</h5>
+		<div v-if="showModal">
+			<transition name="modal">
+				<div class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5
+										v-show="!editMode"
+										class="modal-title"
+										id="addNewLabel"
+									>
+										Add New Product
+									</h5>
+									<h5
+										v-show="editMode"
+										class="modal-title"
+										id="addNewLabel"
+									>
+										Update Product
+									</h5>
 
-						<button
-							type="button"
-							class="close"
-							data-dismiss="modal"
-							@click="closeModal"
-						>
-							&times;
-						</button>
+									<button
+										type="button"
+										class="close"
+										data-dismiss="modal"
+										@click="showModal = false"
+									>
+										&times;
+									</button>
+								</div>
+								<form
+									@submit.prevent="
+										editMode
+											? updateProduct()
+											: createProduct()
+									"
+									@keydown="form.onKeydown($event)"
+								>
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="itemdesc"
+												>Item description</label
+											>
+											<input
+												v-model="form.itemdesc"
+												type="text"
+												name="itemdesc"
+												placeholder="Item description"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'itemdesc'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="itemdesc"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<label for="itemcode"
+												>Itemcode</label
+											>
+											<input
+												v-model="form.itemcode"
+												type="text"
+												name="itemcode"
+												placeholder="Itemcode"
+												:disabled="editMode"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'itemcode'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="itemcode"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<label for="Shortcode"
+												>Shortcode</label
+											>
+											<input
+												v-model="form.u_skucode"
+												type="text"
+												name="u_skucode"
+												placeholder="Shortcode"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'u_skucode'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="u_skucode"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<label for="Package Size"
+												>Package Size</label
+											>
+											<input
+												v-model="form.pckgsize"
+												type="text"
+												name="pckgsize"
+												placeholder="Package Size"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'pckgsize'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="pckgsize"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<label for="# per UOM"
+												># per UOM</label
+											>
+											<input
+												v-model="form.numperuompu"
+												type="text"
+												name="numperuompu"
+												placeholder="Number per Unit"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'numperuompu'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="numperuompu"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<label for="UOM">UOM</label>
+											<input
+												v-model="form.uompu"
+												type="text"
+												name="uompu"
+												placeholder="UOM"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'uompu'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="uompu"
+											></has-error>
+										</div>
+									</div>
+									<div
+										class="
+											modal-footer
+											d-flex
+											flex-row-reverse
+										"
+									>
+										<button
+											type="button"
+											class="btn btn-danger"
+											data-dismiss="modal"
+											@click="showModal = false"
+										>
+											Close
+										</button>
+										<button
+											v-show="editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Update
+										</button>
+										<button
+											v-show="!editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Create
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					<form
-						@submit.prevent="
-							editMode ? updateProduct() : createProduct()
-						"
-						@keydown="form.onKeydown($event)"
-					>
-						<div class="modal-body">
-							<div class="form-group">
-								<label for="itemdesc">Item description</label>
-								<input
-									v-model="form.itemdesc"
-									type="text"
-									name="itemdesc"
-									placeholder="Item description"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'itemdesc'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="itemdesc"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<label for="itemcode">Itemcode</label>
-								<input
-									v-model="form.itemcode"
-									type="text"
-									name="itemcode"
-									placeholder="Itemcode"
-									:disabled="editMode"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'itemcode'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="itemcode"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<label for="Shortcode">Shortcode</label>
-								<input
-									v-model="form.u_skucode"
-									type="text"
-									name="u_skucode"
-									placeholder="Shortcode"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'u_skucode'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="u_skucode"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<label for="Package Size">Package Size</label>
-								<input
-									v-model="form.pckgsize"
-									type="text"
-									name="pckgsize"
-									placeholder="Package Size"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'pckgsize'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="pckgsize"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<label for="# per UOM"># per UOM</label>
-								<input
-									v-model="form.numperuompu"
-									type="text"
-									name="numperuompu"
-									placeholder="Number per Unit"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'numperuompu'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="numperuompu"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<label for="UOM">UOM</label>
-								<input
-									v-model="form.uompu"
-									type="text"
-									name="uompu"
-									placeholder="UOM"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has('uompu'),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="uompu"
-								></has-error>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button
-								type="button"
-								class="btn btn-danger"
-								data-dismiss="modal"
-								@click="closeModal"
-							>
-								Close
-							</button>
-							<button
-								v-show="editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Update
-							</button>
-							<button
-								v-show="!editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Create
-							</button>
-						</div>
-					</form>
 				</div>
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -349,6 +375,7 @@ export default {
 	middleware: "auth",
 	data() {
 		return {
+			showModal: false,
 			pagename: "Products",
 			editMode: false,
 			value: [],
@@ -397,34 +424,23 @@ export default {
 			this.form.clear();
 			this.form.reset();
 			this.editMode = true;
-			$("#AddModal").modal("show");
+			this.showModal = true;
 			this.form.fill(product);
 		},
 		async updateProduct() {
-			await this.form
-				.patch("/api/items/update")
-				.then((response) => {
-					Swal.fire({
-						title: "User created successfully",
-						icon: "success",
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					this.fetchProducts();
-					this.closeModal();
-				})
-				.catch((error) => {
-					console.log(error);
-					Swal.fire({
-						icon: "error",
-						title: "Oops...",
-						text: "Something went wrong!",
-						footer: "<a href>Why do I have this issue?</a>",
-					});
+			await this.form.patch("/api/items/update").then((response) => {
+				Swal.fire({
+					title: "Product created successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500,
 				});
+				this.fetchProducts();
+				this.closeModal();
+			});
 		},
 		openModalWindow() {
-			$("#AddModal").modal("show");
+			this.showModal = true;
 			this.editMode = false;
 			this.form.reset();
 		},
@@ -450,8 +466,7 @@ export default {
 				});
 		},
 		closeModal() {
-			$("#AddModal").modal("hide");
-			$(".modal-backdrop").remove();
+			this.showModal = false;
 			this.form.errors.errors = "";
 		},
 		deleteProduct(id) {
@@ -507,6 +522,7 @@ export default {
 	},
 
 	mounted() {
+		this.isAbleToAuth(["products-*"]);
 		this.fetchProducts();
 		this.currentPage = 1;
 		bus.$on("send", (data) => {
@@ -609,3 +625,22 @@ export default {
 	},
 };
 </script> 
+
+<style>
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>

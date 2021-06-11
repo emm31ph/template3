@@ -103,6 +103,69 @@ Vue.mixin({
             }
             return false;
         },
+
+        canAuth(permission) {
+            const authUser = store.getters['Auth/user'];
+            if (authUser != null) {
+                const uPermission = authUser.allPermissions;
+                if (Array.isArray(permission)) {
+                    var i;
+                    for (i = 0; i < permission.length; i++) {
+                        const aa = uPermission.filter(function (item) {
+                            return (item["name"].toLowerCase().startsWith(permission[i].replace("*", "")))
+                        });
+
+                        if (aa.length) {
+                            return true;
+                        }
+                    }
+
+                } else {
+                    const aa = uPermission.filter(function (item) {
+                        return (item["name"].toLowerCase().startsWith(permission.replace("*", "")))
+                    });
+
+                    if (aa.length) {
+                        return true;
+                    } else {
+                        this.$router.go(-1)
+                    }
+                }
+            }
+            this.$router.go(-1)
+        },
+        isAbleToAuth(permission) {
+
+            const authUser = store.getters['Auth/user'];
+            if (authUser != null) {
+                const uPermission = authUser.allPermissions;
+
+                if (Array.isArray(permission)) {
+                    var i;
+                    for (i = 0; i < permission.length; i++) {
+                        const aa = uPermission.filter(function (item) {
+                            return (item["name"].toLowerCase().startsWith(permission[i].replace("*", "")))
+                        });
+
+                        if (aa.length) {
+                            return true;
+                        }
+                    }
+
+                } else {
+                    const aa = uPermission.filter(function (item) {
+                        return (item["name"].toLowerCase().startsWith(permission.replace("*", "")))
+                    });
+
+                    if (aa.length) {
+                        return true;
+                    } else {
+                        this.$router.go(-1)
+                    }
+                }
+            }
+            this.$router.go(-1)
+        },
     }
 
 });

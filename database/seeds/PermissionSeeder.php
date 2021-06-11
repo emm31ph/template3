@@ -16,18 +16,18 @@ class PermissionSeeder extends Seeder
             'name' => 'users-notify',
             'display_name' => 'Notification', // optional
             'description' => 'Alert user', // optional
-        ], [
-            'name' => 'role-create',
-            'display_name' => 'Create Roles', // optional
-            'description' => 'create new roles', // optional
-        ], [
-            'name' => 'role-update',
-            'display_name' => 'Edit Roles', // optional
-            'description' => 'Edit roles', // optional
-        ], [
-            'name' => 'role-read',
-            'display_name' => 'View Roles', // optional
-            'description' => 'View roles', // optional
+            // ], [
+            //     'name' => 'role-create',
+            //     'display_name' => 'Create Roles', // optional
+            //     'description' => 'create new roles', // optional
+            // ], [
+            //     'name' => 'role-update',
+            //     'display_name' => 'Edit Roles', // optional
+            //     'description' => 'Edit roles', // optional
+            // ], [
+            //     'name' => 'role-read',
+            //     'display_name' => 'View Roles', // optional
+            //     'description' => 'View roles', // optional
         ], [
             'name' => 'items-read',
             'display_name' => 'View Items', // optional
@@ -52,6 +52,14 @@ class PermissionSeeder extends Seeder
             'name' => 'items-reject',
             'display_name' => 'Reject', // optional
             'description' => 'Reject', // optional
+        ], [
+            'name' => 'items-import',
+            'display_name' => 'import', // optional
+            'description' => 'import', // optional
+        ], [
+            'name' => 'items-adjust',
+            'display_name' => 'Items Adjustment', // optional
+            'description' => 'Items Adjustment', // optional
         ], [
             'name' => 'products-create',
             'display_name' => 'Product Create New', // optional

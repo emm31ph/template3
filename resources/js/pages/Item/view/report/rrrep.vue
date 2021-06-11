@@ -13,17 +13,31 @@
 									<div class="card border-0">
 										<div class="card-body p-0">
 											<div
-												class="container-fluid py-0 pl-0"
+												class="
+													container-fluid
+													py-0
+													pl-0
+												"
 											>
 												<div class="row mb-2">
 													<div class="col-3">
 														<img
 															src="/img/logo.png"
-															class="rounded float-left img-thumbnail mr-2"
+															class="
+																rounded
+																float-left
+																img-thumbnail
+																mr-2
+															"
 															style="width: 75px"
 														/>
 														<p
-															class="h2 font-weight-bold mb-0 pb-0"
+															class="
+																h2
+																font-weight-bold
+																mb-0
+																pb-0
+															"
 														>
 															TOSEN
 														</p>
@@ -31,19 +45,32 @@
 														<sub> FOODS, INC. </sub>
 													</div>
 													<div
-														class="col-6 text-center position-relative"
+														class="
+															col-6
+															text-center
+															position-relative
+														"
 													>
 														<p
-															class="h5 font-weight-bold mb-1 mt-5"
+															class="
+																h5
+																font-weight-bold
+																mb-1
+																mt-5
+															"
 														>
-															RECEIVING REPORT
+															Recieving Report
+															Transaction
 														</p>
 													</div>
 													<div
 														class="col-3 text-right"
 													>
 														<p
-															class="font-weight-bold mb-1"
+															class="
+																font-weight-bold
+																mb-1
+															"
 														>
 															{{
 																this.data[
@@ -52,7 +79,10 @@
 															}}
 														</p>
 														<sub
-															class="text-muted mb-1"
+															class="
+																text-muted
+																mb-1
+															"
 														>
 															Printed Date:
 															{{ this.dateTime }}
@@ -67,13 +97,20 @@
 														<div class="col-6">
 															<div class="row">
 																<div
-																	class="col-2 px-0"
+																	class="
+																		col-2
+																		px-0
+																	"
 																>
 																	Supplier :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-10 border-bottom border-dark"
+																	class="
+																		col-10
+																		border-bottom
+																		border-dark
+																	"
 																>
 																	{{
 																		this.Ucase(
@@ -87,13 +124,20 @@
 															</div>
 															<div class="row">
 																<div
-																	class="col-2 px-0"
+																	class="
+																		col-2
+																		px-0
+																	"
 																>
 																	Van No. :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-10 border-bottom border-dark"
+																	class="
+																		col-10
+																		border-bottom
+																		border-dark
+																	"
 																>
 																	{{
 																		this.Ucase(
@@ -107,13 +151,20 @@
 															</div>
 															<div class="row">
 																<div
-																	class="col-2 px-0"
+																	class="
+																		col-2
+																		px-0
+																	"
 																>
 																	Seal No. :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-10 border-bottom border-dark"
+																	class="
+																		col-10
+																		border-bottom
+																		border-dark
+																	"
 																>
 																	{{
 																		this.Ucase(
@@ -129,13 +180,20 @@
 														<div class="col-6">
 															<div class="row">
 																<div
-																	class="col-3 text-right"
+																	class="
+																		col-3
+																		text-right
+																	"
 																>
 																	Date :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-9 border-bottom border-dark"
+																	class="
+																		col-9
+																		border-bottom
+																		border-dark
+																	"
 																>
 																	{{
 																		this
@@ -147,13 +205,20 @@
 															</div>
 															<div class="row">
 																<div
-																	class="col-3 text-right"
+																	class="
+																		col-3
+																		text-right
+																	"
 																>
 																	RS No :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-9 border-bottom border-dark"
+																	class="
+																		col-9
+																		border-bottom
+																		border-dark
+																	"
 																>
 																	{{
 																		this.Ucase(
@@ -168,13 +233,19 @@
 
 															<div class="row">
 																<div
-																	class="col-3 text-right"
+																	class="
+																		col-3
+																		text-right
+																	"
 																>
 																	Remarks :
 																</div>
 																<div
 																	v-if="data"
-																	class="col-9 border-dark"
+																	class="
+																		col-9
+																		border-dark
+																	"
 																	style="
 																		height: 70px;
 																	"
@@ -204,7 +275,13 @@
 																		repType ==
 																		2
 																	"
-																	class="text-uppercase small font-weight-bold text-center h5"
+																	class="
+																		text-uppercase
+																		small
+																		font-weight-bold
+																		text-center
+																		h5
+																	"
 																	style="
 																		width: 10%;
 																	"
@@ -213,7 +290,12 @@
 																</th>
 
 																<th
-																	class="text-uppercase small font-weight-bold text-center"
+																	class="
+																		text-uppercase
+																		small
+																		font-weight-bold
+																		text-center
+																	"
 																	style="
 																		width: 10%;
 																	"
@@ -221,7 +303,12 @@
 																	CR QTY
 																</th>
 																<th
-																	class="text-uppercase small font-weight-bold text-center"
+																	class="
+																		text-uppercase
+																		small
+																		font-weight-bold
+																		text-center
+																	"
 																	style="
 																		width: 10%;
 																	"
@@ -229,12 +316,22 @@
 																	UNIT
 																</th>
 																<th
-																	class="text-uppercase small font-weight-bold text-center"
+																	class="
+																		text-uppercase
+																		small
+																		font-weight-bold
+																		text-center
+																	"
 																>
 																	Description
 																</th>
 																<th
-																	class="text-uppercase small font-weight-bold text-center"
+																	class="
+																		text-uppercase
+																		small
+																		font-weight-bold
+																		text-center
+																	"
 																	style="
 																		width: 10%;
 																	"
@@ -245,7 +342,9 @@
 														</thead>
 														<tbody v-if="data">
 															<tr
-																class="text-center"
+																class="
+																	text-center
+																"
 																v-for="(
 																	item, i
 																) in data[
@@ -260,22 +359,60 @@
 																	"
 																>
 																	{{
-																		formatNumber(
-																			item[
-																				"drqty"
-																			] /
-																				100
-																		)
+																		item[
+																			"unit"
+																		] !=
+																		"TIN"
+																			? formatNumberD(
+																					toCase(
+																						item[
+																							"items"
+																						][
+																							"numperuompu"
+																						],
+																						item[
+																							"drqty"
+																						]
+																					),
+																					0
+																			  )
+																			: item[
+																					"drqty"
+																			  ] ==
+																			  0
+																			? ""
+																			: item[
+																					"drqty"
+																			  ]
 																	}}
 																</td>
 																<td>
 																	{{
-																		formatNumber(
-																			item[
-																				"crqty"
-																			] /
-																				100
-																		)
+																		item[
+																			"unit"
+																		] !=
+																		"TIN"
+																			? formatNumberD(
+																					toCase(
+																						item[
+																							"items"
+																						][
+																							"numperuompu"
+																						],
+																						item[
+																							"crqty"
+																						]
+																					),
+																					0
+																			  )
+																			: item[
+																					"crqty"
+																			  ] ==
+																			  0
+																			? ""
+																			: item[
+																					"crqty"
+																			  ]
 																	}}
 																</td>
 																<td>
@@ -324,7 +461,10 @@
 															</tr>
 														</tbody>
 														<tfoot
-															class="text-center font-weight-bold"
+															class="
+																text-center
+																font-weight-bold
+															"
 														>
 															<tr>
 																<td
@@ -334,20 +474,44 @@
 																	"
 																>
 																	{{
-																		formatNumber(
+																		formatNumberD(
 																			this
-																				.drQty /
-																				100
+																				.drQtyCase,
+																			0
 																		)
+																	}}
+																	{{
+																		this
+																			.drQtyTin !=
+																		0
+																			? " & " +
+																			  formatNumberD(
+																					this
+																						.drQtyTin,
+																					0
+																			  )
+																			: ""
 																	}}
 																</td>
 																<td>
 																	{{
-																		formatNumber(
+																		formatNumberD(
 																			this
-																				.crQty /
-																				100
+																				.crQtyCase,
+																			0
 																		)
+																	}}
+																	{{
+																		this
+																			.crQtyTin !=
+																		0
+																			? " & " +
+																			  formatNumberD(
+																					this
+																						.crQtyTin,
+																					0
+																			  )
+																			: ""
 																	}}
 																</td>
 																<td
@@ -365,7 +529,10 @@
 											<div class="container-fluid pt-3">
 												<div class="row">
 													<div
-														class="col-3 text-center"
+														class="
+															col-3
+															text-center
+														"
 													>
 														<div class="">
 															{{
@@ -376,7 +543,11 @@
 															}}
 														</div>
 														<div
-															class="border-top font-weight-bold border-dark"
+															class="
+																border-top
+																font-weight-bold
+																border-dark
+															"
 														>
 															Whse. In-Charge
 														</div>
@@ -384,13 +555,20 @@
 													<div class="col-3"></div>
 													<div class="col-3"></div>
 													<div
-														class="col-3 text-center"
+														class="
+															col-3
+															text-center
+														"
 													>
 														<div class="">
 															&nbsp;
 														</div>
 														<div
-															class="border-top font-weight-bold border-dark"
+															class="
+																border-top
+																font-weight-bold
+																border-dark
+															"
 														>
 															RECEIVED BY
 														</div>
@@ -464,20 +642,66 @@ export default {
 			// 	params: { id: response.data.batch },
 			// });
 		},
-		drQty: function () {
+		drQtyCase: function () {
 			let sum = 0;
-			this.data["hist"].forEach(function (item) {
-				sum += parseFloat(item.drqty);
-			});
 
+			this.data["hist"].forEach(function (item) {
+				if (item.unit != "TIN") {
+					sum += parseFloat(
+						(item.drqty > 0 ? 1 : -1) *
+							(Math.floor(
+								item.drqty /
+									((item.drqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)
+							) +
+								(item.drqty %
+									((item.drqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)) /
+									((item.drqty >= 0 ? 1 : -1) * 100))
+					);
+				}
+			});
 			return sum;
 		},
-		crQty: function () {
+		drQtyTin: function () {
 			let sum = 0;
-			this.data["hist"].forEach(function (item) {
-				sum += parseFloat(item.crqty);
-			});
 
+			this.data["hist"].forEach(function (item) {
+				if (item.unit == "TIN") {
+					sum += parseFloat(item.drqty);
+				}
+			});
+			return sum;
+		},
+		crQtyCase: function () {
+			let sum = 0;
+
+			this.data["hist"].forEach(function (item) {
+				if (item.unit != "TIN") {
+					sum += parseFloat(
+						(item.crqty > 0 ? 1 : -1) *
+							(Math.floor(
+								item.crqty /
+									((item.crqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)
+							) +
+								(item.crqty %
+									((item.crqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)) /
+									((item.crqty >= 0 ? 1 : -1) * 100))
+					);
+				}
+			});
+			return sum;
+		},
+		crQtyTin: function () {
+			let sum = 0;
+
+			this.data["hist"].forEach(function (item) {
+				if (item.unit == "TIN") {
+					sum += parseFloat(item.crqty);
+				}
+			});
 			return sum;
 		},
 	},

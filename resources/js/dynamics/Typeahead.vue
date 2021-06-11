@@ -195,8 +195,10 @@ export default {
 
 			return this.items.filter(
 				(item) =>
-					item[this.filterby].toLowerCase().startsWith(this.query) //search start left side
-				// .includes(this.query.toLowerCase()) //search match letter
+					item[this.filterby]
+						.toLowerCase()
+						//.startsWith(this.query) //search start left side
+						.includes(this.query.toLowerCase()) //search match letter
 			);
 		},
 	},

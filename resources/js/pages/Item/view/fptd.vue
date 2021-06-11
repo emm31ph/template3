@@ -14,7 +14,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>From :</label
 						>
 						<div class="col-sm-9">
@@ -33,7 +36,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-4 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Date :</label
 						>
 						<div class="col-sm-8">
@@ -53,7 +59,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>To :</label
 						>
 						<div class="col-sm-9">
@@ -72,7 +81,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-4 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>RS No :</label
 						>
 						<div class="col-sm-8">
@@ -91,7 +103,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Remarks :</label
 						>
 						<div class="col-sm-9">
@@ -157,7 +172,10 @@
 									<input
 										v-model="item.expdate"
 										type="date"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.expdate`
@@ -174,7 +192,10 @@
 								<td>
 									<select
 										id="inputState"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										v-model="item.unit"
 										:key="k"
 									>
@@ -191,7 +212,10 @@
 									<input
 										v-model="item.drqty"
 										type="number"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										:disabled="
 											item.crqty != 0 ? true : false
 										"
@@ -214,7 +238,10 @@
 									<input
 										v-model="item.crqty"
 										type="number"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										:disabled="
 											item.drqty != 0 ? true : false
 										"
@@ -237,7 +264,11 @@
 									class="align-middle text-center text-danger"
 								>
 									<i
-										class="fas fa-trash-alt btn btn-danger btn-sm"
+										class="
+											fas
+											fa-trash-alt
+											btn btn-danger btn-sm
+										"
 										@click="deleteRow(k, item)"
 									></i>
 								</td>
@@ -257,9 +288,8 @@
 										type="hidden"
 										class="form-control form-control-sm"
 										:class="{
-											'is-invalid': form.errors.has(
-												'crqty_total'
-											),
+											'is-invalid':
+												form.errors.has('crqty_total'),
 										}"
 										name="crqty_total"
 									/>
@@ -361,6 +391,7 @@ export default {
 		this.isLoggedCheck;
 	},
 	mounted() {
+		this.canAuth("items-fptd");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
 		this.fetchAllItemsBranch();

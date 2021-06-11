@@ -29,8 +29,12 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
     Route::group(['prefix' => 'items', 'as' => 'item'], function () {
         Route::post('import', 'Api\ItemController@import')->name('-import');
+        Route::get('importTrndate', 'Api\ItemController@importTrndate')->name('-importTrndate');
+
         Route::get('/getitems', 'Api\ItemBranchController@getItems')->name('-all');
         Route::get('/getTrnHist', 'Api\ItemBranchController@getTrnHist')->name('-trn');
+
+        Route::get('/myTrn', 'Api\ItemBranchController@mytransaction')->name('-myTrn');
 
         Route::get('/getAllItems', 'Api\ItemBranchController@getAllItems');
         Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
@@ -38,6 +42,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
 
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
+        Route::post('/adj-trans', 'Api\ItemController@AdjustmentTrans')->name('-ADJTrans');
         Route::post('/fptd-trans', 'Api\ItemController@FPTDRJCTTrans')->name('-FptdTrans');
         Route::post('/reject-trans', 'Api\ItemController@RJCTTrans')->name('-RJCTTrans');
 

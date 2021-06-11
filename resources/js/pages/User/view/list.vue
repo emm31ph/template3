@@ -103,7 +103,11 @@
 									<span
 										v-for="role in user.roles"
 										:key="role.id"
-										class="badge badge-success mr-1 text-capitalize"
+										class="
+											badge badge-success
+											mr-1
+											text-capitalize
+										"
 										>{{ role.display_name }}</span
 									>
 								</td>
@@ -115,7 +119,10 @@
 										<a
 											href="#"
 											data-id="user.id"
-											@click="editModalWindow(user)"
+											@click="
+												editModalWindow(user);
+												showModal = true;
+											"
 											v-if="can('users-update')"
 										>
 											<i class="fa fa-edit blue"></i>
@@ -147,185 +154,208 @@
 		</div>
 
 		<!-- Modal -->
-		<div
-			id="AddModal"
-			class="modal fade"
-			data-backdrop="static"
-			data-keyboard="false"
-			role="dialog"
-		>
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5
-							v-show="!editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Add New User
-						</h5>
-						<h5
-							v-show="editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Update User
-						</h5>
-
-						<button
-							type="button"
-							class="close"
-							data-dismiss="modal"
-							@click="closeModal"
-						>
-							&times;
-						</button>
-					</div>
-					<form
-						@submit.prevent="editMode ? updateUser() : createUser()"
-						@keydown="form.onKeydown($event)"
-					>
-						<div class="modal-body">
-							<div class="form-group">
-								<input
-									v-model="form.name"
-									type="text"
-									name="name"
-									placeholder="Name"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has('name'),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="name"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<input
-									v-model="form.email"
-									type="email"
-									name="email"
-									placeholder="Email Address"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has('email'),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="email"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<input
-									v-model="form.password"
-									type="password"
-									name="password"
-									id="password"
-									placeholder="Enter password"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'password'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="password"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<input
-									v-model="form.username"
-									type="text"
-									name="username"
-									id="username"
-									placeholder="Enter username"
-									:disabled="editMode"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has(
-											'username'
-										),
-									}"
-								/>
-								<has-error
-									:form="form"
-									field="username"
-								></has-error>
-							</div>
-
-							<div class="form-group">
-								<select
-									name="branch"
-									v-model="form.branch"
-									id="branch"
-									class="form-control"
-									:class="{
-										'is-invalid': form.errors.has('branch'),
-									}"
-								>
-									<option
-										v-for="(branch, k) in getBranch"
-										:key="k"
-										v-bind:value="branch.branch"
+		<div v-if="showModal">
+			<transition name="modal">
+				<div class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5
+										v-show="!editMode"
+										class="modal-title"
+										id="addNewLabel"
 									>
-										{{ branch.branchname }}
-									</option>
-								</select>
-								<has-error
-									:form="form"
-									field="branch"
-								></has-error>
-							</div>
-							<div>
-								<label class="typo__label">Roles</label>
-								<multi-select
-									:options="roles"
-									display-property="name"
-									value-property="id"
-									v-model="form.selectedOptions"
-								/>
+										Add New User
+									</h5>
+									<h5
+										v-show="editMode"
+										class="modal-title"
+										id="addNewLabel"
+									>
+										Update User
+									</h5>
 
-								<label class="typo__label form__label"
-									>Must have at least one value</label
+									<button
+										type="button"
+										class="close"
+										data-dismiss="modal"
+										@click="showModal = false"
+									>
+										&times;
+									</button>
+								</div>
+								<form
+									@submit.prevent="
+										editMode ? updateUser() : createUser()
+									"
+									@keydown="form.onKeydown($event)"
 								>
+									<div class="modal-body">
+										<div class="form-group">
+											<input
+												v-model="form.name"
+												type="text"
+												name="name"
+												placeholder="Name"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has('name'),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="name"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<input
+												v-model="form.email"
+												type="email"
+												name="email"
+												placeholder="Email Address"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'email'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="email"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<input
+												v-model="form.password"
+												type="password"
+												name="password"
+												id="password"
+												placeholder="Enter password"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'password'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="password"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<input
+												v-model="form.username"
+												type="text"
+												name="username"
+												id="username"
+												placeholder="Enter username"
+												:disabled="editMode"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'username'
+														),
+												}"
+											/>
+											<has-error
+												:form="form"
+												field="username"
+											></has-error>
+										</div>
+
+										<div class="form-group">
+											<select
+												name="branch"
+												v-model="form.branch"
+												id="branch"
+												class="form-control"
+												:class="{
+													'is-invalid':
+														form.errors.has(
+															'branch'
+														),
+												}"
+											>
+												<option
+													v-for="(
+														branch, k
+													) in getBranch"
+													:key="k"
+													v-bind:value="branch.branch"
+												>
+													{{ branch.branchname }}
+												</option>
+											</select>
+											<has-error
+												:form="form"
+												field="branch"
+											></has-error>
+										</div>
+										<div>
+											<label class="typo__label"
+												>Roles</label
+											>
+											<multi-select
+												:options="roles"
+												display-property="name"
+												value-property="id"
+												v-model="form.selectedOptions"
+											/>
+
+											<label
+												class="typo__label form__label"
+												>Must have at least one
+												value</label
+											>
+										</div>
+									</div>
+									<div
+										class="
+											modal-footer
+											d-flex
+											flex-row-reverse
+										"
+									>
+										<button
+											type="button"
+											class="btn btn-danger"
+											data-dismiss="modal"
+											@click="showModal = false"
+										>
+											Close
+										</button>
+										<button
+											v-show="editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Update
+										</button>
+										<button
+											v-show="!editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Create
+										</button>
+									</div>
+								</form>
 							</div>
 						</div>
-						<div class="modal-footer">
-							<button
-								type="button"
-								class="btn btn-danger"
-								data-dismiss="modal"
-								@click="closeModal"
-							>
-								Close
-							</button>
-							<button
-								v-show="editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Update
-							</button>
-							<button
-								v-show="!editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Create
-							</button>
-						</div>
-					</form>
+					</div>
 				</div>
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -338,6 +368,7 @@ export default {
 	middleware: "auth",
 	data() {
 		return {
+			showModal: false,
 			pagename: "Users",
 			editMode: false,
 			value: [],
@@ -390,9 +421,7 @@ export default {
 
 			this.form.clear();
 			this.form.reset();
-			console.log(roleid);
 			this.editMode = true;
-			$("#AddModal").modal("show");
 			this.form.fill(user);
 			this.form.selectedOptions = roleid;
 		},
@@ -421,7 +450,7 @@ export default {
 				});
 		},
 		openModalWindow() {
-			$("#AddModal").modal("show");
+			this.showModal = true;
 			this.editMode = false;
 			this.form.reset();
 		},
@@ -448,8 +477,7 @@ export default {
 				});
 		},
 		closeModal() {
-			$("#AddModal").modal("hide");
-			$(".modal-backdrop").remove();
+			this.showModal = false;
 			this.form.errors.errors = "";
 		},
 		deleteUser(id) {
@@ -510,6 +538,7 @@ export default {
 	},
 
 	mounted() {
+		this.isAbleToAuth(["users-*"]);
 		this.fetchBranch();
 		this.fetchRoles();
 		this.fetchUsers();
@@ -620,3 +649,22 @@ export default {
 	},
 };
 </script> 
+
+<style>
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>

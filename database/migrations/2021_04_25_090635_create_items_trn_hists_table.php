@@ -35,15 +35,15 @@ class CreateItemsTrnHistsTable extends Migration
 
         });
 
-        DB::unprepared("
-
-            PROCEDURE spa3.sp_items(
+        DB::unprepared("DROP PROCEDURE IF EXISTS sp_items;
+ CREATE DEFINER = 'root'@'localhost'
+            PROCEDURE sp_items(
                         IN pi_branch VARCHAR(10),
                         IN pi_trndatefrom VARCHAR(10),
                         IN pi_trndateto VARCHAR(10)
                       )
             BEGIN
-            select * from (
+             select * from (
             select *,
               ((bal+ifnull((select  sum(itr.drqty) from items_trn_hists itr
                                 where itr.trndate > pi_trndateto
@@ -52,14 +52,23 @@ class CreateItemsTrnHistsTable extends Migration
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
                               ),0))- ifnull((select  sum(itr.crqty) from items_trn_hists itr
                                 where itr.trndate > pi_trndateto
-                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
                               ),0)) as qty,
+                    ((bal+ifnull((select  sum(itr.drqty) from items_trn_hists itr
+                                where itr.trndate > pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0))- ifnull((select  sum(itr.crqty) from items_trn_hists itr
+                                where itr.trndate > pi_trndateto
+                                and itr.itemcode=q.itemcode
+                                and itr.branch=q.branch
+                                and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01')
+                              ),0))/numperuompu as qtya,
                 ifnull((select  max(itr.trndate ) from items_trn_hists itr
                                 where itr.trndate <= pi_trndateto
-                                and itr.trndate BETWEEN pi_trndatefrom and pi_trndateto
                                 and itr.itemcode=q.itemcode
                                 and itr.branch=q.branch
                                 and ifnull(itr.expdate,'1900-01-01')=ifnull(q.expdate,'1900-01-01') limit 1
@@ -77,19 +86,19 @@ class CreateItemsTrnHistsTable extends Migration
             from items
               left join items_branches ib on items.itemcode=ib.itemcode
               where  IF(pi_branch='',''='',ib.branch=pi_branch )
-            GROUP by 1,2,3,4 ) as q ) as qq where qq.qty!=0
-                                and lasttrn BETWEEN pi_trndatefrom and pi_trndateto  order by qq.branch,qq.itemdesc  asc;
+            GROUP by 1,2,3,4 ) as q ) as qq where  ((lasttrn = pi_trndateto and qq.qty=0) or  (lasttrn <= pi_trndateto and qq.qty!=0)) and qq.lasttrn!=0   order by qq.branch,qq.itemdesc  asc;
             END;
         ");
 
         DB::unprepared("
+ DROP PROCEDURE IF EXISTS sp_items_detialed;
          CREATE DEFINER = 'root'@'localhost'
-PROCEDURE spa3.sp_items_detialed(
+          PROCEDURE sp_items_detialed(
             IN pi_branch VARCHAR(10),
             IN pi_trndatefrom VARCHAR(10),
             IN pi_trndateto VARCHAR(10)
           )
-BEGIN
+          BEGIN
             select * from (
             select *,
 

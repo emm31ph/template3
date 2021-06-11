@@ -14,7 +14,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Customer :</label
 						>
 						<div class="col-sm-9">
@@ -33,7 +36,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-4 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Date :</label
 						>
 						<div class="col-sm-8">
@@ -53,7 +59,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Van No. :</label
 						>
 						<div class="col-sm-9">
@@ -72,7 +81,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-4 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>PO No :</label
 						>
 						<div class="col-sm-8">
@@ -92,7 +104,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-3 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-3 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Seal No. :</label
 						>
 						<div class="col-sm-9">
@@ -111,7 +126,10 @@
 					<div class="col-md-6 form-group row">
 						<label
 							for="inputCustomer"
-							class="col-sm-4 col-form-label col-form-label-sm text-md-right"
+							class="
+								col-sm-4 col-form-label col-form-label-sm
+								text-md-right
+							"
 							>Remarks :</label
 						>
 						<div class="col-sm-8">
@@ -175,7 +193,10 @@
 										v-model="item.expdate"
 										type="date"
 										:maxlength="max"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.expdate`
@@ -192,7 +213,10 @@
 								<td>
 									<select
 										id="inputState"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										v-model="item.unit"
 										:key="k"
 									>
@@ -209,7 +233,10 @@
 									<input
 										v-model="item.qty"
 										type="number"
-										class="form-control form-control-sm text-center"
+										class="
+											form-control form-control-sm
+											text-center
+										"
 										min="0"
 										@change="calculateTotal(item)"
 										@keypress="validateNumber"
@@ -230,7 +257,11 @@
 									class="align-middle text-center text-danger"
 								>
 									<i
-										class="fas fa-trash-alt btn btn-danger btn-sm"
+										class="
+											fas
+											fa-trash-alt
+											btn btn-danger btn-sm
+										"
 										@click="deleteRow(k, item)"
 									></i>
 								</td>
@@ -312,6 +343,7 @@ export default {
 		this.isLoggedCheck;
 	},
 	mounted() {
+		this.canAuth("items-rr");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
 		this.fetchAllItems();
@@ -333,13 +365,14 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				const res = await this.form.post("/api/items/rr-trans");
-
-				this.$router.push({
-					name: "report-rr",
-					params: { id: res.data.id },
+				// const res = await this.form.post("/api/items/rr-trans");
+				this.form.post("/api/items/rr-trans").then((res) => {
+					this.$router.push({
+						name: "report-rr",
+						params: { id: res.data.id },
+					});
+					this.resetForm();
 				});
-				this.resetForm();
 			}
 		},
 		addNewLine() {

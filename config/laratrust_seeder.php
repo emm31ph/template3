@@ -12,17 +12,12 @@ return [
     'truncate_tables' => true,
 
     'roles_structure' => [
-        'main' => [
+        'administrator' => [
             'users' => 'c,r,u,d',
-            'payments' => 'c,r,u,d',
-            'profile' => 'r,u',
-            'item' => 'im', 'r',
-        ],
-        'ceb' => [
-            'users' => 'c,r,u,d',
+            'role' => 'c,u,r',
             'profile' => 'r,u',
         ],
-        'ilo' => [
+        'user' => [
             'profile' => 'r,u',
         ],
     ],
@@ -32,5 +27,6 @@ return [
         'r' => 'read',
         'u' => 'update',
         'd' => 'delete',
+        'im' => 'import',
     ],
 ];

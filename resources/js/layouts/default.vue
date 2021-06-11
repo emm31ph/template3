@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<auto-logout v-if="isLogged" />
-
 		<div id="wrapper">
 			<!-- Sidebar -->
 			<sidebar-auth></sidebar-auth>

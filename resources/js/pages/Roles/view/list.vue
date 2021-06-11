@@ -48,169 +48,171 @@
 		</div>
 
 		<!-- Modal -->
-		<div
-			id="AddModal"
-			class="modal fade"
-			data-backdrop="static"
-			data-keyboard="false"
-			role="dialog"
-		>
-			<div class="modal-dialog modal-lg">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5
-							v-show="!editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Add New User
-						</h5>
-						<h5
-							v-show="editMode"
-							class="modal-title"
-							id="addNewLabel"
-						>
-							Update User
-						</h5>
-
-						<button
-							type="button"
-							class="close"
-							data-dismiss="modal"
-							@click="closeModal"
-						>
-							&times;
-						</button>
-					</div>
-					<form
-						@submit.prevent="editMode ? updateUser(form.id) : createRole()"
-						@keydown="form.onKeydown($event)"
-					>
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-4">
-									<h5 class="card-title">
-										<b>Role Details:</b>
+		<div v-if="showModal">
+			<transition name="modal">
+				<div class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-dialog modal-lg">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5
+										v-show="!editMode"
+										class="modal-title"
+										id="addNewLabel"
+									>
+										Add New User
 									</h5>
-									<div class="form-group">
-										<label for="display_name"
-											>Name (Human Readable)</label
-										>
-										<input
-											v-model="form.display_name"
-											type="text"
-											name="display_name"
-											placeholder="Display Name"
-											class="form-control"
-											:class="{
-												'is-invalid': form.errors.has(
-													'display_name'
-												),
-											}"
-										/>
-										<has-error
-											:form="form"
-											field="display_name"
-										></has-error>
-									</div>
-
-									<div class="form-group">
-										<label for="name"
-											>Slug (Can not be changed)</label
-										>
-										<input
-											v-model="form.name"
-											type="test"
-											name="name"
-											placeholder="Name"
-											class="form-control"
-											:disabled="editMode"
-											:class="{
-												'is-invalid': form.errors.has(
-													'name'
-												),
-											}"
-										/>
-										<has-error
-											:form="form"
-											field="name"
-										></has-error>
-									</div>
-
-									<div class="form-group">
-										<label for="description"
-											>Description</label
-										>
-										<input
-											v-model="form.description"
-											type="test"
-											name="description"
-											placeholder="Description"
-											class="form-control"
-											:class="{
-												'is-invalid': form.errors.has(
-													'description'
-												),
-											}"
-										/>
-										<has-error
-											:form="form"
-											field="description"
-										></has-error>
-									</div>
-								</div>
-								<div class="col-8">
-									<h5 class="card-title">
-										<b>Permissions:</b>
+									<h5
+										v-show="editMode"
+										class="modal-title"
+										id="addNewLabel"
+									>
+										Update User
 									</h5>
-									<p class="card-text">
-										<ul class="list-group">
-											<li class="list-group-item"  v-for="data in getPermissions" :key="data.id">
-												 
-													<div class="form-check">
-													<input class="form-check-input" type="checkbox" :value="data.id" v-model="form.permission" :id="data.id">
-													<label class="form-check-label" :for="data.id">
-														{{data.display_name}}
-													</label>
-													</div>
-												 
-												
-											</li>
-										</ul>
-									</p>
+
+									<button
+										type="button"
+										class="close"
+										data-dismiss="modal"
+										@click="closeModal"
+									>
+										&times;
+									</button>
 								</div>
+								<form
+									@submit.prevent="editMode ? updateUser(form.id) : createRole()"
+									@keydown="form.onKeydown($event)"
+								>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-4">
+												<h5 class="card-title">
+													<b>Role Details:</b>
+												</h5>
+												<div class="form-group">
+													<label for="display_name"
+														>Name (Human Readable)</label
+													>
+													<input
+														v-model="form.display_name"
+														type="text"
+														name="display_name"
+														placeholder="Display Name"
+														class="form-control"
+														:class="{
+															'is-invalid': form.errors.has(
+																'display_name'
+															),
+														}"
+													/>
+													<has-error
+														:form="form"
+														field="display_name"
+													></has-error>
+												</div>
+
+												<div class="form-group">
+													<label for="name"
+														>Slug (Can not be changed)</label
+													>
+													<input
+														v-model="form.name"
+														type="test"
+														name="name"
+														placeholder="Name"
+														class="form-control"
+														:disabled="editMode"
+														:class="{
+															'is-invalid': form.errors.has(
+																'name'
+															),
+														}"
+													/>
+													<has-error
+														:form="form"
+														field="name"
+													></has-error>
+												</div>
+
+												<div class="form-group">
+													<label for="description"
+														>Description</label
+													>
+													<input
+														v-model="form.description"
+														type="test"
+														name="description"
+														placeholder="Description"
+														class="form-control"
+														:class="{
+															'is-invalid': form.errors.has(
+																'description'
+															),
+														}"
+													/>
+													<has-error
+														:form="form"
+														field="description"
+													></has-error>
+												</div>
+											</div>
+											<div class="col-8">
+												<h5 class="card-title">
+													<b>Permissions:</b>
+												</h5>
+												<p class="card-text">
+													<ul class="list-group">
+														<li class="list-group-item"  v-for="data in getPermissions" :key="data.id">
+															
+																<div class="form-check">
+																<input class="form-check-input" type="checkbox" :value="data.id" v-model="form.permission" :id="data.id">
+																<label class="form-check-label" :for="data.id">
+																	{{data.display_name}}
+																</label>
+																</div>
+															
+															
+														</li>
+													</ul>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer
+											d-flex
+											flex-row-reverse">
+										<button
+											type="button"
+											class="btn btn-danger"
+											data-dismiss="modal"
+											@click="closeModal"
+										>
+											Close
+										</button>
+										<button
+											v-show="editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Update
+										</button>
+										<button
+											v-show="!editMode"
+											type="submit"
+											class="btn btn-primary"
+										>
+											Create
+										</button>
+									</div>
+			
+								</form>
 							</div>
 						</div>
-						<div class="modal-footer">
-							<button
-								type="button"
-								class="btn btn-danger"
-								data-dismiss="modal"
-								@click="closeModal"
-							>
-								Close
-							</button>
-							<button
-								v-show="editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Update
-							</button>
-							<button
-								v-show="!editMode"
-								type="submit"
-								class="btn btn-primary"
-							>
-								Create
-							</button>
-						</div>
- 
-					</form>
+					</div>
 				</div>
-			</div>
-		</div>
+			</transition>
+		</div> 
 	</div>
 </template>
 
@@ -222,6 +224,7 @@ export default {
 	middleware: "auth",
 	data() {
 		return {
+			showModal: false,
 			pagename: "Users",
 			editMode: false,
 			value: [],
@@ -268,63 +271,42 @@ export default {
 			this.form.clear();
 			this.form.reset();
 			this.editMode = true;
-			$("#AddModal").modal("show");
+			this.showModal = true;
 			this.form.fill(role);
 
 			this.form.permission = this.pluck(role.permissions, "id");
 		},
 		async updateUser(id) {
-			await this.form
-				.put("/api/roles/" + id)
-				.then((response) => {
-					Swal.fire({
-						title: "User created successfully",
-						icon: "success",
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					this.fetchRoles();
-					this.closeModal();
-				})
-				.catch((error) => {
-					console.log(error);
-					Swal.fire({
-						icon: "error",
-						title: "Oops...",
-						text: "Something went wrong!",
-						footer: "<a href>Why do I have this issue?</a>",
-					});
+			await this.form.put("/api/roles/" + id).then((response) => {
+				Swal.fire({
+					title: "User created successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500,
 				});
+				this.fetchRoles();
+				this.closeModal();
+			});
 		},
 		openModalWindow() {
-			$("#AddModal").modal("show");
+			this.showModal = true;
 			this.editMode = false;
 			this.form.reset();
 		},
 		createRole() {
-			this.form
-				.post("/api/roles")
-				.then((res) => {
-					Swal.fire({
-						title: "Role created successfully",
-						icon: "success",
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					this.fetchRoles();
-					this.closeModal();
-				})
-				.catch(() => {
-					Swal.fire({
-						icon: "error",
-						title: "Oops...",
-						text: "Something went wrong!",
-					});
+			this.form.post("/api/roles").then((res) => {
+				Swal.fire({
+					title: "Role created successfully",
+					icon: "success",
+					showConfirmButton: false,
+					timer: 1500,
 				});
+				this.fetchRoles();
+				this.closeModal();
+			});
 		},
 		closeModal() {
-			$("#AddModal").modal("hide");
-			$(".modal-backdrop").remove();
+			this.showModal = false;
 			this.form.errors.errors = "";
 		},
 		deleteRole(id) {
@@ -383,6 +365,7 @@ export default {
 	},
 
 	mounted() {
+		this.isAbleToAuth(["role-*"]);
 		this.fetchRoles();
 		this.fetchPermissions();
 
@@ -494,5 +477,22 @@ export default {
 	margin-bottom: 10px;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
+}
+
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
 }
 </style>

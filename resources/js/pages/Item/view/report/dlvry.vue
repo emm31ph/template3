@@ -13,17 +13,31 @@
 									<div class="card border-0">
 										<div class="card-body p-0">
 											<div
-												class="container-fluid py-0 pl-0"
+												class="
+													container-fluid
+													py-0
+													pl-0
+												"
 											>
 												<div class="row mb-2">
 													<div class="col-3">
 														<img
 															src="/img/logo.png"
-															class="rounded float-left img-thumbnail mr-2"
+															class="
+																rounded
+																float-left
+																img-thumbnail
+																mr-2
+															"
 															style="width: 75px"
 														/>
 														<p
-															class="h2 font-weight-bold mb-0 pb-0"
+															class="
+																h2
+																font-weight-bold
+																mb-0
+																pb-0
+															"
 														>
 															TOSEN
 														</p>
@@ -31,10 +45,19 @@
 														<sub> FOODS, INC. </sub>
 													</div>
 													<div
-														class="col-6 text-center position-relative"
+														class="
+															col-6
+															text-center
+															position-relative
+														"
 													>
 														<p
-															class="h5 font-weight-bold mb-1 mt-5"
+															class="
+																h5
+																font-weight-bold
+																mb-1
+																mt-5
+															"
 														>
 															DELIVERY DOCUMENT
 														</p>
@@ -43,7 +66,10 @@
 														class="col-3 text-right"
 													>
 														<p
-															class="font-weight-bold mb-1"
+															class="
+																font-weight-bold
+																mb-1
+															"
 														>
 															{{
 																this.data[
@@ -52,7 +78,10 @@
 															}}
 														</p>
 														<sub
-															class="text-muted mb-1"
+															class="
+																text-muted
+																mb-1
+															"
 														>
 															Printed Date:
 															{{ this.dateTime }}
@@ -68,7 +97,11 @@
 													<div class="col-6">
 														<div class="row">
 															<div
-																class="col-4 text-right font-weight-bold"
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Reference No:
 															</div>
@@ -87,7 +120,11 @@
 													<div class="col-6">
 														<div class="row">
 															<div
-																class="col-6 text-right font-weight-bold"
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Supporting
 																Document:
@@ -110,7 +147,11 @@
 													<div class="col-6">
 														<div class="row">
 															<div
-																class="col-4 text-right font-weight-bold"
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Issued Date:
 															</div>
@@ -129,7 +170,11 @@
 													<div class="col-6">
 														<div class="row">
 															<div
-																class="col-6 text-right font-weight-bold"
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Prepared By:
 															</div>
@@ -153,7 +198,11 @@
 																style="
 																	height: 70px;
 																"
-																class="col-4 text-right font-weight-bold"
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Customer Name:
 															</div>
@@ -172,7 +221,11 @@
 													<div class="col-6">
 														<div class="row">
 															<div
-																class="col-6 text-right font-weight-bold"
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
+																"
 															>
 																Remarks
 															</div>
@@ -196,26 +249,40 @@
 													<table class="mytable">
 														<thead>
 															<tr
-																class="text-uppercase small font-weight-bold"
+																class="
+																	text-uppercase
+																	small
+																	font-weight-bold
+																"
 															>
 																<th
-																	class="border-0"
+																	class="
+																		border-0
+																	"
 																>
 																	Item
 																	Description
 																</th>
 																<th
-																	class="border-0 text-center"
+																	class="
+																		border-0
+																		text-center
+																	"
 																>
 																	Expire Date
 																</th>
 																<th
-																	class="border-0"
+																	class="
+																		border-0
+																	"
 																>
 																	SHORT CODE
 																</th>
 																<th
-																	class="border-0 text-center"
+																	class="
+																		border-0
+																		text-center
+																	"
 																>
 																	Issue Qty
 																</th>
@@ -242,7 +309,9 @@
 																	}}
 																</td>
 																<td
-																	class="text-center"
+																	class="
+																		text-center
+																	"
 																>
 																	{{
 																		item[
@@ -274,15 +343,36 @@
 																</td>
 
 																<td
-																	class="text-center"
+																	class="
+																		text-center
+																	"
 																>
 																	{{
-																		formatNumber(
-																			item[
-																				"drqty"
-																			] /
-																				100
-																		)
+																		item[
+																			"unit"
+																		] !=
+																		"TIN"
+																			? formatNumberD(
+																					toCase(
+																						item[
+																							"items"
+																						][
+																							"numperuompu"
+																						],
+																						item[
+																							"drqty"
+																						]
+																					),
+																					0
+																			  )
+																			: item[
+																					"drqty"
+																			  ] ==
+																			  0
+																			? ""
+																			: item[
+																					"drqty"
+																			  ]
 																	}}
 																</td>
 															</tr>
@@ -300,20 +390,37 @@
 														<tfoot>
 															<tr>
 																<td
-																	class="text-right font-weight-bold"
+																	class="
+																		text-right
+																		font-weight-bold
+																	"
 																	colspan="3"
 																>
 																	Sub Total
 																</td>
 																<td
-																	class="text-center"
+																	class="
+																		text-center
+																	"
 																>
 																	{{
-																		formatNumber(
+																		formatNumberD(
 																			this
-																				.drQty /
-																				100
+																				.drQtyCase,
+																			0
 																		)
+																	}}
+																	{{
+																		this
+																			.drQtyTin !=
+																		0
+																			? " & " +
+																			  formatNumberD(
+																					this
+																						.drQtyTin,
+																					0
+																			  )
+																			: ""
 																	}}
 																</td>
 															</tr>
@@ -386,20 +493,66 @@ export default {
 					});
 			}
 		},
-		drQty: function () {
+		drQtyCase: function () {
 			let sum = 0;
-			this.data["hist"].forEach(function (item) {
-				sum += parseFloat(item.drqty);
-			});
 
+			this.data["hist"].forEach(function (item) {
+				if (item.unit != "TIN") {
+					sum += parseFloat(
+						(item.drqty > 0 ? 1 : -1) *
+							(Math.floor(
+								item.drqty /
+									((item.drqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)
+							) +
+								(item.drqty %
+									((item.drqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)) /
+									((item.drqty >= 0 ? 1 : -1) * 100))
+					);
+				}
+			});
 			return sum;
 		},
-		crQty: function () {
+		drQtyTin: function () {
 			let sum = 0;
-			this.data["hist"].forEach(function (item) {
-				sum += parseFloat(item.crqty);
-			});
 
+			this.data["hist"].forEach(function (item) {
+				if (item.unit == "TIN") {
+					sum += parseFloat(item.drqty);
+				}
+			});
+			return sum;
+		},
+		crQtyCase: function () {
+			let sum = 0;
+
+			this.data["hist"].forEach(function (item) {
+				if (item.unit != "TIN") {
+					sum += parseFloat(
+						(item.crqty > 0 ? 1 : -1) *
+							(Math.floor(
+								item.crqty /
+									((item.crqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)
+							) +
+								(item.crqty %
+									((item.crqty >= 0 ? 1 : -1) *
+										item.items.numperuompu)) /
+									((item.crqty >= 0 ? 1 : -1) * 100))
+					);
+				}
+			});
+			return sum;
+		},
+		crQtyTin: function () {
+			let sum = 0;
+
+			this.data["hist"].forEach(function (item) {
+				if (item.unit == "TIN") {
+					sum += parseFloat(item.crqty);
+				}
+			});
 			return sum;
 		},
 	},

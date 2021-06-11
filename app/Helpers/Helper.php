@@ -10,22 +10,25 @@ function getYear()
     return $date->year;
 }
 
-function getCurrQty($data = [])
+function getCurrQty($data = []): float
 {
     $val = ItemsBranch::where('itemcode', '=', $data['ITEMCODE'])
-        ->where('expdate', '=', $data['EXPDATE'])
-        ->where('branch', '=', $data['BRANCH'])->first();
+        ->whereRaw("ifnull(items_branches.expdate,'1900-01-01') = ifnull('" . $data['EXPDATE'] . "','1900-01-01')")
+        ->where('branch', '=', $data['BRANCH'])
+        ->first();
 
-    return ($val === null) ? 0 : $val->qty;
+    // return ($val === null) ? 0 : $val->qty > 0 ? $val->qty * -1 : $val->qty;
+    return ($val === null) ? 0 : $val->qty * 1;
 }
 
-function getPrevQty($data = [])
+function getPrevQty($data = []): float
 {
     $val = ItemsBranch::where('itemcode', '=', $data['ITEMCODE'])
-        ->where('expdate', '=', $data['EXPDATE'])
-        ->where('branch', '=', $data['BRANCH'])->first();
+        ->whereRaw("ifnull(items_branches.expdate,'1900-01-01') = ifnull('" . $data['EXPDATE'] . "','1900-01-01')")
+        ->where('branch', '=', $data['BRANCH'])
+        ->first();
 
-    return ($val === null) ? 0 : $val->qty;
+    return ($val === null) ? 0 : $val->qty * 1;
 }
 function getUOM($itemcode = null)
 {

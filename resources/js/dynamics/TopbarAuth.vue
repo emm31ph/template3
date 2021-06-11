@@ -1,6 +1,13 @@
 <template>
 	<nav
-		class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+		class="
+			navbar navbar-expand navbar-light
+			bg-white
+			topbar
+			mb-4
+			static-top
+			shadow
+		"
 	>
 		<!-- Sidebar Toggle (Topbar) -->
 		<button
@@ -12,7 +19,15 @@
 
 		<!-- Topbar Search -->
 		<div
-			class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+			class="
+				d-none d-sm-inline-block
+				form-inline
+				mr-auto
+				ml-md-3
+				my-2 my-md-0
+				mw-100
+				navbar-search
+			"
 		>
 			<div class="input-group">
 				<input
@@ -49,7 +64,12 @@
 				</a>
 				<!-- Dropdown - Messages -->
 				<div
-					class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+					class="
+						dropdown-menu dropdown-menu-right
+						p-3
+						shadow
+						animated--grow-in
+					"
 					aria-labelledby="searchDropdown"
 				>
 					<form class="form-inline mr-auto w-100 navbar-search">
@@ -93,7 +113,11 @@
 				</a>
 				<!-- Dropdown - Messages -->
 				<div
-					class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+					class="
+						dropdown-list dropdown-menu dropdown-menu-right
+						shadow
+						animated--grow-in
+					"
 					aria-labelledby="messagesDropdown"
 				>
 					<h6 class="dropdown-header">Message Center</h6>
@@ -204,7 +228,11 @@
 				</a>
 				<!-- Dropdown - User Information -->
 				<div
-					class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+					class="
+						dropdown-menu dropdown-menu-right
+						shadow
+						animated--grow-in
+					"
 					aria-labelledby="userDropdown"
 				>
 					<router-link
@@ -223,7 +251,7 @@
 						></i>
 						Settings
 					</a>
-					<a class="dropdown-item" href="#">
+					<a class="dropdown-item" @click="showModal">
 						<i
 							class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"
 						></i>
@@ -232,13 +260,20 @@
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="#" @click.prevent="logout">
 						<i
-							class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+							class="
+								fas
+								fa-sign-out-alt fa-sm fa-fw
+								mr-2
+								text-gray-400
+							"
 						></i>
 						Logout
 					</a>
 				</div>
 			</li>
 		</ul>
+
+		<modal-trnlog v-show="isModalVisible" @close="closeModal" />
 	</nav>
 </template>
 
@@ -249,11 +284,18 @@ export default {
 		return {
 			nclick: 0,
 			name: null,
+			isModalVisible: false,
 		};
 	},
 	methods: {
 		sendMsg() {
 			bus.$emit("send", this.name);
+		},
+		showModal() {
+			this.isModalVisible = true;
+		},
+		closeModal() {
+			this.isModalVisible = false;
 		},
 	},
 };

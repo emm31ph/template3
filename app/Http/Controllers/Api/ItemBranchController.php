@@ -28,7 +28,7 @@ class ItemBranchController extends Controller
 
                 // ->selectRaw('')
                     ->select('items_trn_hists.*', 'rono', 'refno', 'remarks', 'customer',
-                        'from', 'to', 'van_no', 'seal_no');
+                        'from', 'to', 'van_no', 'seal_no', 'user_id');
             }])
             ->where('items_branches.itemcode', '=', $request->itemcode)
             ->whereRaw("IFNULL(items_branches.expdate,'1900-01-01')='" . $request->expdate . "'")
@@ -76,6 +76,7 @@ class ItemBranchController extends Controller
 
         $data = ItemsBranch::rightJoin('items', 'items.itemcode', 'items_branches.itemcode')
             ->where('items_branches.branch', '=', auth()->user()->branch)
+            ->where('items_branches.qty', '!=', '0')
 
             ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc , (case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc")
             ->get();
@@ -100,36 +101,21 @@ class ItemBranchController extends Controller
 
     public function getItemDetailTran(Request $request)
     {
-        // config()->set('database.connections.mysql.strict', false);
-        //     \DB::reconnect();
-
-        //     $data = ItemsBranch::select('items_branches.branch', 'items.itemcode', 'items.itemdesc', 'items.numperuompu', 'items.pckgsize', 'items_branches.expdate'
-        //     )
-        //         ->selectRaw(DB::RAW("ifnull((select preqty from items_trn_hists ith1  where ith1.id=min(items_trn_hists.id)),qty) as minid")
-        //         )
-        //         ->selectRaw("sum(if(items_trn_hists.trntype='BR', items_trn_hists.crqty,0)) BRqty")
-        //         ->selectRaw("sum(if(items_trn_hists.trntype='RR', items_trn_hists.crqty,0)) RRqty")
-        //         ->selectRaw("sum(if(items_trn_hists.trntype='WP', items_trn_hists.crqty,0)) WPqty")
-        //         ->selectRaw("sum(if(items_trn_hists.trntype='OD', items_trn_hists.drqty,0)) ODqty")
-        //         ->selectRaw(DB::RAW('ifnull((select curqty from items_trn_hists ith1  where ith1.id=max(items_trn_hists.id)),qty) as maxid '))
-
-        //         ->leftJoin('items_trn_hists', function ($q) use ($request) {
-        //             $q->on('items_branches.itemcode', '=', 'items_trn_hists.itemcode')
-        //                 ->whereRaw("ifnull(items_branches.expdate,'1900-01-01')=ifnull(items_trn_hists.expdate,'1900-01-01')")
-        //                 ->whereBetween('items_trn_hists.trndate', [$request->trndatefrom, $request->trndateto]);
-        //         })->leftJoin('items', 'items.itemcode', 'items_branches.itemcode')
-        //         ->where('items_branches.branch', '=', $request->branch)
-        //         ->groupBy(DB::RAW('1,2,3,4,5,6'))
-        //         ->orderBy('itemdesc', 'ASC')
-        //         ->orderBy('expdate', 'ASC')
-        //         ->get();
-
-        //     config()->set('database.connections.mysql.strict', true);
-        //     \DB::reconnect();
 
         $data = DB::select("call sp_items_detialed('" . $request->branch . "','" . $request->trndatefrom . "','" . $request->trndateto . "')");
 
         return response()->json($data, 200);
 
+    }
+
+    public function mytransaction(Request $request)
+    {
+
+        $trn = ItemsBatch::where('items_batches.trndate', '=', $request->trndate)
+            ->where('items_batches.user_id', '=', auth()->user()->id)
+        // ->where('items_batches.branch', '=', auth()->user()->branch)
+            ->get();
+
+        return \response()->json($trn, 200);
     }
 }

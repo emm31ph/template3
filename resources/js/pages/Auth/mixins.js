@@ -70,10 +70,13 @@ Vue.mixin({
                     // await this.$store.dispatch('Settings/clear')
                     // await this.$store.dispatch('Customer/clear')
 
-                    // Redirect to login.
-                    this.$router.push({
-                        name: 'login'
-                    })
+                    // // Redirect to login.
+                    // this.$router.push({
+                    //     name: 'login'
+                    // }).catch(error => {
+                    //     console.info(error.message)
+                    // })
+                    this.$router.push('/');
                 }
             })
 

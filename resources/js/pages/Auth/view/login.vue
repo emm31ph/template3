@@ -11,16 +11,18 @@
 						>
 							<div class="form-group row">
 								<label
-									class="col-md-3 col-form-label text-md-right"
+									class="
+										col-md-3 col-form-label
+										text-md-right
+									"
 									>Email Address</label
 								>
 								<div class="col-md-7">
 									<input
 										v-model="form.email"
 										:class="{
-											'is-invalid': form.errors.has(
-												'email'
-											),
+											'is-invalid':
+												form.errors.has('email'),
 										}"
 										class="form-control"
 										type="text"
@@ -33,16 +35,18 @@
 							<!-- Password -->
 							<div class="form-group row">
 								<label
-									class="col-md-3 col-form-label text-md-right"
+									class="
+										col-md-3 col-form-label
+										text-md-right
+									"
 									>Password</label
 								>
 								<div class="col-md-7">
 									<input
 										v-model="form.password"
 										:class="{
-											'is-invalid': form.errors.has(
-												'password'
-											),
+											'is-invalid':
+												form.errors.has('password'),
 										}"
 										class="form-control"
 										type="password"
@@ -82,7 +86,7 @@ export default {
 	},
 	data: () => ({
 		form: new Form({
-			email: "main@app.com",
+			email: "administrator@app.com",
 			password: "password",
 		}),
 		remember: false,

@@ -51,5 +51,9 @@ export default [{
         path: 'fptd',
         name: 'items-fptd',
         component: page('Item/view/fptd.vue')
+    }, {
+        path: 'itemsadjust',
+        name: 'items-adjust',
+        component: page('Item/view/adjustment.vue')
     },]
 }]

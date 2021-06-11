@@ -6,7 +6,12 @@
 	>
 		<!-- Sidebar - Brand -->
 		<a
-			class="sidebar-brand d-flex align-items-center justify-content-center"
+			class="
+				sidebar-brand
+				d-flex
+				align-items-center
+				justify-content-center
+			"
 			href="index.html"
 		>
 			<div class="sidebar-brand-icon rotate-n-15">
@@ -95,6 +100,15 @@
 					>
 						Reject
 					</router-link>
+
+					<router-link
+						:to="{ name: 'items-adjust' }"
+						class="collapse-item"
+						v-if="!can('items-adjust')"
+					>
+						Adjustment
+					</router-link>
+
 					<router-link
 						:to="{ name: 'import' }"
 						class="collapse-item"

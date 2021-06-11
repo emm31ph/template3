@@ -7,7 +7,7 @@
 				</h6>
 
 				<h6 class="m-0 font-weight-bold text-primary">
-					<a href="#" data-toggle="modal" data-target="#searchModal">
+					<a @click="showSearch = true">
 						<i class="fas fa-cogs"></i>
 					</a>
 				</h6>
@@ -27,13 +27,25 @@
 				</div>
 				<div class="table-responsive">
 					<table
-						class="table table-sm table-hover table-bordered border-top-0 table-striped"
+						class="
+							table table-sm table-hover table-bordered
+							border-top-0
+							table-striped
+						"
 					>
 						<thead class="thead-dark">
 							<tr>
 								<th
-									:class="this.branches ? 'd-none' : ''"
 									style="width: 80px"
+									v-bind:class="
+										([
+											sortBy === 'branch'
+												? sortDirection
+												: '',
+										],
+										this.branches ? 'd-none' : '')
+									"
+									@click="sort('branch')"
 								>
 									Branch
 								</th>
@@ -91,6 +103,10 @@
 									scope="col"
 									class="text-right pr-2"
 									style="width: 120px"
+									v-bind:class="[
+										sortBy === 'qtya' ? sortDirection : '',
+									]"
+									@click="sort('qtya')"
 								>
 									Quantity
 								</th>
@@ -101,7 +117,10 @@
 								v-for="(item, i) in filteredPosts"
 								:key="i"
 								:class="item.qty < 0 ? 'text-danger' : ''"
-								@dblclick="handleTrnHist(item)"
+								@dblclick="
+									showTrn = true;
+									handleTrnHist(item);
+								"
 							>
 								<td
 									:class="branches ? 'd-none' : ''"
@@ -179,447 +198,588 @@
 		</div>
 
 		<!-- Modal -->
-		<div id="searchModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Search</h4>
-						<button
-							type="button"
-							class="close"
-							data-dismiss="modal"
-						>
-							&times;
-						</button>
-					</div>
-					<div class="modal-body">
-						<!-- Form -->
-						<form
-							method="POST"
-							onsubmit="event.preventDefault();"
-							enctype="multipart/form-data"
-						>
-							<div class="form-group row">
-								<label
-									for="inputStatus"
-									class="col-sm-3 col-form-label font-weight-bold"
-									>Branch</label
-								>
-								<div class="col-sm-9">
-									<select
-										class="form-control"
-										v-model="branches"
-										:disabled="
-											isUser.branch != 'MAIN'
-												? true
-												: false
-										"
+		<div v-if="showSearch">
+			<transition name="modal">
+				<div class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">Search</h4>
+									<button
+										type="button"
+										data-dismiss="modal"
+										@click="showSearch = false"
+										class="close"
 									>
-										<option value="">All</option>
-										<option
-											v-for="(branch, k) in getBranch"
-											:key="k"
-											v-bind:value="branch.branch"
-										>
-											{{ branch.branchname }}
-										</option>
-									</select>
+										&times;
+									</button>
 								</div>
-							</div>
-
-							<div class="form-group row">
-								<label
-									for="inputStatus"
-									class="col-sm-3 col-form-label font-weight-bold"
-									>Date</label
-								>
-								<div class="col-sm-9">
-									<div class="row">
-										<div class="col-6">
-											<input
-												v-model="trndatefrom"
-												class="form-control"
-												type="date"
-											/>
+								<div class="modal-body">
+									<form
+										method="POST"
+										onsubmit="event.preventDefault();"
+										enctype="multipart/form-data"
+									>
+										<div class="form-group row">
+											<label
+												for="inputStatus"
+												class="
+													col-sm-3 col-form-label
+													font-weight-bold
+												"
+												>Branch</label
+											>
+											<div class="col-sm-9">
+												<select
+													class="form-control"
+													v-model="branches"
+													:disabled="
+														isUser.branch != 'MAIN'
+															? true
+															: false
+													"
+												>
+													<option value="">
+														All
+													</option>
+													<option
+														v-for="(
+															branch, k
+														) in getBranch"
+														:key="k"
+														v-bind:value="
+															branch.branch
+														"
+													>
+														{{ branch.branchname }}
+													</option>
+												</select>
+											</div>
 										</div>
-										<div class="col-6">
-											<input
-												v-model="trndateto"
-												class="form-control"
-												type="date"
-											/>
+
+										<div class="form-group row">
+											<label
+												for="inputStatus"
+												class="
+													col-sm-3 col-form-label
+													font-weight-bold
+												"
+												>Date</label
+											>
+											<div class="col-sm-9">
+												<div class="row">
+													<div class="col-6">
+														<input
+															v-model="
+																trndatefrom
+															"
+															class="form-control"
+															type="date"
+														/>
+													</div>
+													<div class="col-6">
+														<input
+															v-model="trndateto"
+															class="form-control"
+															type="date"
+														/>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
+
+										<div class="btn-group">
+											<button
+												type="button"
+												class="btn btn-danger"
+												@click="
+													handleSubmit('preview');
+													showSearch = false;
+												"
+												data-dismiss="modal"
+											>
+												Preview
+											</button>
+											<button
+												type="button"
+												class="
+													btn btn-danger
+													dropdown-toggle
+													dropdown-toggle-split
+												"
+												data-toggle="dropdown"
+												aria-haspopup="true"
+												aria-expanded="false"
+											>
+												<span class="sr-only"
+													>Toggle Dropdown</span
+												>
+											</button>
+											<div class="dropdown-menu">
+												<a
+													class="dropdown-item"
+													href="#"
+													@click="
+														handleSubmit('preview');
+														showSearch = false;
+													"
+													data-dismiss="modal"
+													>Preview</a
+												>
+												<a
+													class="dropdown-item"
+													href="#"
+													@click="
+														handleSubmit('excel');
+														showSearch = false;
+													"
+													data-dismiss="modal"
+													>Export</a
+												>
+
+												<a
+													class="dropdown-item"
+													href="#"
+													@click="
+														handleDetailSubmit();
+														showSearch = false;
+													"
+													data-dismiss="modal"
+													>Export Detailed</a
+												>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
-
-							<div class="btn-group">
-								<button
-									type="button"
-									class="btn btn-danger"
-									@click="handleSubmit('preview')"
-									data-dismiss="modal"
-								>
-									Preview
-								</button>
-								<button
-									type="button"
-									class="btn btn-danger dropdown-toggle dropdown-toggle-split"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<div class="dropdown-menu">
-									<a
-										class="dropdown-item"
-										href="#"
-										@click="handleSubmit('preview')"
-										data-dismiss="modal"
-										>Preview</a
-									>
-									<a
-										class="dropdown-item"
-										href="#"
-										@click="handleSubmit('excel')"
-										data-dismiss="modal"
-										>Export</a
-									>
-
-									<a
-										class="dropdown-item"
-										href="#"
-										@click="handleDetailSubmit()"
-										data-dismiss="modal"
-										>Export Detailed</a
-									>
-								</div>
-							</div>
-						</form>
-
-						<!-- Preview-->
-						<div id="preview"></div>
+						</div>
 					</div>
 				</div>
-			</div>
+			</transition>
 		</div>
 
 		<!-- Modal -->
-		<div
-			id="trnModal"
-			class="modal fade"
-			role="dialog"
-			data-backdrop="static"
-			v-if="trnHistData"
-		>
-			<div class="modal-dialog modal-lg">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Transaction History</h4>
-						<button
-							type="button"
-							data-dismiss="modal"
-							@click="handleClose"
-							class="close"
-						>
-							&times;
-						</button>
-					</div>
-					<div class="modal-body pt-4" id="printme">
-						<div class="row pb-3">
-							<div class="col-8">
-								<span class="col-2 font-weight-bold"
-									>Branch :
-								</span>
-								<span class="col-10 font-weight-bold">{{
-									trnHistData["branch"]
-								}}</span>
-							</div>
-							<div class="col-4">
-								<span class="col-2 font-weight-bold text-right"
-									>Balance Qty :</span
-								>
-								<span class="col-10 font-weight-bold">
-									{{
-										formatNumber(
-											toCase(
-												trnHistData["numperuompu"],
-												trnHistData["qty"]
-											)
-										)
-									}}</span
-								>
-							</div>
-							<div class="col-8">
-								<span class="col-2 font-weight-bold"
-									>DESC :</span
-								>
-								<span class="col-10 font-weight-bold">
-									{{ trnHistData["itemdesc"] }}
-								</span>
-							</div>
-							<div class="col-4">
-								<span class="col-2 font-weight-bold text-right"
-									>SKU :</span
-								>
-								<span class="col-10 font-weight-bold">
-									{{ trnHistData["itemcode"] }}
-								</span>
-							</div>
-							<div class="col-8">
-								<span class="col-2 font-weight-bold"
-									>LAST UPDATE :</span
-								>
-								<span class="col-10 font-weight-bold">
-									{{ dateF(trnHistData["updated_at"]) }}
-								</span>
-							</div>
-							<div class="col-4 font-weight-bold">
-								<span class="col-2 font-weight-bold text-right"
-									>EXP. DATE :</span
-								>
-								<span class="col-10 font-weight-bold">
-									{{ trnHistData["expdate"] }}
-								</span>
-							</div>
-						</div>
-						<div class="tableFixHead">
-							<table class="table table-sm">
-								<thead>
-									<tr>
-										<th
-											scope="col"
-											style="width: 100px"
-											class="text-center"
-										>
-											TRNDATE
-										</th>
-										<th
-											scope="col"
-											style="width: 100px"
-											class="text-center"
-										>
-											TRNTYPE
-										</th>
-										<th
-											scope="col"
-											style="width: 100px"
-											class="text-right"
-										>
-											DR QTY
-										</th>
-										<th
-											scope="col"
-											style="width: 100px"
-											class="text-right"
-										>
-											CR QTY
-										</th>
-										<th
-											scope="col"
-											style="width: 100px"
-											class="text-right"
-										>
-											BALANCE
-										</th>
-										<th scope="col" class="pl-3">
-											REMARKS
-										</th>
-									</tr>
-								</thead>
-								<tbody
-									style="
-										height: 10px !important;
-										overflow: scroll;
-										flex-direction: column-reverse;
-									"
-								>
-									<tr
-										v-for="(item, i) in trnHistData[
-											'trn_hist'
-										]"
-										:key="i"
+
+		<div v-if="showTrn">
+			<transition name="modal">
+				<div class="modal-mask">
+					<div class="modal-wrapper">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">
+										Transaction History
+									</h4>
+									<button
+										type="button"
+										data-dismiss="modal"
+										@click="showTrn = false"
+										class="close"
 									>
-										<td class="text-center">
-											{{ item["trndate"] }}
-										</td>
-										<td class="text-center">
-											{{ item["trntype"] }}
-										</td>
-										<td class="text-right">
-											{{
-												formatNumber(
-													toCase(
-														trnHistData[
-															"numperuompu"
-														],
-														item["drqty"]
-													)
-												)
-											}}
-										</td>
-										<td class="text-right">
-											{{
-												formatNumber(
-													toCase(
-														trnHistData[
-															"numperuompu"
-														],
-														item["crqty"]
-													)
-												)
-											}}
-										</td>
-										<td class="text-right">
-											{{
-												formatNumber(
-													toCase(
-														trnHistData[
-															"numperuompu"
-														],
-														item["curqty"]
-													)
-												)
-											}}
-										</td>
-										<td>
-											<div
-												class="col-12 pl-3 remarks d-print-inline-flex"
-												id="remarks"
-												:title="` ${
-													item['refno']
-														? 'Ref# - ' +
-														  item['refno'] +
-														  ' | '
-														: ''
-												}${
-													item['rono']
-														? 'RO# - ' +
-														  item['rono'] +
-														  ' | '
-														: ''
-												}${
-													item['customer']
-														? String.fromCharCode(
-																13
-														  ) +
-														  'Customer - ' +
-														  item['customer'] +
-														  ' | '
-														: ''
-												}${
-													item['from']
-														? String.fromCharCode(
-																13
-														  ) +
-														  'FROM - ' +
-														  item['from'] +
-														  ' | '
-														: ''
-												} ${
-													item['to']
-														? 'TO - ' +
-														  item['to'] +
-														  ' | '
-														: ''
-												} ${
-													item['remarks']
-														? String.fromCharCode(
-																13
-														  ) +
-														  'Remarks - ' +
-														  item['remarks'] +
-														  ' | '
-														: ''
-												}${
-													item['van_no']
-														? String.fromCharCode(
-																13
-														  ) +
-														  'Van#  - ' +
-														  item['van_no'] +
-														  ' | '
-														: ''
-												}${
-													item['seal_no']
-														? 'Seal#  - ' +
-														  item['seal_no'] +
-														  ' | '
-														: ''
-												}`"
+										&times;
+									</button>
+								</div>
+								<div class="modal-body pt-4" id="printme">
+									<div class="row pb-3">
+										<div class="col-8">
+											<span class="col-2 font-weight-bold"
+												>Branch :
+											</span>
+											<span
+												class="col-10 font-weight-bold"
+												>{{
+													trnHistData["branch"]
+												}}</span
+											>
+										</div>
+										<div class="col-4">
+											<span
+												class="
+													col-2
+													font-weight-bold
+													text-right
+												"
+												>Balance Qty :</span
+											>
+											<span
+												class="col-10 font-weight-bold"
 											>
 												{{
-													item["refno"]
-														? item["refno"] + " | "
-														: ""
-												}}{{
-													item["rono"]
-														? item["rono"] + " | "
-														: ""
-												}}{{
-													item["customer"]
-														? item["customer"] +
-														  " | "
-														: ""
-												}}{{
-													item["from"]
-														? item["from"] + " | "
-														: ""
-												}}{{
-													item["to"]
-														? item["to"] + " | "
-														: ""
-												}}{{
-													item["remarks"]
-														? item["remarks"] +
-														  " | "
-														: ""
-												}}{{
-													item["van_no"]
-														? item["van_no"] + " | "
-														: ""
-												}}{{
-													item["seal_no"]
-														? item["seal_no"] +
-														  " | "
-														: ""
+													formatNumber(
+														toCase(
+															trnHistData[
+																"numperuompu"
+															],
+															trnHistData["qty"]
+														)
+													)
+												}}</span
+											>
+										</div>
+										<div class="col-8">
+											<span class="col-2 font-weight-bold"
+												>DESC :</span
+											>
+											<span
+												class="col-10 font-weight-bold"
+											>
+												{{ trnHistData["itemdesc"] }}
+											</span>
+										</div>
+										<div class="col-4">
+											<span
+												class="
+													col-2
+													font-weight-bold
+													text-right
+												"
+												>SKU :</span
+											>
+											<span
+												class="col-10 font-weight-bold"
+											>
+												{{ trnHistData["itemcode"] }}
+											</span>
+										</div>
+										<div class="col-8">
+											<span class="col-2 font-weight-bold"
+												>LAST UPDATE :</span
+											>
+											<span
+												class="col-10 font-weight-bold"
+											>
+												{{
+													dateF(
+														trnHistData[
+															"updated_at"
+														]
+													)
 												}}
-											</div>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="6"></td>
-									</tr>
-								</tfoot>
-							</table>
+											</span>
+										</div>
+										<div class="col-4 font-weight-bold">
+											<span
+												class="
+													col-2
+													font-weight-bold
+													text-right
+												"
+												>EXP. DATE :</span
+											>
+											<span
+												class="col-10 font-weight-bold"
+											>
+												{{ trnHistData["expdate"] }}
+											</span>
+										</div>
+									</div>
+									<div class="tableFixHead">
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th
+														scope="col"
+														style="width: 100px"
+														class="text-center"
+													>
+														TRNDATE
+													</th>
+													<th
+														scope="col"
+														style="width: 100px"
+														class="text-center"
+													>
+														TRNTYPE
+													</th>
+													<th
+														scope="col"
+														style="width: 100px"
+														class="text-right"
+													>
+														DR QTY
+													</th>
+													<th
+														scope="col"
+														style="width: 100px"
+														class="text-right"
+													>
+														CR QTY
+													</th>
+													<th
+														scope="col"
+														style="width: 100px"
+														class="text-right"
+													>
+														BALANCE
+													</th>
+													<th
+														scope="col"
+														style="width: 60px"
+														class="text-right"
+													>
+														USER#
+													</th>
+													<th
+														scope="col"
+														class="pl-3"
+													>
+														REMARKS
+													</th>
+												</tr>
+											</thead>
+											<tbody
+												style="
+													height: 10px !important;
+													overflow: scroll;
+													flex-direction: column-reverse;
+												"
+											>
+												<tr
+													v-for="(
+														item, i
+													) in trnHistData[
+														'trn_hist'
+													]"
+													:key="i"
+												>
+													<td class="text-center">
+														{{ item["trndate"] }}
+													</td>
+													<td class="text-center">
+														{{ item["trntype"] }}
+													</td>
+													<td class="text-right">
+														{{
+															formatNumber(
+																toCase(
+																	trnHistData[
+																		"numperuompu"
+																	],
+																	item[
+																		"drqty"
+																	]
+																)
+															)
+														}}
+													</td>
+													<td class="text-right">
+														{{
+															formatNumber(
+																toCase(
+																	trnHistData[
+																		"numperuompu"
+																	],
+																	item[
+																		"crqty"
+																	]
+																)
+															)
+														}}
+													</td>
+													<td class="text-right">
+														{{
+															formatNumber(
+																toCase(
+																	trnHistData[
+																		"numperuompu"
+																	],
+																	item[
+																		"curqty"
+																	]
+																)
+															)
+														}}
+													</td>
+													<td class="text-right">
+														{{ item["user_id"] }}
+													</td>
+													<td>
+														<div
+															class="
+																col-12
+																pl-3
+																remarks
+																d-print-inline-flex
+															"
+															id="remarks"
+															:title="` ${
+																item['batch']
+																	? 'Batch# - ' +
+																	  item[
+																			'batch'
+																	  ] +
+																	  ' | '
+																	: ''
+															} ${
+																item['refno']
+																	? 'Ref# - ' +
+																	  item[
+																			'refno'
+																	  ] +
+																	  ' | '
+																	: ''
+															}${
+																item['rono']
+																	? 'RO# - ' +
+																	  item[
+																			'rono'
+																	  ] +
+																	  ' | '
+																	: ''
+															}${
+																item['customer']
+																	? String.fromCharCode(
+																			13
+																	  ) +
+																	  'Customer - ' +
+																	  item[
+																			'customer'
+																	  ] +
+																	  ' | '
+																	: ''
+															}${
+																item['from']
+																	? String.fromCharCode(
+																			13
+																	  ) +
+																	  'FROM - ' +
+																	  item[
+																			'from'
+																	  ] +
+																	  ' | '
+																	: ''
+															} ${
+																item['to']
+																	? 'TO - ' +
+																	  item[
+																			'to'
+																	  ] +
+																	  ' | '
+																	: ''
+															} ${
+																item['remarks']
+																	? String.fromCharCode(
+																			13
+																	  ) +
+																	  'Remarks - ' +
+																	  item[
+																			'remarks'
+																	  ] +
+																	  ' | '
+																	: ''
+															}${
+																item['van_no']
+																	? String.fromCharCode(
+																			13
+																	  ) +
+																	  'Van#  - ' +
+																	  item[
+																			'van_no'
+																	  ] +
+																	  ' | '
+																	: ''
+															}${
+																item['seal_no']
+																	? 'Seal#  - ' +
+																	  item[
+																			'seal_no'
+																	  ] +
+																	  ' | '
+																	: ''
+															}`"
+														>
+															{{
+																item["batch"]
+																	? item[
+																			"batch"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["refno"]
+																	? item[
+																			"refno"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["rono"]
+																	? item[
+																			"rono"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["customer"]
+																	? item[
+																			"customer"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["from"]
+																	? item[
+																			"from"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["to"]
+																	? item[
+																			"to"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["remarks"]
+																	? item[
+																			"remarks"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["van_no"]
+																	? item[
+																			"van_no"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["seal_no"]
+																	? item[
+																			"seal_no"
+																	  ] + " | "
+																	: ""
+															}}
+														</div>
+													</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="7"></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+								<div
+									class="modal-footer d-flex flex-row-reverse"
+								>
+									<button
+										type="button"
+										class="btn btn-secondary"
+										data-dismiss="modal"
+										@click="showTrn = false"
+									>
+										Close
+									</button>
+									<button
+										type="button"
+										class="btn btn-primary"
+										@click.prevent="printing()"
+									>
+										<i class="fa fa-print"></i> Print
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<!-- end body -->
-					<div class="modal-footer">
-						<button
-							type="button"
-							class="btn btn-secondary"
-							data-dismiss="modal"
-							@click="handleClose"
-						>
-							Close
-						</button>
-						<button
-							type="button"
-							class="btn btn-primary"
-							@click.prevent="printing()"
-						>
-							<i class="fa fa-print"></i> Print
-						</button>
-					</div>
 				</div>
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -632,6 +792,8 @@ export default {
 	middleware: "auth",
 	data() {
 		return {
+			showTrn: false,
+			showSearch: false,
 			query: "",
 			pagename: "Item List",
 			trndatefrom: "",
@@ -671,6 +833,7 @@ export default {
 		this.isLoggedCheck;
 	},
 	mounted() {
+		this.canAuth("items-read");
 		this.fetchItems();
 		this.fetchBranch();
 		this.trndatefrom = this.monthdayyear(this.datenow, -20);
@@ -786,12 +949,11 @@ export default {
 						data["ITEMDESC"] = items[i]["itemdesc"];
 						data["EXPDATE"] = items[i]["expdate"];
 						data["BRANCH"] = items[i]["branch"];
-						data[
-							"FWDS " + this.monthday(this.trndatefrom, -1)
-						] = this.toCase(
-							items[i]["numperuompu"],
-							items[i]["preqty"]
-						);
+						data["FWDS " + this.monthday(this.trndatefrom, -1)] =
+							this.toCase(
+								items[i]["numperuompu"],
+								items[i]["preqty"]
+							);
 						data["BR"] = this.toCase(
 							items[i]["numperuompu"],
 							items[i]["BR"]
@@ -808,12 +970,11 @@ export default {
 							items[i]["numperuompu"],
 							items[i]["OD"]
 						);
-						data[
-							"ENDING " + this.monthday(this.trndateto)
-						] = this.toCase(
-							items[i]["numperuompu"],
-							items[i]["qty"]
-						);
+						data["ENDING " + this.monthday(this.trndateto)] =
+							this.toCase(
+								items[i]["numperuompu"],
+								items[i]["qty"]
+							);
 						data["CASESIZE"] = items[i]["pckgsize"];
 						item.push(data);
 					}
@@ -921,8 +1082,6 @@ export default {
 			}
 		},
 		handleTrnHist(data) {
-			$("#trnModal").modal("show");
-
 			axios
 				.get("/api/items/getTrnHist", {
 					params: {
@@ -934,7 +1093,6 @@ export default {
 					},
 				})
 				.then((res) => {
-					console.log(res);
 					this.trnHistData = res.data[0];
 				});
 
@@ -1005,5 +1163,21 @@ export default {
 	position: sticky;
 	left: 0;
 	border-bottom: 1px solid black;
+}
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: table;
+	transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
 }
 </style>

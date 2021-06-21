@@ -28,7 +28,7 @@ class LoginController extends Controller
         }
         $cookie = cookie('jwt', $token, 60 * 24);
 
-        return \response()->json(['token' => $token], 200)->withCookie($cookie);
+        return \response()->json(['token' => 'token'], 200)->withCookie($cookie);
 
     }
 

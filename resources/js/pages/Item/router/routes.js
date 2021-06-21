@@ -22,6 +22,10 @@ export default [{
         path: 'report-rr/:id',
         name: 'report-rr',
         component: page('Item/view/report/rrrep.vue')
+    }, {
+        path: 'report-import/:id',
+        name: 'report-import',
+        component: page('Item/view/report/import.vue')
     },
     {
         path: 'delivery',

@@ -330,16 +330,6 @@
 																			]
 																		)
 																	}}
-
-																	{{
-																		Ucase(
-																			item[
-																				"items"
-																			][
-																				"pckgsize"
-																			]
-																		)
-																	}}
 																</td>
 
 																<td
@@ -479,6 +469,12 @@ export default {
 			switch (this.id.slice(0, this.id.search("-"))) {
 				case "DLVR":
 					return true;
+					break;
+				case "IMP":
+					this.$router.push({
+						name: "report-import",
+						params: { id: this.id },
+					});
 					break;
 				case "RR":
 					this.$router.push({

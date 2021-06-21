@@ -83,6 +83,7 @@
 											<tr
 												v-for="(data, i) in datas"
 												:key="i"
+												@dblclick="handleClick(data)"
 											>
 												<td>{{ data.batch }}</td>
 												<td>
@@ -190,6 +191,18 @@ export default {
 					this.datas = result.data;
 				})
 				.catch((err) => {});
+		},
+		handleClick(data) {
+			console.log(data);
+			this.$router.push({
+				name: "report-fptd",
+				params: { id: data.batch },
+			});
+			this.close();
+			// 	this.$router.push({
+			// 	name: "report-dlvry",
+			// 	params: { id: res.data.id },
+			// });
 		},
 	},
 };

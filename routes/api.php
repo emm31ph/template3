@@ -40,6 +40,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
         Route::get('/getItemsOut', 'Api\ItemBranchController@getItemsOut');
         Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
+        Route::get('/trnExportD', 'Api\ItemBranchController@trnExportD');
 
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
         Route::post('/adj-trans', 'Api\ItemController@AdjustmentTrans')->name('-ADJTrans');

@@ -96,37 +96,37 @@ class CounterSeeder extends Seeder
             [
                 'key' => 'DELIVERY',
                 'branch' => 'ILO',
-                'prefix' => 'DLVR-MAIN-',
+                'prefix' => 'DLVR-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'RRM',
                 'branch' => 'ILO',
-                'prefix' => 'RRM-MAIN-',
+                'prefix' => 'RRM-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'FPTD',
                 'branch' => 'ILO',
-                'prefix' => 'WP-MAIN-',
+                'prefix' => 'WP-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'RJCT',
                 'branch' => 'ILO',
-                'prefix' => 'RJ-MAIN-',
+                'prefix' => 'RJ-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'RR',
                 'branch' => 'ILO',
-                'prefix' => 'RR-MAIN-',
+                'prefix' => 'RR-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'IMPORT',
                 'branch' => 'ILO',
-                'prefix' => 'IMP-MAIN-',
+                'prefix' => 'IMP-ILO-',
                 'value' => 1,
             ], [
                 'key' => 'ADJUSTMENT',
                 'branch' => 'ILO',
-                'prefix' => 'ADJ-MAIN-',
+                'prefix' => 'ADJ-ILO-',
                 'value' => 1,
             ]];
 

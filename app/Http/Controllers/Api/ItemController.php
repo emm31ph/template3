@@ -24,10 +24,11 @@ class ItemController extends Controller
 
     public function importTrndate(Request $request)
     {
-        $trndate = ItemsBatch::where('user_id', auth()->user()->id)
-            ->where('trndate', '=', $request->trndate)
-            ->where('batch', 'like', 'IMP%')
+        $trndate = ItemsBatch::where('trndate', '=', $request->trndate)
+            ->where('batch', 'like', 'IMP-' . auth()->user()->branch . '%')
             ->first();
+
+        // return response()->json($trndate, 400);
 
         return response()->json($trndate == null ? true : false, 200);
     }
@@ -800,10 +801,10 @@ class ItemController extends Controller
     {
 
         $request['type'] = 'delete';
-        $request['itemcode'] = $itemcode;
+        $request['id'] = $id;
         // $user = User::WherePermissionIs('users-notify')->get();
         // $user->each->notify(new ItemsNotify(Auth::user(), ['data' => $request->all()]));
-        // Item::where('itemcode', '=', $itemcode)->update(['status' => '99']);
+        Item::where('id', '=', $id)->update(['status' => '99']);
 
         return \response()->json(['data' => 'successful'], 200);
     }

@@ -619,6 +619,12 @@ export default {
 					this.reportName = "Adjustment Items Transaction";
 					return "2";
 					break;
+				case "IMP":
+					this.$router.push({
+						name: "report-import",
+						params: { id: this.id },
+					});
+					break;
 				case "DLVR":
 					this.$router.push({
 						name: "report-dlvry",

@@ -690,12 +690,6 @@
 															}`"
 														>
 															{{
-																item["batch"]
-																	? item[
-																			"batch"
-																	  ] + " | "
-																	: ""
-															}}{{
 																item["refno"]
 																	? item[
 																			"refno"
@@ -741,6 +735,12 @@
 																item["seal_no"]
 																	? item[
 																			"seal_no"
+																	  ] + " | "
+																	: ""
+															}}{{
+																item["batch"]
+																	? item[
+																			"batch"
 																	  ] + " | "
 																	: ""
 															}}
@@ -857,6 +857,7 @@ export default {
 		allPosts() {
 			if (this.action == "preview") {
 				const data = this.getItems ? this.getItems : "";
+
 				if (this.getItems != "undefined ") {
 					// this.$emit("change", this.query);
 					if (!this.query == "") {
@@ -929,8 +930,12 @@ export default {
 	},
 
 	methods: {
-		handleDetailSubmit() {
-			axios
+		async handleDetailSubmit() {
+			var datas = [];
+			var item = [];
+
+			var itemTrnData = [];
+			await axios
 				.get("/api/items/getItemDetailTran", {
 					params: {
 						branch: this.branches,
@@ -940,8 +945,6 @@ export default {
 				})
 				.then((res) => {
 					var items = res.data;
-
-					var item = [];
 
 					for (var i = 0; i < items.length; i++) {
 						var data = [];
@@ -978,21 +981,64 @@ export default {
 						data["CASESIZE"] = items[i]["pckgsize"];
 						item.push(data);
 					}
-
-					var header = [];
-					header.push({
-						0: "Inventory Detailed",
-						1: "Date " + this.trndatefrom + " - " + this.trndateto,
-						2: "Branch " + this.branches,
-					});
-					this.export(this.branches + " detailed", item, header);
 				});
+
+			await axios
+				.get("/api/items/trnExportD", {
+					params: {
+						branch: this.branches,
+						trndatefrom: this.trndatefrom,
+						trndateto: this.trndateto,
+					},
+				})
+				.then((res) => {
+					var itemTrn = res.data;
+
+					for (var i = 0; i < itemTrn.length; i++) {
+						var data = [];
+						data["BRANCH"] = itemTrn[i]["branch"];
+						data["TRNDATE"] = itemTrn[i]["trndate"];
+						data["TRNMODE"] = itemTrn[i]["trnmode"];
+						data["TRNTYPE"] = itemTrn[i]["trntype"];
+						data["CUSTOMER"] =
+							itemTrn[i]["customer"] +
+								" " +
+								itemTrn[i]["from"] ===
+							"null"
+								? itemTrn[i]["from"] + " " + itemTrn[i]["from"]
+								: "";
+						data["ITEMDESC"] = itemTrn[i]["itemdesc"];
+						data["EXPDATE"] = itemTrn[i]["expdate"];
+
+						data["QTY "] = this.toCase(
+							itemTrn[i]["numperuompu"],
+							itemTrn[i]["qty"]
+						);
+						data["VAN#"] = itemTrn[i]["van_no"];
+						data["SEAL#"] = itemTrn[i]["seal_no"];
+						data["REMARKS"] = itemTrn[i]["remarks"];
+						// console.log(data);
+						itemTrnData.push(data);
+					}
+				});
+
+			datas["item"] = item;
+			datas["itemDetail"] = itemTrnData;
+
+			var header = [];
+			header.push({
+				0: "Inventory Detailed",
+				1: "Date " + this.trndatefrom + " - " + this.trndateto,
+				2: "Branch " + this.branches,
+			});
+			this.export(this.branches + " detailed", datas, header);
 		},
 		handleDownload: function () {
-			var data = [];
+			var datas = [];
+			var item = [];
 			var header = [];
 			for (var i = 0; i < this.getItems.length; i++) {
-				data.push({
+				item.push({
 					SKU: this.getItems[i]["itemcode"],
 					FSKU: "",
 					SHORTDESC: this.getItems[i]["u_skucode"],
@@ -1014,7 +1060,11 @@ export default {
 				1: "Date " + this.trndatefrom + " - " + this.trndateto,
 				2: "Branch " + this.branches,
 			});
-			this.export(this.branches + " summary", data, header);
+
+			datas["item"] = item;
+			datas["itemDetail"] = [];
+
+			this.export(this.branches + " summary", datas, header);
 		},
 		export(fileName, data, header) {
 			const wb = XLSX.utils.book_new();
@@ -1037,12 +1087,15 @@ export default {
 
 			XLSX.utils.sheet_add_aoa(ws, [[header[0][1]]], { origin: -1 });
 			XLSX.utils.sheet_add_aoa(ws, [[header[0][2]]], { origin: -1 });
-			XLSX.utils.sheet_add_json(ws, data, { origin: -1 });
+			XLSX.utils.sheet_add_json(ws, data["item"], { origin: -1 });
 
-			XLSX.utils.book_append_sheet(wb, ws, "data");
+			XLSX.utils.book_append_sheet(wb, ws, "Inventory");
 
-			// XLSX.utils.book_append_sheet(wb, ws1, "data");
-
+			console.log(data["itemDetail"].length);
+			if (data["itemDetail"].length != 0) {
+				var ws1 = XLSX.utils.json_to_sheet(data["itemDetail"]);
+				XLSX.utils.book_append_sheet(wb, ws1, "Transaction");
+			}
 			XLSX.writeFile(wb, "export " + fileName + ".xlsx", {
 				bookType: "xlsx",
 				type: "array",

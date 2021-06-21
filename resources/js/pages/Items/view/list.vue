@@ -6,7 +6,7 @@
 
 				<h6
 					class="m-0 font-weight-bold text-primary"
-					v-if="!can('products-create')"
+					v-if="can('products-create')"
 				>
 					<a @click="openModalWindow">
 						<i class="fas fa-cogs"></i>
@@ -116,17 +116,15 @@
 											href="#"
 											data-id="product.id"
 											@click="editModalWindow(product)"
-											v-if="!can('products-update')"
+											v-if="can('products-update')"
 										>
 											<i class="fa fa-edit blue"></i>
 										</a>
 
 										<a
 											href="#"
-											@click="
-												deleteProduct(product.itemcode)
-											"
-											v-if="!can('products-delete')"
+											@click="deleteProduct(product.id)"
+											v-if="can('products-delete')"
 										>
 											<i
 												class="fa fa-trash text-danger"

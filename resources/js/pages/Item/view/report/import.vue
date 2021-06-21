@@ -59,8 +59,7 @@
 																mt-5
 															"
 														>
-															Recieving Report
-															Transaction
+															{{ reportName }}
 														</p>
 													</div>
 													<div
@@ -94,90 +93,42 @@
 											<div class="row pb-2">
 												<div class="container-fluid">
 													<div class="row">
-														<div class="col-6">
-															<div class="row">
-																<div
+														<div class="col-8">
+															<div
+																class="
+																	col-12
+																	px-0
+																"
+																style="
+																	height: 70px;
+																"
+															>
+																<span
 																	class="
-																		col-2
+																		col-1
 																		px-0
 																	"
 																>
-																	Supplier :
-																</div>
-																<div
+																	Remarks :
+																</span>
+																<span
 																	v-if="data"
 																	class="
 																		col-10
-																		border-bottom
-																		border-dark
+																		pl-4
 																	"
-																>
-																	{{
+																	>{{
 																		this.Ucase(
 																			this
 																				.data[
-																				"customer"
+																				"remarks"
 																			]
 																		)
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-2
-																		px-0
-																	"
+																	}}</span
 																>
-																	Van No. :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-10
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"van_no"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-2
-																		px-0
-																	"
-																>
-																	Seal No. :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-10
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"seal_no"
-																			]
-																		)
-																	}}
-																</div>
 															</div>
 														</div>
-														<div class="col-6">
+														<div class="col-4">
 															<div class="row">
 																<div
 																	class="
@@ -200,63 +151,6 @@
 																			.data[
 																			"trndate"
 																		]
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-3
-																		text-right
-																	"
-																>
-																	RS No :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"refno"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
-
-															<div class="row">
-																<div
-																	class="
-																		col-3
-																		text-right
-																	"
-																>
-																	Remarks :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-9
-																		border-dark
-																	"
-																	style="
-																		height: 70px;
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"remark"
-																			]
-																		)
 																	}}
 																</div>
 															</div>
@@ -286,7 +180,7 @@
 																		width: 10%;
 																	"
 																>
-																	DR QTY
+																	Quantity
 																</th>
 
 																<th
@@ -300,20 +194,7 @@
 																		width: 10%;
 																	"
 																>
-																	CR QTY
-																</th>
-																<th
-																	class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																	"
-																	style="
-																		width: 10%;
-																	"
-																>
-																	UNIT
+																	TRN TYPE
 																</th>
 																<th
 																	class="
@@ -353,78 +234,48 @@
 																:key="i"
 															>
 																<td
+																	class="
+																		text-right
+																		pr-3
+																	"
 																	v-if="
 																		repType ==
 																		2
 																	"
 																>
 																	{{
-																		item[
-																			"unit"
-																		] !=
-																		"TIN"
-																			? formatNumberD(
-																					toCase(
-																						item[
-																							"items"
-																						][
-																							"numperuompu"
-																						],
-																						item[
-																							"drqty"
-																						]
-																					),
-																					0
-																			  )
-																			: item[
+																		formatNumber(
+																			toCase(
+																				item[
+																					"items"
+																				][
+																					"numperuompu"
+																				],
+																				item[
 																					"drqty"
-																			  ] ==
-																			  0
-																			? ""
-																			: item[
-																					"drqty"
-																			  ]
+																				] +
+																					item[
+																						"crqty"
+																					]
+																			)
+																		)
 																	}}
 																</td>
-																<td>
-																	{{
-																		item[
-																			"unit"
-																		] !=
-																		"TIN"
-																			? formatNumberD(
-																					toCase(
-																						item[
-																							"items"
-																						][
-																							"numperuompu"
-																						],
-																						item[
-																							"crqty"
-																						]
-																					),
-																					0
-																			  )
-																			: item[
-																					"crqty"
-																			  ] ==
-																			  0
-																			? ""
-																			: item[
-																					"crqty"
-																			  ]
-																	}}
-																</td>
+
 																<td>
 																	{{
 																		Ucase(
 																			item[
-																				"unit"
+																				"trntype"
 																			]
 																		)
 																	}}
 																</td>
-																<td>
+																<td
+																	class="
+																		text-left
+																	"
+																>
 																	{{
 																		Ucase(
 																			item[
@@ -444,8 +295,7 @@
 																</td>
 															</tr>
 															<tr
-																v-for="i in this
-																	.countitems"
+																v-for="i in countitems"
 																:key="i + 1"
 															>
 																<td>&nbsp;</td>
@@ -460,69 +310,6 @@
 																<td></td>
 															</tr>
 														</tbody>
-														<tfoot
-															class="
-																text-center
-																font-weight-bold
-															"
-														>
-															<tr>
-																<td
-																	v-if="
-																		repType ==
-																		2
-																	"
-																>
-																	{{
-																		formatNumberD(
-																			this
-																				.drQtyCase,
-																			0
-																		)
-																	}}
-																	{{
-																		this
-																			.drQtyTin !=
-																		0
-																			? " & " +
-																			  formatNumberD(
-																					this
-																						.drQtyTin,
-																					0
-																			  )
-																			: ""
-																	}}
-																</td>
-																<td>
-																	{{
-																		formatNumberD(
-																			this
-																				.crQtyCase,
-																			0
-																		)
-																	}}
-																	{{
-																		this
-																			.crQtyTin !=
-																		0
-																			? " & " +
-																			  formatNumberD(
-																					this
-																						.crQtyTin,
-																					0
-																			  )
-																			: ""
-																	}}
-																</td>
-																<td
-																	colspan="3"
-																	style="
-																		border-bottom: 0px;
-																		border-right: 0px;
-																	"
-																></td>
-															</tr>
-														</tfoot>
 													</table>
 												</div>
 											</div>
@@ -549,7 +336,7 @@
 																border-dark
 															"
 														>
-															Whse. In-Charge
+															PREPARED BY
 														</div>
 													</div>
 													<div class="col-3"></div>
@@ -606,6 +393,7 @@ export default {
 	middleware: "auth",
 	data() {
 		return {
+			reportName: "",
 			id: this.$route.params.id,
 			data: null,
 			countitems: 0,
@@ -622,27 +410,43 @@ export default {
 	computed: {
 		repType() {
 			switch (this.id.slice(0, this.id.search("-"))) {
-				case "RR":
-					return true;
+				case "RRM":
+					this.reportName = "Receipt for Return Merchandise";
+					return "1";
 					break;
-				case "IMP":
+				case "RR":
+					this.reportName = "Recieving Report Transaction";
 					this.$router.push({
-						name: "report-import",
+						name: "report-rr",
 						params: { id: this.id },
 					});
 					break;
-				// 	case "WP":
-				// 		return true;
-				// 		break;
-				// 	case "RR":
-				// 		return true;
-				// 		break;
-				default:
+				case "WP":
+					this.reportName = "Working Progress Transaction";
+					return "2";
+					break;
+				case "RJ":
+					this.reportName = "Reject Transaction";
+					return "2";
+					break;
+				case "ADJ":
+					this.reportName = "Adjustment Items Transaction";
+					return "2";
+					break;
+				case "IMP":
+					this.reportName = "Import Transaction";
+					return "2";
+					break;
+				case "DLVR":
 					this.$router.push({
 						name: "report-dlvry",
 						params: { id: this.id },
 					});
+					break;
+				default:
+					return true;
 			}
+
 			// this.$router.push({
 			// 	name: "inv-delivery-report",
 			// 	params: { id: response.data.batch },
@@ -717,7 +521,9 @@ export default {
 				params: { id: this.id },
 			});
 			this.data = res.data;
-			this.countitems = 11 - res.data["hist"].length;
+
+			const cnt = 11 - res.data["hist"].length;
+			this.countitems = cnt > 0 ? cnt : 0;
 		},
 		printing() {
 			var style = [
@@ -732,7 +538,7 @@ export default {
 				css: style,
 				//style: "@page {size: 5.5in 8.5in;size: landscape;}",
 				// style: "@page {size: 5.5in 4.25in;size: landscape;}",
-				style: "@page {size: 5.5in 8.5in;}",
+				style: "@page {size: 5.5in 8.5in;size: portrait}",
 				// header: "Multiple Images",
 				scanStyles: false,
 				onPrintDialogClose: () =>

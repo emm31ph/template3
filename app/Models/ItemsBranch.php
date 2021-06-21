@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class ItemsBranch extends Model
 {
 
-    // protected $primaryKey = 'itemcode';
-    // public $incrementing = false;
-    // protected $keyType = 'string';
+    protected $primaryKey = 'itemcode';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $hidden = [
         'created_at',
     ];

@@ -15,7 +15,7 @@
 										col-md-3 col-form-label
 										text-md-right
 									"
-									>Email Address</label
+									>Username</label
 								>
 								<div class="col-md-7">
 									<input
@@ -86,8 +86,8 @@ export default {
 	},
 	data: () => ({
 		form: new Form({
-			email: "administrator@app.com",
-			password: "password",
+			email: "",
+			password: "",
 		}),
 		remember: false,
 	}),

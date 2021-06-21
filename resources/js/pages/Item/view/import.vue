@@ -98,22 +98,39 @@
 										</td>
 									</tr>
 								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="4"></td>
+										<td>{{ formatNumber(this.drQty) }}</td>
+										<td></td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>
-					<v-button
-						type="submit"
-						:loading="form.busy"
-						class="btn btn-primary"
-						:class="
-							!form.importItems.length
-								? 'btn-secondary'
-								: 'btn-primary'
-						"
-						:disabled="!form.importItems.length"
-					>
-						Import
-					</v-button>
+					<div class="d-flex justify-content-between">
+						<v-button
+							type="submit"
+							:loading="form.busy"
+							class="btn btn-primary"
+							:class="
+								!form.importItems.length
+									? 'btn-secondary'
+									: 'btn-primary'
+							"
+							:disabled="!form.importItems.length"
+						>
+							Import
+						</v-button>
+
+						<div class="p-2 col-6">
+							<div class="row">
+								<div class="col-9 text-right">
+									{{ formatNumber(this.drQty) }}
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -341,7 +358,7 @@ export default {
 						title: "Are you sure?",
 						text:
 							this.form.importItems[0]["TRNDATE"] +
-							" is already import &#10;&#13;You won't be able to revert this!",
+							" is already import, You want continue this!",
 						icon: "warning",
 						showCancelButton: true,
 						confirmButtonColor: "#3085d6",
@@ -396,7 +413,16 @@ export default {
 			return [date.getFullYear(), mnth, day].join("-");
 		},
 	},
-	computed: {},
+	computed: {
+		drQty: function () {
+			var sum = 0;
+			for (var i = 0; i < this.form.importItems.length; i++) {
+				this.record = +i;
+				sum = sum + this.form.importItems[i]["QTY"] * 1;
+			}
+			return sum;
+		},
+	},
 };
 </script>
 

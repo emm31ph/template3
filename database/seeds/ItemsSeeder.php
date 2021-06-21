@@ -970,7 +970,6 @@ class ItemsSeeder extends Seeder
             ['u_skucode' => '', 'itemcode' => 'FPPSEBSCBZZ0150005', 'itemdesc' => 'B5 SENORITA CORNED BEEF REG 150G FREE SEN VS70G', 'pckgsize' => '5/155G', 'uompu' => 'CASE', 'numperuompu' => '5'],
             ['u_skucode' => '', 'itemcode' => 'FPPTYBTSCE10155010', 'itemdesc' => 'B10 TOYO SARDINES CHILI EOC 155G FREE SEN VS70G', 'pckgsize' => '10/155G', 'uompu' => 'CASE', 'numperuompu' => '10'],
             ['u_skucode' => '', 'itemcode' => 'FPPTYBTSGE10155010', 'itemdesc' => 'B10 TOYO SARDINES GREEN EOC 155G FREE SEN VS70G', 'pckgsize' => '10/155G', 'uompu' => 'CASE', 'numperuompu' => '10'],
-            ['u_skucode' => '', 'itemcode' => 'FSASESSSHE10155100', 'itemdesc' => 'SENORITA SARDINES SUPER HOT EOC 100/155G', 'pckgsize' => '100/155G', 'uompu' => 'CASE', 'numperuompu' => '100'],
             ['u_skucode' => '', 'itemcode' => 'FSASWSSCZY10155100', 'itemdesc' => 'SWAN SARDINES CHILI 100/155G YT', 'pckgsize' => '100/155G', 'uompu' => 'CASE', 'numperuompu' => '100'],
             ['u_skucode' => 'SCBE48150', 'itemcode' => 'FMSCBE0150048', 'itemdesc' => 'SENORITA CORNED BEEF EOC 48/150g.', 'pckgsize' => '48/150G', 'uompu' => 'CASE', 'numperuompu' => '48'],
             ['u_skucode' => 'SCBE48175', 'itemcode' => 'FMSCBE0175048', 'itemdesc' => 'SENORITA CORNED BEEF EOC 48/175g.', 'pckgsize' => '48/150G', 'uompu' => 'CASE', 'numperuompu' => '48'],

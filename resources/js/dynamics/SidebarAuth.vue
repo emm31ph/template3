@@ -5,20 +5,17 @@
 		id="accordionSidebar"
 	>
 		<!-- Sidebar - Brand -->
-		<a
+		<router-link
 			class="
 				sidebar-brand
 				d-flex
 				align-items-center
 				justify-content-center
 			"
-			href="index.html"
+			to="{ name: 'dashboard' }"
 		>
-			<div class="sidebar-brand-icon rotate-n-15">
-				<i class="fas fa-laugh-wink"></i>
-			</div>
-			<div class="sidebar-brand-text mx-3">TOSEN</div>
-		</a>
+			<img :src="'/img/logo.png'" class="rounded w-50" />
+		</router-link>
 
 		<!-- Divider -->
 		<hr class="sidebar-divider my-0" />
@@ -104,7 +101,7 @@
 					<router-link
 						:to="{ name: 'items-adjust' }"
 						class="collapse-item"
-						v-if="!can('items-adjust')"
+						v-if="can('items-adjust')"
 					>
 						Adjustment
 					</router-link>
@@ -150,7 +147,7 @@
 					<router-link
 						:to="{ name: 'product' }"
 						class="collapse-item"
-						v-if="!can('product-read')"
+						v-if="can('products-read')"
 					>
 						Product
 					</router-link>

@@ -558,7 +558,7 @@ export default {
 				params: { id: this.id },
 			});
 			this.data = res.data;
-			this.countitems = 24 - res.data["hist"].length;
+			// this.countitems = 24 - res.data["hist"].length;
 		},
 		printing() {
 			var style = [

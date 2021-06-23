@@ -56,37 +56,37 @@ class CounterSeeder extends Seeder
             [
                 'key' => 'DELIVERY',
                 'branch' => 'CEB',
-                'prefix' => 'DLVR-MAIN-',
+                'prefix' => 'DLVR-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'RRM',
                 'branch' => 'CEB',
-                'prefix' => 'RRM-MAIN-',
+                'prefix' => 'RRM-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'FPTD',
                 'branch' => 'CEB',
-                'prefix' => 'WP-MAIN-',
+                'prefix' => 'WP-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'RJCT',
                 'branch' => 'CEB',
-                'prefix' => 'RJ-MAIN-',
+                'prefix' => 'RJ-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'RR',
                 'branch' => 'CEB',
-                'prefix' => 'RR-MAIN-',
+                'prefix' => 'RR-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'IMPORT',
                 'branch' => 'CEB',
-                'prefix' => 'IMP-MAIN-',
+                'prefix' => 'IMP-CEB-',
                 'value' => 1,
             ], [
                 'key' => 'ADJUSTMENT',
                 'branch' => 'CEB',
-                'prefix' => 'ADJ-MAIN-',
+                'prefix' => 'ADJ-CEB-',
                 'value' => 1,
             ]];
 

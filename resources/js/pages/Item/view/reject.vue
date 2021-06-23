@@ -170,9 +170,6 @@
 								</td>
 								<td>
 									<input
-										:disabled="
-											item.expdate != null ? true : false
-										"
 										v-model="item.expdate"
 										type="date"
 										class="

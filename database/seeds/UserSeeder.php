@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -12,10 +13,16 @@ class UserSeeder extends Seeder
     public function run()
     {
 
+        Role::create([
+            'name' => 'warehouse',
+            'display_name' => 'Warehouse', // optional
+            'description' => 'Warehouse access contro list', // optional
+        ]);
+
         $user = \App\Models\User::create([
-            'name' => 'Raymond',
-            'username' => 'raymond',
-            'email' => 'raymond@app.com',
+            'name' => 'Raymond Tabor',
+            'username' => 'r.tabor',
+            'email' => 'r.tabor@app.com',
             'status' => '01',
             'branch' => 'MAIN',
             'password' => bcrypt('password'),

@@ -42,6 +42,7 @@ class RRRequest extends FormRequest
             'trndate.date' => 'The Date field invalid format.',
             'trndate.after' => 'The Date field invalid format.',
             'refno.required' => 'The Reference No. field is require.',
+            'refno.unique' => 'The Reference No. field is all ready exist.',
             'customer.required' => 'The Customer field is require.',
             'van_no.required' => 'The Van No. field is require.',
             'seal_no.required' => 'The Seal No. field is require.',

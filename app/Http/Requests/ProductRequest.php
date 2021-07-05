@@ -21,7 +21,7 @@ class ProductRequest extends FormRequest
 
         // dd($this->id);
         $rules = [
-            'u_skucode' => 'required',
+            'u_stockcode' => 'required',
             'pckgsize' => 'required',
             'numperuompu' => 'required',
             'uompu' => 'required',
@@ -52,7 +52,7 @@ class ProductRequest extends FormRequest
             'itemcode.unique' => 'Itemcode is already exist',
             'itemdesc.required' => 'Item description is required',
             'itemdesc.unique' => 'Item description is already exist',
-            'u_skucode.required' => 'Shortcode is required',
+            'u_stockcode.required' => 'Shortcode is required',
             'pckgsize.required' => 'Package size is required',
             'numperuompu.required' => 'Number per Unit is required',
             'uompu.required' => 'UOM is required',

@@ -13,11 +13,11 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        Role::create([
-            'name' => 'warehouse',
-            'display_name' => 'Warehouse', // optional
-            'description' => 'Warehouse access contro list', // optional
-        ]);
+        // Role::create([
+        //     'name' => 'warehouse',
+        //     'display_name' => 'Warehouse', // optional
+        //     'description' => 'Warehouse access contro list', // optional
+        // ]);
 
         $user = \App\Models\User::create([
             'name' => 'Raymond Tabor',
@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
             'branch' => 'MAIN',
             'password' => bcrypt('password'),
         ]);
+        $user->syncRoles([2 ,3]);
         $user = \App\Models\User::create([
             'name' => 'Martin Barabona',
             'username' => 'm.barabona',
@@ -35,6 +36,7 @@ class UserSeeder extends Seeder
             'branch' => 'ILO',
             'password' => bcrypt('password'),
         ]);
+        $user->syncRoles([2 ,3]);
 
         $user = \App\Models\User::create([
             'name' => 'Stephanie Santiago',
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'branch' => 'ILO',
             'password' => bcrypt('password'),
         ]);
+        $user->syncRoles([2 ,3]);
 
         $user = \App\Models\User::create([
             'name' => 'Christian Jay Loyd Suing',
@@ -53,6 +56,7 @@ class UserSeeder extends Seeder
             'branch' => 'CEB',
             'password' => bcrypt('password'),
         ]);
+        $user->syncRoles([2 ,3]);
 
     }
 }

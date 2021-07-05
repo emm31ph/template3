@@ -59,7 +59,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="card rounded">
-								<div class="tableFixHead">
+								<div class="tableFixHead1"  >
 									<table
 										class="table table-hover tables-sm"
 										id="dev-table"
@@ -68,7 +68,7 @@
 											<tr>
 												<th>TRN</th>
 												<th>TRNMODE</th>
-												<th>Customer/From&To</th>
+												<th>Customer/Supplier/From&To</th>
 												<th>REF#/RS#/PO#</th>
 												<th>Remarks</th>
 											</tr>
@@ -103,6 +103,9 @@
 															  "005"
 															? "Reject"
 															: data.trnType ==
+															  "007"
+															? "REVERSAL"
+															: data.trnType ==
 															  "008"
 															? "Import"
 															: data.trnType ==
@@ -114,7 +117,7 @@
 												<td>
 													{{ data.customer
 													}}{{
-														data.from != null
+															 ((data.from)) 
 															? data.from +
 															  " -> " +
 															  data.to
@@ -125,17 +128,17 @@
 													{{
 														"".concat(
 															data.refno == null
-																? ""
-																: data.refno,
+																? " "
+																: " "+data.refno,
 															data.rono == null
-																? ""
-																: data.rono,
+																? " "
+																: " "+data.rono,
 															data.van_no == null
-																? ""
-																: data.van_no,
+																? " "
+																: " "+data.van_no,
 															data.seal_no == null
-																? ""
-																: data.seal_no
+																? " "
+																: " "+data.seal_no
 														)
 													}}
 												</td>
@@ -188,15 +191,17 @@ export default {
 					},
 				})
 				.then((result) => {
+				 
 					this.datas = result.data;
+
 				})
 				.catch((err) => {});
 		},
-		handleClick(data) {
-			console.log(data);
+		handleClick(data) { 
+			 
 			this.$router.push({
-				name: "report-fptd",
-				params: { id: data.batch },
+				name: "report-view",
+				params: { batch: data.batch }
 			});
 			this.close();
 			// 	this.$router.push({
@@ -209,21 +214,23 @@ export default {
 </script>
 
 <style>
-.tableFixHead {
-	overflow-y: scroll;
-	max-height: 550px;
+.tableFixHead1 {
+	overflow-y: scroll; 
+	max-height: 700px;
 	width: auto;
 	display: flex;
 	flex-direction: column-reverse;
+	bottom: 0;
+	top: 0;
 }
-.tableFixHead thead th {
+.tableFixHead1 thead th {
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	background-color: black;
 	color: white;
 }
-.tableFixHead tbody th {
+.tableFixHead1 tbody th {
 	position: sticky;
 	left: 0;
 	border-bottom: 1px solid black;

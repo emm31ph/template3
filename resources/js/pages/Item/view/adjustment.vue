@@ -356,7 +356,7 @@ export default {
 		form: new Form({
 			userid: "",
 			trndate: "",
-			trnmode: "ADJ",
+			trnmode: "ADJUSTMENT",
 			from: "",
 			to: "",
 			refno: "",
@@ -421,7 +421,7 @@ export default {
 				this.form.post("/api/items/adj-trans").then((res) => {
 					// console.log(res.data);
 					this.$router.push({
-						name: "report-fptd",
+						name: "report-adj",
 						params: { id: res.data.id },
 					});
 					this.resetForm();

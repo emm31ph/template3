@@ -346,7 +346,7 @@ export default {
 			if (result) {
 				this.form.post("/api/items/rrm-trans").then((res) => {
 					this.$router.push({
-						name: "report-fptd",
+						name: "report-rrm",
 						params: { id: res.data.id },
 					});
 					this.resetForm();
@@ -356,7 +356,7 @@ export default {
 		addNewLine() {
 			this.form.items.push({
 				qty: 0,
-				trntype: "RR",
+				trntype: "RRM",
 				itemcode: null,
 				expdate: null,
 				unit: "CASE",

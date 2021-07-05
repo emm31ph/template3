@@ -138,6 +138,12 @@
 			>
 				<div class="bg-white py-2 collapse-inner rounded">
 					<router-link
+						:to="{ name: 'settings' }"
+						class="collapse-item" 
+					>
+						Settings
+					</router-link>
+					<router-link
 						:to="{ name: 'roles' }"
 						class="collapse-item"
 						v-if="can('role-read')"

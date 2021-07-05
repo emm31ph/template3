@@ -17,13 +17,13 @@ class ItemBranchController extends Controller
         config()->set('database.connections.mysql.strict', false);
         \DB::reconnect();
 
-        $item = DB::select(DB::raw("select ih.expdate, ibr.branch,ib.trnType as trnmode,ih.trntype, i.itemdesc,i.itemcode,ib.rono,ib.refno,ib.customer,ib.`from`,ib.`to`,ib.van_no,ib.seal_no,ib.remarks, ih.trndate,i.numperuompu,(ih.drqty+ih.crqty) qty from items_trn_hists ih
+        $item = DB::select(DB::raw("select ib.batch, ih.expdate, ibr.branch,ib.trnType as trnmode,ih.trntype, i.itemdesc,i.itemcode,ib.rono,ib.refno,ib.customer,ib.`from`,ib.`to`,ib.van_no,ib.seal_no,ib.remarks, ih.trndate,i.numperuompu,(ih.drqty+ih.crqty) qty from items_trn_hists ih
             LEFT JOIN items i on i.itemcode=ih.itemcode
             LEFT JOIN items_branches ibr on ibr.itemcode=ih.itemcode and ifnull(ibr.expdate,'1900-01-01')=ifnull(ih.expdate,'1900-01-01')
             LEFT join items_batches ib on ib.batch=ih.batch
-            where IF('{$request->branch}'='',''='',ibr.branch='{$request->branch}') and ih.trndate BETWEEN '{$request->trndatefrom}' and '{$request->trndateto}'
+            where IF('{$request->branch}'='',''='',ih.branch='{$request->branch}') and ih.trndate BETWEEN '{$request->trndatefrom}' and '{$request->trndateto}'
             and (ih.drqty+ih.crqty)!=0
-            order by ib.trndate, ib.batch,ih.id "));
+            order by ib.trndate,ih.id,ib.batch"));
 
         config()->set('database.connections.mysql.strict', true);
         \DB::reconnect();
@@ -38,30 +38,21 @@ class ItemBranchController extends Controller
         $pars['trndateto'] = $request->trndateto;
 
         $expdate = $request->expdate != '' ? $request->expdate : '1900-01-01';
-
-        $data = ItemsBranch::select('items.*', 'items_branches.*')->leftJoin('items', 'items.itemcode', 'items_branches.itemcode')
-            ->with(['TrnHist' => function ($q) use ($pars) {
-                $q->leftJoin('items_batches', 'items_batches.batch', 'items_trn_hists.batch')
-                    ->where('branch', '=', $pars['branch'])
-                    ->whereBetween('items_trn_hists.trndate', [$pars['trndatefrom'], $pars['trndateto']])
-                    ->whereRaw("ifnull(expdate,'1900-01-01')='" . $pars['expdate'] . "'")
-
-                // ->selectRaw('')
-                    ->select('items_trn_hists.*', 'rono', 'refno', 'remarks', 'customer',
-                        'from', 'to', 'van_no', 'seal_no', 'user_id');
-            }])
-            ->whereRaw("IF('" . $request->itemcode . "'='',''='',items_branches.itemcode='" . $request->itemcode . "')")
-            ->whereRaw("IF('" . $request->expdate . "'='',''='',IFNULL(items_branches.expdate,'1900-01-01')='{$expdate}')")
-
-            ->where('items_branches.branch', '=', $request->branch)
-
+    
+ 
+        DB::statement(DB::raw('SET @runcrtot:=0;'));
+        DB::statement(DB::raw('SET @rundrtot:=0;'));
+        DB::statement(DB::raw('SET @runtot:=0;'));
+        
+        $data = DB::table(DB::raw("(select `items_trn_hists`.*, `rono`, `refno`, `remarks`, `customer`, `from`, `to`, `van_no`, `seal_no`, `user_id` from items_trn_hists left join items_batches on items_batches.batch = items_trn_hists.batch where items_trn_hists.itemcode in ('{$request->itemcode}') and branch = '{$request->branch}' and items_trn_hists.trndate between '{$request->trndatefrom}' and '{$request->trndateto}' and ifnull(expdate,'1900-01-01')='{$expdate}' order by items_trn_hists.trndate, id) as tt"))
+            ->selectRaw("*,(@runcrtot := @runcrtot + tt.crqty)- (@rundrtot := @rundrtot + tt.drqty)  AS runtot")
             ->get();
-
         return \response()->json($data, 200);
     }
     public function reportItem(Request $request)
     {
-        $data = ItemsBatch::with('hist.items')
+        // if(!$request->get('edit')){
+        $data = ItemsBatch::with(['hist','user:id,name'])
             ->where('items_batches.batch', '=', $request->get('id'))
             ->first();
 
@@ -81,7 +72,7 @@ class ItemBranchController extends Controller
 
     public function getAllItems(Request $request)
     {
-        $data = Item::orderByRaw("status asc")->orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc")
+        $data = Item::orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 when status =1 then 7 else 0 end) asc")
             ->orderByRaw("itemdesc asc")
 
         #->where('itemdesc', 'not like', '%LABEL%')
@@ -133,8 +124,9 @@ class ItemBranchController extends Controller
     {
 
         $trn = ItemsBatch::where('items_batches.trndate', '=', $request->trndate)
-            ->where('items_batches.user_id', '=', auth()->user()->id)
-        // ->where('items_batches.branch', '=', auth()->user()->branch)
+            #->whereRaw("items_batches.batch not like '%CAN%'")
+            ->whereRaw("IF(".auth()->user()->id."=1,''='',items_batches.user_id=".auth()->user()->id.")")
+            ->orderBy('batch','asc')
             ->get();
 
         return \response()->json($trn, 200);

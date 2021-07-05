@@ -439,8 +439,7 @@ export default {
 					this.fetchUsers();
 					this.closeModal();
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch((error) => { 
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
@@ -524,8 +523,7 @@ export default {
 			this.$emit("change", this.query);
 			if (this.query == "") {
 				return [];
-			}
-			console.log(this.query);
+			} 
 
 			return this.filteredUsers.filter(
 				(item) => item["name"].toLowerCase().startsWith(this.query) //search start left side

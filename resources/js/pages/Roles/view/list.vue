@@ -353,8 +353,7 @@ export default {
 			this.$emit("change", this.query);
 			if (this.query == "") {
 				return [];
-			}
-			console.log(this.query);
+			} 
 
 			return this.filteredRoles.filter(
 				(item) =>

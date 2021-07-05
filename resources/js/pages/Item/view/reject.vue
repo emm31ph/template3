@@ -45,7 +45,7 @@
 						<div class="col-sm-8">
 							<input
 								v-model="form.trndate"
-								type="text"
+								type="date"
 								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has('trndate'),
@@ -216,6 +216,9 @@
 											form-control form-control-sm
 											text-center
 										"
+										:disabled="
+											item.crqty != 0 ? true : false
+										"
 										min="0"
 										@change="calculateTotalDr(item)"
 										@keypress="validateNumber"
@@ -238,6 +241,9 @@
 										class="
 											form-control form-control-sm
 											text-center
+										"
+										:disabled="
+											item.drqty != 0 ? true : false
 										"
 										min="0"
 										@change="calculateTotalCr(item)"
@@ -294,6 +300,28 @@
 								</td>
 								<td></td>
 							</tr>
+							<tr>
+								<td colspan="3" class="text-right"></td>
+
+								<td class="text-center" colspan="2">
+									<input
+										v-model="form.items_variance_total"
+										type="hidden"
+										class="form-control form-control-sm"
+										:class="{
+											'is-invalid': form.errors.has(
+												'items_variance_total'
+											),
+										}"
+										name="items_variance_total"
+									/>
+									<has-error
+										:form="form"
+										field="items_variance_total"
+									/>
+								</td>
+								<td></td>
+							</tr>
 						</tfoot>
 					</table>
 					<has-error :form="form" field="crqty_total" />
@@ -317,7 +345,7 @@ import Form from "vform";
 
 export default {
 	middleware: "auth",
-	name: "inv-delivery",
+	name: "inv-reject",
 	metaInfo() {
 		return { title: "Reject Transaction" };
 	},
@@ -325,13 +353,14 @@ export default {
 		form: new Form({
 			userid: "",
 			trndate: "",
-			trnmode: "RJCT",
+			trnmode: "REJECT",
 			from: "",
 			to: "",
 			refno: "",
-			remarks: "",
 			drqty_total: 0,
 			crqty_total: 0,
+			items_variance_total: 0,
+			remarks: "",
 			items: [
 				{
 					drqty: 0,
@@ -358,15 +387,15 @@ export default {
 			},
 		],
 	}),
-
 	created() {
 		this.isLoggedCheck;
 	},
 	mounted() {
-		this.canAuth("items-reject");
+		this.canAuth("items-fptd");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
 		this.fetchAllItemsBranch();
+		this.items_variance_total = 0;
 	},
 	methods: {
 		itemSelected(item) {
@@ -386,20 +415,20 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				const res = this.form.post("/api/items/fptd-trans");
-
-				this.$router.push({
-					name: "report-fptd",
-					params: { id: res.data.id },
+				this.form.post("/api/items/fptd-trans").then((res) => {
+					this.$router.push({
+						name: "report-rj",
+						params: { id: res.data.id },
+					});
+					this.resetForm();
 				});
-				this.resetForm();
 			}
 		},
 		addNewLine() {
 			this.form.items.push({
 				drqty: 0,
 				crqty: 0,
-				trntype: "WP",
+				trntype: "RJ",
 				itemcode: null,
 				expdate: null,
 				unit: "CASE",
@@ -438,7 +467,7 @@ export default {
 				return sum;
 			}, 0);
 			this.items_dr_total = subtotaldr;
-			this.form.drqty_total = subtotaldr;
+			this.form.drqty_total = subtotaldr; 
 			this.checkBtn();
 		},
 		calculateTotalCr() {
@@ -458,6 +487,9 @@ export default {
 			const even = (element) =>
 				element.qty === 0 || element.itemdesc === null;
 			this.btn = this.form.items.some(even);
+
+			this.form.items_variance_total =
+				this.items_dr_total - this.items_cr_total;
 		},
 	},
 };

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<auto-logout v-if="isLogged" />
+		<auto-logout v-if="isLogged && active"  />
 		<div id="wrapper">
 			<!-- Sidebar -->
 			<sidebar-auth></sidebar-auth>
@@ -42,6 +42,11 @@
 export default {
 	middleware: "auth",
 	name: "MainLayout",
+	data(){
+		return {
+			active:false
+		}
+	},
 	mounted() {
 		// 	Echo.join(`chat`)
 		// 		.here((users) => {

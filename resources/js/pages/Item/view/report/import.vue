@@ -30,19 +30,7 @@
 																mr-2
 															"
 															style="width: 75px"
-														/>
-														<p
-															class="
-																h2
-																font-weight-bold
-																mb-0
-																pb-0
-															"
-														>
-															TOSEN
-														</p>
-
-														<sub> FOODS, INC. </sub>
+														/> 
 													</div>
 													<div
 														class="
@@ -59,7 +47,7 @@
 																mt-5
 															"
 														>
-															{{ reportName }}
+															IMPORT DOCUMENT
 														</p>
 													</div>
 													<div
@@ -164,15 +152,8 @@
 													<table class="mytable">
 														<thead>
 															<tr>
-																<th
-																	v-if="
-																		repType ==
-																		2
-																	"
-																	class="
-																		text-uppercase
-																		small
-																		font-weight-bold
+																<th 
+																	class="text-uppercase small font-weight-bold
 																		text-center
 																		h5
 																	"
@@ -237,18 +218,12 @@
 																	class="
 																		text-right
 																		pr-3
-																	"
-																	v-if="
-																		repType ==
-																		2
-																	"
+																	" 
 																>
 																	{{
 																		formatNumber(
 																			toCase(
 																				item[
-																					"items"
-																				][
 																					"numperuompu"
 																				],
 																				item[
@@ -260,8 +235,7 @@
 																			)
 																		)
 																	}}
-																</td>
-
+																</td> 
 																<td>
 																	{{
 																		Ucase(
@@ -279,8 +253,6 @@
 																	{{
 																		Ucase(
 																			item[
-																				"items"
-																			][
 																				"itemdesc"
 																			]
 																		)
@@ -296,15 +268,10 @@
 															</tr>
 															<tr
 																v-for="i in countitems"
-																:key="i + 1"
+																:key="i + data['hist'].length"
 															>
 																<td>&nbsp;</td>
-																<td
-																	v-if="
-																		repType ==
-																		2
-																	"
-																></td>
+																<td></td>
 																<td></td>
 																<td></td>
 																<td></td>
@@ -323,10 +290,7 @@
 													>
 														<div class="">
 															{{
-																this.Ucase(
-																	this.isUser
-																		.name
-																)
+																this.data["user"]['name']
 															}}
 														</div>
 														<div
@@ -391,10 +355,11 @@ import print from "print-js";
 export default {
 	name: "report",
 	middleware: "auth",
+   	props: ["id"] ,
 	data() {
 		return {
 			reportName: "",
-			id: this.$route.params.id,
+			 
 			data: null,
 			countitems: 0,
 			drtotal: 0,
@@ -408,50 +373,7 @@ export default {
 		this.handleSubmit();
 	},
 	computed: {
-		repType() {
-			switch (this.id.slice(0, this.id.search("-"))) {
-				case "RRM":
-					this.reportName = "Receipt for Return Merchandise";
-					return "1";
-					break;
-				case "RR":
-					this.reportName = "Recieving Report Transaction";
-					this.$router.push({
-						name: "report-rr",
-						params: { id: this.id },
-					});
-					break;
-				case "WP":
-					this.reportName = "Working Progress Transaction";
-					return "2";
-					break;
-				case "RJ":
-					this.reportName = "Reject Transaction";
-					return "2";
-					break;
-				case "ADJ":
-					this.reportName = "Adjustment Items Transaction";
-					return "2";
-					break;
-				case "IMP":
-					this.reportName = "Import Transaction";
-					return "2";
-					break;
-				case "DLVR":
-					this.$router.push({
-						name: "report-dlvry",
-						params: { id: this.id },
-					});
-					break;
-				default:
-					return true;
-			}
-
-			// this.$router.push({
-			// 	name: "inv-delivery-report",
-			// 	params: { id: response.data.batch },
-			// });
-		},
+		 
 		drQtyCase: function () {
 			let sum = 0;
 
@@ -462,11 +384,11 @@ export default {
 							(Math.floor(
 								item.drqty /
 									((item.drqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)
+										item.numperuompu)
 							) +
 								(item.drqty %
 									((item.drqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)) /
+										item.numperuompu)) /
 									((item.drqty >= 0 ? 1 : -1) * 100))
 					);
 				}
@@ -493,11 +415,11 @@ export default {
 							(Math.floor(
 								item.crqty /
 									((item.crqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)
+										item.numperuompu)
 							) +
 								(item.crqty %
 									((item.crqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)) /
+										item.numperuompu)) /
 									((item.crqty >= 0 ? 1 : -1) * 100))
 					);
 				}
@@ -519,7 +441,7 @@ export default {
 		async handleSubmit() {
 			const res = await axios.get("/api/items/reportItem", {
 				params: { id: this.id },
-			});
+			}); 
 			this.data = res.data;
 
 			const cnt = 11 - res.data["hist"].length;
@@ -538,7 +460,7 @@ export default {
 				css: style,
 				//style: "@page {size: 5.5in 8.5in;size: landscape;}",
 				// style: "@page {size: 5.5in 4.25in;size: landscape;}",
-				style: "@page {size: 5.5in 8.5in;size: portrait}",
+				style: "@page {size: 5.5in 8.5in;size: portrait} @page :top { margin-top: 3cm;}",
 				// header: "Multiple Images",
 				scanStyles: false,
 				onPrintDialogClose: () =>
@@ -551,7 +473,28 @@ export default {
 			this.$htmlToPaper("printme", () => {
 				console.log("Printing completed or was cancelled!");
 			});
+		},repType(data) {
+			switch (data) {
+				case "IMP":
+					return true;
+					break; 
+				default:
+					this.$router.push({
+						name: "dashboard" 
+					});
+			}
 		},
+    },
+    mounted(){  
+        if(this.id==undefined){
+        	this.$router.push({
+				name: "dashboard" 
+			});
+        }else{ 
+            this.repType(this.id.slice(0, this.id.search("-")));
+			this.handleSubmit(); 
+        }
+    
 	},
 };
 </script>

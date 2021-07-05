@@ -160,10 +160,26 @@ Vue.mixin({
                     if (aa.length) {
                         return true;
                     } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'warning',
+                            toast:true,
+                            title: 'you don\'t have permission',
+                            showConfirmButton: false,
+                            timer: 2500
+                          })
                         this.$router.go(-1)
                     }
                 }
             }
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                toast:true,
+                title: 'you don\'t have permission',
+                showConfirmButton: false,
+                timer: 2500
+              })
             this.$router.go(-1)
         },
     }

@@ -7,7 +7,7 @@
 					class="no-clear search-typeahead"
 					style="z-index: 1"
 					@click="toggleVisible"
-					v-text="selectedItem ? selectedItem[filterby] : ''"
+					v-text="selectedItem ? selectedItem[filterby] : datavalue"
 				></div>
 				<div
 					class="form-control-sm"
@@ -101,6 +101,11 @@ export default {
 			type: String,
 			default: "",
 		},
+		
+		datavalue: {
+			type: String,
+			default: "",
+		},
 		items: {
 			default: () => [],
 			type: Array,
@@ -127,7 +132,7 @@ export default {
 	data() {
 		return {
 			itemHeight: 39,
-			selectedItem: null,
+			selectedItem: '',
 			selected: 0,
 			query: "",
 			visible: false,

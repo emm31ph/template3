@@ -172,6 +172,7 @@
 									<input
 										v-model="item.expdate"
 										type="date"
+										:disabled="item.drqty != 0 ? true : false"
 										class="
 											form-control form-control-sm
 											text-center
@@ -417,7 +418,7 @@ export default {
 			if (result) {
 				this.form.post("/api/items/fptd-trans").then((res) => {
 					this.$router.push({
-						name: "report-fptd",
+						name: "report-wp",
 						params: { id: res.data.id },
 					});
 					this.resetForm();

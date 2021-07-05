@@ -42,6 +42,7 @@ class RJCTRequest extends FormRequest
             'trndate.date' => 'The Date field invalid format.',
             'trndate.after' => 'The Date field invalid format.',
             'refno.required' => 'The Reference No. field is require.',
+            'refno.unique' => 'The Reference No. field is all ready exist.',
             'from.required' => 'The "From" field is require.',
             'to.required' => 'The "To" field is require.',
             'items.*.itemcode.required' => 'The Item product field is require.',

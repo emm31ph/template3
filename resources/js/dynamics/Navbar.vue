@@ -26,6 +26,12 @@
 							Login
 						</router-link>
 					</li>
+					
+					<li class="nav-item" v-if="isLogged">
+						<router-link :to="{ name: 'dashboard' }" class="nav-link">
+							Dashboard
+						</router-link>
+					</li>
 				</ul>
 			</div>
 			<!-- navbar-collapse.// -->

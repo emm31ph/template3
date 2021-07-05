@@ -4,14 +4,36 @@
 			<div class="card-header py-3 d-flex justify-content-between">
 				<h6 class="m-0 font-weight-bold text-primary">Products</h6>
 
-				<h6
-					class="m-0 font-weight-bold text-primary"
-					v-if="can('products-create')"
-				>
-					<a @click="openModalWindow">
-						<i class="fas fa-cogs"></i>
-					</a>
-				</h6>
+					<ul class="navbar-nav float-right">
+						<li class="nav-item dropdown">
+							<a
+								id="my-dropdown"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+								class="nav-link"
+							>
+								<i class="fas fa-cogs"></i>
+							</a>
+							<div
+								aria-labelledby="my-dropdown"
+								class="dropdown-menu dropdown-menu-right"
+								style=""
+							>
+								<a 	class="dropdown-item" v-if="can('products-create')" @click="openModalWindow">
+									New Product
+								</a>
+								 
+								 	<a 	class="dropdown-item" v-if="can('products-generate')" @click="openModalGenerateWindow">
+									Copy Items from EBT
+								</a>
+							</div>
+							
+							 
+						</li>
+						
+					</ul>
+				 
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -40,11 +62,11 @@
 								</th>
 								<th
 									v-bind:class="[
-										sortBy === 'u_skucode'
+										sortBy === 'u_stockcode'
 											? sortDirection
 											: '',
 									]"
-									@click="sort('u_skucode')"
+									@click="sort('u_stockcode')"
 								>
 									Shortcode
 								</th>
@@ -91,7 +113,7 @@
 								<td class="text-capitalize">
 									{{ product.itemcode }}
 								</td>
-								<td>{{ product.u_skucode }}</td>
+								<td>{{ product.u_stockcode }}</td>
 								<td>{{ product.pckgsize }}</td>
 								<td>{{ product.numperuompu }}</td>
 								<td>{{ product.uompu }}</td>
@@ -240,21 +262,21 @@
 												>Shortcode</label
 											>
 											<input
-												v-model="form.u_skucode"
+												v-model="form.u_stockcode"
 												type="text"
-												name="u_skucode"
+												name="u_stockcode"
 												placeholder="Shortcode"
 												class="form-control"
 												:class="{
 													'is-invalid':
 														form.errors.has(
-															'u_skucode'
+															'u_stockcode'
 														),
 												}"
 											/>
 											<has-error
 												:form="form"
-												field="u_skucode"
+												field="u_stockcode"
 											></has-error>
 										</div>
 
@@ -382,7 +404,7 @@ export default {
 				itemdesc: "",
 				itemcode: "",
 				pckgsize: "",
-				u_skucode: "",
+				u_stockcode: "",
 				uompu: "",
 				numperuompu: "",
 				status: "01",
@@ -418,6 +440,42 @@ export default {
 		return { title: "Products" };
 	},
 	methods: {
+		openModalGenerateWindow(){
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "The data will be Overwrite!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, Confirm!'
+				}).then((result) => {
+				if (result.isConfirmed) {
+				Swal.fire({
+					title: "Checking...",
+					text: "Please wait",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					willOpen: () => {
+						Swal.showLoading();
+					},
+				});
+
+				axios.post('/api/settings/price', {
+					trntype: 'generate-product', 
+					}).then(res =>{
+						Swal.fire(
+						'Successful!',
+						'Data has been overwrite',
+						'success'
+						)
+						
+						this.fetchProducts();
+					}) 
+					Swal.close();
+				}
+				})
+		},
 		editModalWindow(product) {
 			this.form.clear();
 			this.form.reset();

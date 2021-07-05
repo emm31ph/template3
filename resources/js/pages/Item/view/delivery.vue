@@ -328,7 +328,6 @@ export default {
 		this.canAuth("items-delivery");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
-
 		this.fetchItemsOut();
 	},
 	methods: {
@@ -337,8 +336,7 @@ export default {
 			this.form.items[item.id].expdate = item.expdate;
 			this.form.items[item.id].bal = item.qty;
 			this.form.items[item.id].numperuompu = item.numperuompu;
-			this.toTin(item.id);
-			console.log(this.form.items);
+			this.toTin(item.id); 
 			this.calculateTotal();
 		},
 		customerSelected(customer) {
@@ -356,7 +354,7 @@ export default {
 			});
 			if (result) {
 				const res = await this.form.post("/api/items/dlvry-trans");
-				console.log(res);
+			 
 				this.$router.push({
 					name: "report-dlvry",
 					params: { id: res.data.id },
@@ -400,8 +398,7 @@ export default {
 			this.form.userid = this.isUser.id;
 		},
 		calculateTotal() {
-			var subtotal;
-			console.log(this.form.items);
+			var subtotal; 
 			subtotal = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.qty);
 				if (!isNaN(lineTotal)) {

@@ -31,18 +31,6 @@
 															"
 															style="width: 75px"
 														/>
-														<p
-															class="
-																h2
-																font-weight-bold
-																mb-0
-																pb-0
-															"
-														>
-															TOSEN
-														</p>
-
-														<sub> FOODS, INC. </sub>
 													</div>
 													<div
 														class="
@@ -60,6 +48,7 @@
 															"
 														>
 															DELIVERY DOCUMENT
+															 
 														</p>
 													</div>
 													<div
@@ -180,11 +169,7 @@
 															</div>
 															<div class="col-6">
 																{{
-																	this.Ucase(
-																		this
-																			.isUser
-																			.name
-																	)
+																	this.data['user']['name']
 																}}
 															</div>
 														</div>
@@ -230,11 +215,12 @@
 																Remarks
 															</div>
 															<div class="col-6">
+															 
 																{{
 																	this.Ucase(
 																		this
 																			.data[
-																			"remark"
+																			"remarks"
 																		]
 																	)
 																}}
@@ -301,8 +287,6 @@
 																	{{
 																		Ucase(
 																			item[
-																				"items"
-																			][
 																				"itemdesc"
 																			]
 																		)
@@ -319,19 +303,15 @@
 																		]
 																	}}
 																</td>
-
 																<td>
 																	{{
 																		Ucase(
 																			item[
-																				"items"
-																			][
 																				"shortcode"
 																			]
 																		)
 																	}}
 																</td>
-
 																<td
 																	class="
 																		text-center
@@ -344,20 +324,12 @@
 																		"TIN"
 																			? formatNumberD(
 																					toCase(
-																						item[
-																							"items"
-																						][
-																							"numperuompu"
-																						],
-																						item[
-																							"drqty"
-																						]
+																						item["numperuompu"],
+																						item["drqty"]
 																					),
 																					0
 																			  )
-																			: item[
-																					"drqty"
-																			  ] ==
+																			: item["drqty"] ==
 																			  0
 																			? ""
 																			: item[
@@ -369,7 +341,7 @@
 															<tr
 																v-for="i in this
 																	.countitems"
-																:key="i + 1"
+																:key="i + data['hist'].length"
 															>
 																<td>&nbsp;</td>
 																<td></td>
@@ -433,11 +405,15 @@
 					@click.prevent="printing()"
 				>
 					<i class="fa fa-print"></i> Print
-				</button>
-
-				<a @click="$router.back()" class="btn btn-sm btn-secondary"
-					>back</a
-				>
+				</button>  
+				<a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-delivery-update')" class="btn-sm btn btn-success"
+					><i class="fa fa-edit"></i> Edit</a
+				> 
+				
+				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
+					><i class="fa fa-trash"></i> Remove</a
+				> 
+				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a>
 			</div>
 		</div>
 	</div>
@@ -445,50 +421,30 @@
 
 <script>
 import print from "print-js";
+import Form from "vform";
+
 export default {
 	name: "report",
 	middleware: "auth",
+   	props: ["id"] ,
 	data() {
 		return {
-			id: this.$route.params.id,
+			 
 			data: null,
+			status:'',
 			countitems: 0,
 			drtotal: 0,
 			crtotal: 0,
+			form: new Form({
+				items:[], 
+			}),
 		};
 	},
 	metaInfo() {
 		return { title: "Report" };
-	},
-	created() {
-		this.handleSubmit();
-		this.repType;
-	},
+	}, 
 	computed: {
-		repType() {
-			switch (this.id.slice(0, this.id.search("-"))) {
-				case "DLVR":
-					return true;
-					break;
-				case "IMP":
-					this.$router.push({
-						name: "report-import",
-						params: { id: this.id },
-					});
-					break;
-				case "RR":
-					this.$router.push({
-						name: "report-rr",
-						params: { id: this.id },
-					});
-					break;
-				default:
-					this.$router.push({
-						name: "report-fptd",
-						params: { id: this.id },
-					});
-			}
-		},
+		
 		drQtyCase: function () {
 			let sum = 0;
 
@@ -499,11 +455,11 @@ export default {
 							(Math.floor(
 								item.drqty /
 									((item.drqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)
+										item.numperuompu)
 							) +
 								(item.drqty %
 									((item.drqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)) /
+										item.numperuompu)) /
 									((item.drqty >= 0 ? 1 : -1) * 100))
 					);
 				}
@@ -521,8 +477,7 @@ export default {
 			return sum;
 		},
 		crQtyCase: function () {
-			let sum = 0;
-
+			let sum = 0; 
 			this.data["hist"].forEach(function (item) {
 				if (item.unit != "TIN") {
 					sum += parseFloat(
@@ -553,11 +508,88 @@ export default {
 		},
 	},
 	methods: {
+		repType(data) {
+			switch (data) {
+				case "DLVR":
+					return true;
+					break; 
+				default:
+					this.$router.push({
+						name: "dashboard" 
+					});
+			}
+		},
+		handleEdit(data){ 
+			this.$router.push({
+				name: "delivery-edit",
+				params: { id: data }
+			});
+			 
+		},
+		 handleCancel(data){
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then((result) => {
+				
+					console.log(data);
+				if (result.value) {
+					 
+						axios.get("/api/items/reportItem", {
+						params: { id: data },
+					}).then(res => {
+						
+						this.form.batch= data;
+						this.form.trndate= res.data.trndate;
+						this.form.trnmode= "CANCEL";
+						this.form.customer= res.data.customer;
+						this.form.userid= this.isUser.id;
+						this.form.rono= res.data.rono;
+						this.form.refno= res.data.refno;
+						this.form.remarks= (res.data.remarks);
+						for (let i = 0; i < res.data.hist.length; i++) {
+						this.form.items.push( 
+							{
+								drqty: res.data.hist[i].crQtyCase,
+								crqty: res.data.hist[i].drQtyCase,
+								trntype: "CN",
+								itemdesc: res.data.hist[i].itemdesc,
+								branch: res.data.hist[i].branch,
+								itemcode: res.data.hist[i].itemcode,
+								expdate: res.data.hist[i].expdate,
+								unit: res.data.hist[i].unit,
+								numperuompu: res.data.hist[i].numperuompu
+							})
+						};
+							this.form.post("/api/items/cancel-trans")
+							.then(resp =>{
+								 Swal.fire({
+								position: 'top-end',
+								icon: 'success',
+								toast:true,
+								title: 'successful process',
+								showConfirmButton: false,
+								timer: 2500
+							})
+								this.$router.push({
+									name: "dashboard" 
+								});
+							});
+					});   
+				}
+			});
+		},
 		async handleSubmit() {
 			const res = await axios.get("/api/items/reportItem", {
 				params: { id: this.id },
-			});
-			this.data = res.data;
+			}); 
+			this.status = res.data.status;
+			this.data = res.data; 
 			// this.countitems = 24 - res.data["hist"].length;
 		},
 		printing() {
@@ -588,6 +620,16 @@ export default {
 			});
 		},
 	},
+	mounted(){  
+        if(this.id==undefined){
+        	this.$router.push({
+				name: "dashboard" 
+			});
+        }else{ 
+            this.repType(this.id.slice(0, this.id.search("-")));
+			this.handleSubmit(); 
+        }
+    }
 };
 </script>
 

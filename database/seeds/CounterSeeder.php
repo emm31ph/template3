@@ -29,7 +29,7 @@ class CounterSeeder extends Seeder
                 'prefix' => 'WP-MAIN-',
                 'value' => 1,
             ], [
-                'key' => 'RJCT',
+                'key' => 'REJECT',
                 'branch' => 'MAIN',
                 'prefix' => 'RJ-MAIN-',
                 'value' => 1,
@@ -69,7 +69,7 @@ class CounterSeeder extends Seeder
                 'prefix' => 'WP-CEB-',
                 'value' => 1,
             ], [
-                'key' => 'RJCT',
+                'key' => 'REJECT',
                 'branch' => 'CEB',
                 'prefix' => 'RJ-CEB-',
                 'value' => 1,
@@ -109,7 +109,7 @@ class CounterSeeder extends Seeder
                 'prefix' => 'WP-ILO-',
                 'value' => 1,
             ], [
-                'key' => 'RJCT',
+                'key' => 'REJECT',
                 'branch' => 'ILO',
                 'prefix' => 'RJ-ILO-',
                 'value' => 1,
@@ -131,6 +131,42 @@ class CounterSeeder extends Seeder
             ]];
 
         Counter::insert($data);
+        $data = [[
+            'key' => 'REVERSAL',
+            'branch' => 'ILO',
+            'prefix' => 'REV-ILO-',
+            'value' => 1,
+        ], [
+            'key' => 'REVERSAL',
+            'branch' => 'CEB',
+            'prefix' => 'REV-CEB-',
+            'value' => 1,
+        ], [
+            'key' => 'REVERSAL',
+            'branch' => 'MAIN',
+            'prefix' => 'REV-MAIN-',
+            'value' => 1,
+        ]];
+        
+        Counter::insert($data);
 
+        $data = [[
+            'key' => 'CANCEL',
+            'branch' => 'ILO',
+            'prefix' => 'CAN-ILO-',
+            'value' => 1,
+        ], [
+            'key' => 'CANCEL',
+            'branch' => 'CEB',
+            'prefix' => 'CAN-CEB-',
+            'value' => 1,
+        ], [
+            'key' => 'CANCEL',
+            'branch' => 'MAIN',
+            'prefix' => 'CAN-MAIN-',
+            'value' => 1,
+        ]];
+        
+        Counter::insert($data);
     }
 }

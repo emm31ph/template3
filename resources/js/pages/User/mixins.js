@@ -22,7 +22,7 @@ Vue.mixin({
         isLogged1: function () {
             axios.get('/api/user').then(res => {
                 if (res.data.id !== undefined) {
-                    console.log(res.data);
+                    
                     return true;
                 }
                 return false;

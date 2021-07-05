@@ -201,6 +201,7 @@ export default {
 	data: () => ({
 		showModal: false,
 		form: new Form({
+			trnmode:'IMPORT',
 			importItems: [],
 		}),
 	}),
@@ -257,7 +258,7 @@ export default {
 						});
 
 						var e = 0;
-						for (var i = 0; i < _JsonData.length - 1; i++) {
+						for (var i = 0; i < _JsonData.length ; i++) {
 							if (_JsonData[i]["ITEMCODE"] != "") {
 								if (_JsonData[i]["BR"] != 0) {
 									this.form.importItems.push({
@@ -320,7 +321,8 @@ export default {
 									});
 								}
 							}
-						}
+						} 
+						 
 					} else {
 						document.getElementById("input-excel").value = null;
 

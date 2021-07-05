@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
 
-    protected $fillable = ['branch', 'custno', 'custname', 'status'];
+    protected $fillable = ['branch', 'custno', 'custname', 'status','pricelist','region'];
 
     public function branch()
     {

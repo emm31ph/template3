@@ -49,6 +49,8 @@ class DeliveryRequest extends FormRequest
             'trndate.after' => 'The Issued Date field invalid format.',
             'refno.required' => 'The Reference No. field is require.',
             'rono.required' => 'The Supporting Document field is require.',
+            'refno.unique' => 'The Reference No. field is all ready exist.',
+            'refno.unique' => 'The Reference No. field is all ready exist.',
             'userid.required' => 'The Prepare By field is require.',
             'customer.required' => 'The Customer field is require.',
             'items.*.itemcode.required' => 'The Item product field is require.',

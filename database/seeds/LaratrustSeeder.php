@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
 class LaratrustSeeder extends Seeder
@@ -46,9 +47,9 @@ class LaratrustSeeder extends Seeder
                     $permissionValue = $mapPermission->get($perm);
 
                     $permissions[] = \App\Models\Permission::firstOrCreate([
-                        'name' => $module . '-' . $permissionValue,
-                        'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                        'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
+                        'name' =>  Str::lower(str_ireplace(' ','-',$module)) . '-' . Str::lower(str_ireplace(' ','-',$permissionValue)),
+                        'display_name' => ucfirst($module) . ' ' . ucfirst($permissionValue),
+                        'description' => ucfirst($module) . ' ' . ucfirst($permissionValue),
                     ])->id;
 
                     $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
@@ -61,6 +62,7 @@ class LaratrustSeeder extends Seeder
             if (Config::get('laratrust_seeder.create_users')) {
                 $this->command->info("Creating '{$key}' user");
                 // Create default user for each role
+                if($key!='warehouse'){
                 $user = \App\Models\User::create([
                     'name' => ucwords(str_replace('_', ' ', $key)),
                     'username' => ucwords(str_replace('_', ' ', $key)),
@@ -70,6 +72,7 @@ class LaratrustSeeder extends Seeder
                     'password' => bcrypt('password'),
                 ]);
                 $user->attachRole($role);
+            }
             }
 
         }

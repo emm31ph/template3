@@ -11,7 +11,7 @@ import '~/plugins'
 import '~/components'
 import '~/dynamics'
 import '~/mixins'
-
+ 
 window.moment = require('moment')
 window.Swal = require('sweetalert2')
 window.XLSX = require('xlsx')

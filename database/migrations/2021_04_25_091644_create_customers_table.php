@@ -18,7 +18,9 @@ class CreateCustomersTable extends Migration
             $table->string('branch', 10)->nullable();
             $table->string('custno', 50)->nullable();
             $table->string('custname')->nullable();
+            $table->string('pricelist',10)->nullable();
             $table->string('status', 3)->nullable();
+            $table->string('region', 15)->nullable();
             $table->timestamps();
         });
     }

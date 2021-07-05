@@ -22,8 +22,22 @@ Vue.mixin({
             }
             return false
         },
+        getPriceCat() {
+            if (this.isUser) { 
+                const getPriceCategory = store.getters['Settings/pricecat']
+                // console.log(getPriceCategory);
+                // if (getPriceCategory) {
+                    return getPriceCategory
+                // }
+            }
+            return false
+        },
     },
     methods: {
+        async fetchPriceCategory() {
+         
+            await this.$store.dispatch("Settings/fetchPriceCategory");
+        },
         dataF(value) {
             return moment(value).format('YYYY-MM-DD');
         },
@@ -38,6 +52,14 @@ Vue.mixin({
                 return null;
             }
             return value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
+        formatNumberDis(value) {
+            let value1 = Number(value!=null?value:0);
+             
+            if (value1 == 0) {
+                return (0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            }
+            return value1.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
 
         formatNumberD(value, dicimal) {

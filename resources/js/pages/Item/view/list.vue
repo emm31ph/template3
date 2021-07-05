@@ -141,7 +141,7 @@
 								<td class="text-center">{{ item.lasttrn }}</td>
 								<td class="text-right pr-2">
 									{{
-										formatNumber(
+										formatNumberDis(
 											toCase(item.numperuompu, item.qty)
 										)
 									}}
@@ -365,7 +365,7 @@
 			<transition name="modal">
 				<div class="modal-mask">
 					<div class="modal-wrapper">
-						<div class="modal-dialog modal-lg">
+						<div class="modal-dialog  modal-xl">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h4 class="modal-title">
@@ -579,17 +579,17 @@
 													</td>
 													<td class="text-right">
 														{{
-															formatNumber(
+															formatNumberDis(
 																toCase(
 																	trnHistData[
 																		"numperuompu"
 																	],
 																	item[
-																		"curqty"
+																		"runtot"
 																	]
 																)
 															)
-														}}
+														}} 
 													</td>
 													<td class="text-right">
 														{{ item["user_id"] }}
@@ -965,9 +965,13 @@ export default {
 							items[i]["numperuompu"],
 							items[i]["RR"]
 						);
-						data["WP"] = this.toCase(
+						data["WPin"] = this.toCase(
 							items[i]["numperuompu"],
-							items[i]["WP"]
+							items[i]["WPin"]
+						);
+						data["WPout"] = this.toCase(
+							items[i]["numperuompu"],
+							items[i]["WPout"]
 						);
 						data["OD"] = this.toCase(
 							items[i]["numperuompu"],
@@ -996,17 +1000,13 @@ export default {
 
 					for (var i = 0; i < itemTrn.length; i++) {
 						var data = [];
+						var customer = '';
 						data["BRANCH"] = itemTrn[i]["branch"];
 						data["TRNDATE"] = itemTrn[i]["trndate"];
 						data["TRNMODE"] = itemTrn[i]["trnmode"];
 						data["TRNTYPE"] = itemTrn[i]["trntype"];
 						data["CUSTOMER"] =
-							itemTrn[i]["customer"] +
-								" " +
-								itemTrn[i]["from"] ===
-							"null"
-								? itemTrn[i]["from"] + " " + itemTrn[i]["from"]
-								: "";
+						customer.concat(itemTrn[i]["customer"],' ',itemTrn[i]["from"],' ',itemTrn[i]["to"]).replace("null null","").replace("null","");
 						data["ITEMDESC"] = itemTrn[i]["itemdesc"];
 						data["EXPDATE"] = itemTrn[i]["expdate"];
 
@@ -1014,9 +1014,13 @@ export default {
 							itemTrn[i]["numperuompu"],
 							itemTrn[i]["qty"]
 						);
+						data["REF No#"] = itemTrn[i]["refno"];
+						data["Doc No#"] = itemTrn[i]["rono"];
 						data["VAN#"] = itemTrn[i]["van_no"];
 						data["SEAL#"] = itemTrn[i]["seal_no"];
 						data["REMARKS"] = itemTrn[i]["remarks"];
+						
+						data["BATCH"] = itemTrn[i]["batch"];
 						// console.log(data);
 						itemTrnData.push(data);
 					}
@@ -1041,7 +1045,7 @@ export default {
 				item.push({
 					SKU: this.getItems[i]["itemcode"],
 					FSKU: "",
-					SHORTDESC: this.getItems[i]["u_skucode"],
+					SHORTDESC: this.getItems[i]["u_stockcode"],
 					EXPDATE: this.getItems[i]["expdate"],
 					P: this.getItems[i]["p"],
 					ITEMDESC: this.getItems[i]["itemdesc"],
@@ -1090,8 +1094,7 @@ export default {
 			XLSX.utils.sheet_add_json(ws, data["item"], { origin: -1 });
 
 			XLSX.utils.book_append_sheet(wb, ws, "Inventory");
-
-			console.log(data["itemDetail"].length);
+ 
 			if (data["itemDetail"].length != 0) {
 				var ws1 = XLSX.utils.json_to_sheet(data["itemDetail"]);
 				XLSX.utils.book_append_sheet(wb, ws1, "Transaction");
@@ -1134,7 +1137,8 @@ export default {
 				Swal.close();
 			}
 		},
-		handleTrnHist(data) {
+		handleTrnHist(data) { 
+			// console.log(this.trnHistData);
 			axios
 				.get("/api/items/getTrnHist", {
 					params: {
@@ -1146,7 +1150,22 @@ export default {
 					},
 				})
 				.then((res) => {
-					this.trnHistData = res.data[0];
+					var trns = res.data;
+					var parsedobj = {itemdesc : data.itemdesc,
+					itemcode : data.itemcode,
+					expdate : data.expdate,
+					branch : data.branch,
+					u_stockcode : data.u_stockcode,
+					shortcode : data.shortcode,
+					pckgsize : data.pckgsize,
+					numperuompu : data.numperuompu,
+					qty : data.qty,
+					trn_hist: JSON.parse(JSON.stringify(trns))
+					};
+					this.trnHistData = parsedobj
+					// var parsedobj = JSON.parse(JSON.stringify(this.trnHistData))
+					console.log(this.trnHistData)
+			 
 				});
 
 			return true;

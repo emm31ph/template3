@@ -43,6 +43,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::get('/trnExportD', 'Api\ItemBranchController@trnExportD');
 
         Route::post('/dlvry-trans', 'Api\ItemController@DeliveryTrans')->name('-DeliveryTrans');
+        Route::post('/cancel-trans', 'Api\ItemController@CancelTrans')->name('-CancelTrans');
         Route::post('/adj-trans', 'Api\ItemController@AdjustmentTrans')->name('-ADJTrans');
         Route::post('/fptd-trans', 'Api\ItemController@FPTDRJCTTrans')->name('-FptdTrans');
         Route::post('/reject-trans', 'Api\ItemController@RJCTTrans')->name('-RJCTTrans');
@@ -60,6 +61,10 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
     Route::group(['prefix' => 'branches', 'as' => 'branch'], function () {
         Route::get('getbranch', 'Api\BranchController@index');
+    });
+
+    Route::group(['prefix' => 'settings', 'as' => 'setting'], function () {
+        Route::any('price', 'Settings\PriceController@price'); 
     });
 
 });

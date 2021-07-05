@@ -9,5 +9,5 @@ class Item extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
-    protected $fillable = ['shortcode', 'u_skucode', 'itemcode', 'itemdesc', 'pckgsize', 'status'];
+    protected $fillable = ['shortcode', 'u_stockcode', 'itemcode', 'itemdesc', 'pckgsize', 'status','itemclass'];
 }

@@ -47,17 +47,18 @@ Vue.mixin({
     },
     methods: {
         toCase(perBox = 0, qty = 0) {
-            return (qty > 0 ? 1 : -1) *
-                (Math.floor(
-                    qty /
-                    ((qty >= 0 ? 1 : -1) *
-                        perBox)
-                ) +
-                    (qty %
-                        ((qty >= 0 ? 1 : -1) *
-                            perBox)) /
-                    ((qty >= 0 ? 1 : -1) *
-                        100))
+            return qty/perBox
+            // return (qty > 0 ? 1 : -1) *
+            //     (Math.floor(
+            //         qty /
+            //         ((qty >= 0 ? 1 : -1) *
+            //             perBox)
+            //     ) +
+            //         (qty %
+            //             ((qty >= 0 ? 1 : -1) *
+            //                 perBox)) /
+            //         ((qty >= 0 ? 1 : -1) *
+            //             100))
         },
         async fetchItemsOut() {
             await this.$store.dispatch("Item/fetchItemsOut");

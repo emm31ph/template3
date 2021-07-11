@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PriceItemsListSeeder extends Seeder
+class SalesPersonSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class PriceItemsListSeeder extends Seeder
      */
     public function run()
     {
-        $datas = DB::connection('mysql2')->select('select ITEMCODE,PRICELIST,PRICE*100 as PRICE from itempricelists');
+        $datas = DB::connection('mysql2')->select('select SALESPERSON,SALESPERSONNAME,USERID from salespersons');
         $chucks = array_chunk($datas,500);
         foreach($chucks as $chuck ){
             foreach($chuck as $data ){
@@ -19,13 +19,12 @@ class PriceItemsListSeeder extends Seeder
             
                 $item = [
                             [ 
-                                'itemcode' => $data->ITEMCODE, 
-                                'price' => $data->PRICE, 
-                                'pricelist' => $data->PRICELIST, 
+                                'salesperson' => $data->SALESPERSON, 
+                                'salespersonname' => $data->SALESPERSONNAME,  
                                 
                             ],
                         ]; 
-                DB::table('price_items_lists')->insert($item); 
+                DB::table('sales_persons')->insert($item); 
             } 
         }
     }

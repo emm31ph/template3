@@ -30,7 +30,8 @@ return [
         ],
         'warehouse' =>[
             'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju', 
-        ]
+        ],
+        'sales' => [],
     ],
 
     'permissions_map' => [

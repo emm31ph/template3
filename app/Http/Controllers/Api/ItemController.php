@@ -816,7 +816,7 @@ class ItemController extends Controller
                     'ITEMCODE' => $rows['itemcode'],
                     'EXPDATE' => $expdate,
                     'BRANCH' => $branch,
-                ]) + ((float) (($rows['trntype'] != 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : (convertTin($rows['unit'], $rows['qty'], $uom) * -1)));
+                ]) + ((float) (($rows['trntype'] == 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : (convertTin($rows['unit'], $rows['qty'], $uom) * -1)));
 
                 $prev = getPrevQty([
                     'ITEMCODE' => $rows['itemcode'],
@@ -833,8 +833,8 @@ class ItemController extends Controller
                     'unit' => $rows['unit'],
                     'p' => '',
                     'preqty' => $prev,
-                    'drqty' => ((float) (($rows['trntype'] == 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
-                    'crqty' => ((float) (($rows['trntype'] != 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'drqty' => ((float) (($rows['trntype'] != 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
+                    'crqty' => ((float) (($rows['trntype'] == 'RRM') ? convertTin($rows['unit'], $rows['qty'], $uom) : 0)),
                     'curqty' => $curr,
                     'expdate' => $rows['expdate'],
                     'year' => getYear(),

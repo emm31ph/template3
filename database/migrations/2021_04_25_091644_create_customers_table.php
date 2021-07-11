@@ -21,6 +21,7 @@ class CreateCustomersTable extends Migration
             $table->string('pricelist',10)->nullable();
             $table->string('status', 3)->nullable();
             $table->string('region', 15)->nullable();
+            $table->string('salesperson', 30)->nullable();
             $table->timestamps();
         });
     }

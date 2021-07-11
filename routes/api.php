@@ -64,7 +64,9 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     });
 
     Route::group(['prefix' => 'settings', 'as' => 'setting'], function () {
-        Route::any('price', 'Settings\PriceController@price'); 
+        Route::any('price', 'Settings\PriceController@price');  
+        Route::any('customer', 'Settings\CustomerController@index'); 
+        Route::any('lookup', 'Settings\LookupController@index'); 
     });
 
 });

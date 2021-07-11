@@ -114,7 +114,7 @@ class ItemBranchController extends Controller
     public function getItemDetailTran(Request $request)
     {
 
-        $data = DB::select("call sp_items_detialed('" . $request->branch . "','" . $request->trndatefrom . "','" . $request->trndateto . "')");
+        $data = DB::select("call sp_items('" . $request->branch . "','" . $request->trndatefrom . "','" . $request->trndateto . "')");
 
         return response()->json($data, 200);
 

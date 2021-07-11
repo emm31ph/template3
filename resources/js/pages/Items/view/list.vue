@@ -470,9 +470,9 @@ export default {
 						'success'
 						)
 						
+					Swal.close();
 						this.fetchProducts();
 					}) 
-					Swal.close();
 				}
 				})
 		},

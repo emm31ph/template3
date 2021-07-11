@@ -416,9 +416,7 @@ export default {
 					this.form.items[k].qty * this.form.items[k].numperuompu;
 			} else {
 				this.form.items[k].tins = this.form.items[k].qty;
-			}
-
-			// console.log(this.form.items[k].tins);
+			} 
 		},
 
 		checkBtn() {

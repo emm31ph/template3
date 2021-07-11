@@ -21,15 +21,14 @@ Vue.mixin({
         pluck(objs, name) {
             var sol = [];
             for (var i in objs) {
-                if (objs[i].hasOwnProperty(name)) {
-                    // console.log(objs[i][name]);
+                if (objs[i].hasOwnProperty(name)) { 
                     sol.push(objs[i][name]);
                 }
             }
             return sol;
         },
         signalChange: function (evt) {
-            console.log(this.$emit("change", evt));
+            (this.$emit("change", evt));
         },
         dateF(date) {
             return moment(date).format('YYYY-MM-DD')

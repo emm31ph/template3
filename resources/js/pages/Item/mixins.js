@@ -21,8 +21,8 @@ Vue.mixin({
             }
             return false
         },
-        getAllItems() {
-            const data = store.getters['Item/allitems']
+        getAllItems() { 
+            const data = store.getters['Item/allitems'] 
             if (data) {
                 return data
             }

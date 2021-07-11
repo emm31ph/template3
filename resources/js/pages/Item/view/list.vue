@@ -263,8 +263,7 @@
 												for="inputStatus"
 												class="
 													col-sm-3 col-form-label
-													font-weight-bold
-												"
+													font-weight-bold"
 												>Date</label
 											>
 											<div class="col-sm-9">
@@ -836,7 +835,7 @@ export default {
 		this.canAuth("items-read");
 		this.fetchItems();
 		this.fetchBranch();
-		this.trndatefrom = this.monthdayyear(this.datenow, -20);
+		this.trndatefrom = this.monthdayyear(this.datenow, -1);
 		this.trndateto = this.datenow;
 		this.branches = this.isUser.branch;
 		this.onLoad;
@@ -849,7 +848,7 @@ export default {
 	computed: {
 		onLoad() {
 			this.$store.dispatch("Item/fetchItems", {
-				trndatefrom: this.monthdayyear(this.datenow, -20),
+				trndatefrom: this.monthdayyear(this.datenow, -1),
 				trndateto: this.monthdayyear(this.datenow),
 				branch: this.isUser.branch,
 			});
@@ -1020,8 +1019,7 @@ export default {
 						data["SEAL#"] = itemTrn[i]["seal_no"];
 						data["REMARKS"] = itemTrn[i]["remarks"];
 						
-						data["BATCH"] = itemTrn[i]["batch"];
-						// console.log(data);
+						data["BATCH"] = itemTrn[i]["batch"]; 
 						itemTrnData.push(data);
 					}
 				});
@@ -1137,8 +1135,7 @@ export default {
 				Swal.close();
 			}
 		},
-		handleTrnHist(data) { 
-			// console.log(this.trnHistData);
+		handleTrnHist(data) {  
 			axios
 				.get("/api/items/getTrnHist", {
 					params: {
@@ -1162,9 +1159,7 @@ export default {
 					qty : data.qty,
 					trn_hist: JSON.parse(JSON.stringify(trns))
 					};
-					this.trnHistData = parsedobj
-					// var parsedobj = JSON.parse(JSON.stringify(this.trnHistData))
-					console.log(this.trnHistData)
+					this.trnHistData = parsedobj 
 			 
 				});
 

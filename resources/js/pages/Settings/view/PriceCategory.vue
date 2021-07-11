@@ -337,9 +337,9 @@ export default {
 						'success'
 						)
 						
+					Swal.close();
 						this.fetchPriceCategory();
 					}) 
-					Swal.close();
 				}
 				})
 		},

@@ -12,7 +12,7 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     { 
-        $datas = DB::connection('mysql2')->select('select BRANCH,CUSTNO,CUSTNAME, PRICELIST,ACTIVE,U_REGION from customers');
+        $datas = DB::connection('mysql2')->select('select BRANCH,CUSTNO,CUSTNAME, PRICELIST,ACTIVE,U_REGION,SALESPERSON from customers');
        
         $chucks = array_chunk($datas,500);
         foreach($chucks as $chuck ){
@@ -25,7 +25,8 @@ class CustomerSeeder extends Seeder
                             'custname' => $data->CUSTNAME, 
                             'pricelist' => $data->PRICELIST, 
                             'status' => $data->ACTIVE, 
-                            'region' => $data->U_REGION
+                            'region' => $data->U_REGION,
+                            'salesperson' => $data->SALESPERSON
                         ],
                     ]; 
             DB::table('customers')->insert($item); 

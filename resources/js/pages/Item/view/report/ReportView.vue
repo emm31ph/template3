@@ -52,7 +52,7 @@ export default {
 			});
         }else{             
             let trnmode = this.repType(this.batch.slice(0, this.batch.search("-")));
-           console.log(trnmode);
+ 
             this.$router.push({
                 name: "report-"+trnmode.toLowerCase(),
                 params: { id: this.batch }

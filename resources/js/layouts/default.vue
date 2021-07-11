@@ -47,7 +47,11 @@ export default {
 			active:false
 		}
 	},
+	created(){
+		this.fetchLookupMixins();
+	},
 	mounted() {
+		
 		// 	Echo.join(`chat`)
 		// 		.here((users) => {
 		// 			console.log(users);

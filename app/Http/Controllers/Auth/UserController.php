@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use validator;
 use App\Models\User;
+use App\Models\SalesPerson;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -25,6 +27,7 @@ class UserController extends Controller
             'username' => 'required|unique:users',
             'password' => 'required',
             'branch' => 'required',
+            'usertype' => 'required',
         ]);
 
         $user = new User;
@@ -33,11 +36,22 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->branch = $request->branch;
+        $user->usertype = $request->usertype;
 
         if ($user->save()) {
             if ($request->selectedOptions) {
                 $user->syncRoles($request->selectedOptions);
             }
+            if($request->usertype='002'){
+                $item = 
+                    [ 
+                        'salesperson' =>  $user->id, 
+                        'salespersonname' => $request->name, 
+                        'user_id' => $user->id,  
+                    ]; 
+               SalesPerson::create($item); 
+            }
+
             \DB::commit();
 
             return \response()->json(['data' => 'successfull'], 200);

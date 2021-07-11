@@ -11,29 +11,35 @@ var moment = require('moment');
 Vue.mixin({
 
     computed: {
-
+        
         getBranch() {
-            if (this.isUser) {
-
+            if (this.isUser) { 
                 const getBranch = store.getters['Settings/branch']
                 if (getBranch) {
                     return getBranch
                 }
             }
-            return false
+            return []
         },
         getPriceCat() {
             if (this.isUser) { 
                 const getPriceCategory = store.getters['Settings/pricecat']
-                // console.log(getPriceCategory);
-                // if (getPriceCategory) {
-                    return getPriceCategory
-                // }
+                
+                    return getPriceCategory 
             }
-            return false
+            return []
         },
     },
     methods: {
+        getLookup(data){ 
+            const lookup = store.getters['Settings/lookup'] 
+            return lookup.filter(el => el.lookup === data)
+               
+        },
+        async fetchLookupMixins() { 
+            await this.$store.dispatch("Settings/fetchLookup");
+        },
+
         async fetchPriceCategory() {
          
             await this.$store.dispatch("Settings/fetchPriceCategory");

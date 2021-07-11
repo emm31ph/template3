@@ -290,7 +290,7 @@
 													>
 														<div class="">
 															{{
-																this.data["user"]['name']
+																 this.isUser['name']
 															}}
 														</div>
 														<div

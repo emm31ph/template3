@@ -1,9 +1,9 @@
 <template>
-	<div class="position-relative border">
+	<div class="position-relative">
 		<div style="display: flex; flex-direction: row; z-index: 1">
 			<div class="input-group" style="z-index: 1">
 				<div
-					:class="classes"
+					:class="[classes,(disable)?'disabled':'']"
 					class="no-clear search-typeahead"
 					style="z-index: 1"
 					@click="toggleVisible"
@@ -26,9 +26,10 @@
 				</div>
 			</div>
 		</div>
-		<div
+		<div 
 			style="z-index: 2050"
 			class="position-absolute w-100"
+			v-if="!disable"
 			v-show="visible"
 		>
 			<input
@@ -57,11 +58,7 @@
 						@click="itemClicked(index)"
 					>
 						<div
-							:class="
-								match[addOnDisplay1] == null
-									? 'col-10'
-									: 'col-8'
-							"
+							:class="match[addOnDisplay1] == null? 'col-10': 'col-8'"
 						>
 							{{ match[filterby] }}
 						</div>
@@ -70,9 +67,7 @@
 						</div>
 						<div
 							class="col-2 px-0 text-right"
-							:class="
-								match[addOnDisplay1] == null ? 'd-none' : ''
-							"
+							:class="match[addOnDisplay1] == null ? 'd-none' : ''"
 						>
 							{{ match[addOnDisplay1] }}
 						</div>
@@ -100,6 +95,10 @@ export default {
 		classes: {
 			type: String,
 			default: "",
+		},
+		disable: {
+			type: Boolean,
+			default: false,
 		},
 		
 		datavalue: {
@@ -210,4 +209,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.disabled{
+	background-color:#f2f2f2;
+}
+</style>

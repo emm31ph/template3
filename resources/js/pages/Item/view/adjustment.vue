@@ -418,8 +418,7 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				this.form.post("/api/items/adj-trans").then((res) => {
-					// console.log(res.data);
+				this.form.post("/api/items/adj-trans").then((res) => { 
 					this.$router.push({
 						name: "report-adj",
 						params: { id: res.data.id },

@@ -7,6 +7,7 @@ export const state = {
     pricecat: null,
     pricecust: null,
     pricelist: null,
+    lookup: null,
 }
 
 // getters
@@ -15,6 +16,7 @@ export const getters = {
     pricecat: state => state.pricecat,
     pricecust: state => state.pricecust,
     pricelist: state => state.pricelist,
+    lookup: state => state.lookup,
 }
 
 // mutations
@@ -33,15 +35,20 @@ export const mutations = {
     [types.FETCH_PRICE_CATEGORY_FAILURE](state) {
         state.pricecat = null
     }, 
-
     
-
-
+    //lookup
+    [types.FETCH_LOOKUP_SUCCESS](state, { lookup }) {
+        state.lookup = lookup
+    },
+    [types.FETCH_LOOKUP_FAILURE](state) {
+        state.lookup = null
+    }, 
     [types.CLEAR_ALL](state) {
         state.branch = null
         state.pricecat = null
         state.pricecust = null
         state.pricelist = null
+        state.lookup = null
     }
 }
 
@@ -74,8 +81,19 @@ export const actions = {
         }
     },
 
-    async clear({ commit }) {
 
+    async fetchLookup({ commit }) {
+        try {
+            const { data } = await axios.get('/api/settings/lookup')  
+            commit(types.FETCH_LOOKUP_SUCCESS, {
+                lookup: data
+            })
+        } catch (e) {
+            commit(types.FETCH_LOOKUP_FAILURE)
+        }
+    },
+
+    async clear({ commit }) { 
         commit(types.CLEAR_ALL)
     }
 }

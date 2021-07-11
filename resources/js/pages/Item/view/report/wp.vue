@@ -477,9 +477,7 @@
                                                     >
                                                         <div class="">
                                                             {{
-                                                                this.data[
-                                                                    "user"
-                                                                ]["name"]
+                                                                this.isUser['name']
                                                             }}
                                                         </div>
                                                         <div
@@ -531,12 +529,12 @@
 				>
 					<i class="fa fa-print"></i> Print
 				</button>  
-				<a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-fptd-update')" class="btn-sm btn btn-success"
-					><i class="fa fa-edit"></i> Edit</a
+				<!-- <a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-fptd-update')" class="btn-sm btn btn-success"
+					><i class="fa fa-edit"></i> Edit</a -->
 				> 
 				
 				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
-					><i class="fa fa-trash"></i> Remove</a
+					><i class="fa fa-trash"></i> Cancel</a
 				> 
 				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a> 
             </div>
@@ -673,8 +671,7 @@ export default {
 							})
 						};
 							this.form.post("/api/items/cancel-trans")
-							.then(resp =>{
-								console.log(resp.data);
+							.then(resp =>{ 
                                 	 Swal.fire({
                                         position: 'top-end',
                                         icon: 'success',

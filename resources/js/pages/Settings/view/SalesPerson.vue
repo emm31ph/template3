@@ -411,7 +411,7 @@ export default {
 	data() {
 		return {
 			showModal: false,
-			pagename: "Users",
+			pagename: "Sales Person",
 			editMode: false,
 			value: [],
 			roles: [],
@@ -454,7 +454,7 @@ export default {
 		this.isLoggedCheck;
 	},
 	metaInfo() {
-		return { title: "Users" };
+		return { title: "Sales Person" };
 	},
 	methods: {
 		usertype(data){

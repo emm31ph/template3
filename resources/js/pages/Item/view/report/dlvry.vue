@@ -411,7 +411,7 @@
 				> 
 				
 				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
-					><i class="fa fa-trash"></i> Remove</a
+					><i class="fa fa-trash"></i> Cancel</a
 				> 
 				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a>
 			</div>
@@ -535,9 +535,7 @@ export default {
 				confirmButtonColor: "#3085d6",
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, delete it!",
-			}).then((result) => {
-				
-					console.log(data);
+			}).then((result) => { 
 				if (result.value) {
 					 
 						axios.get("/api/items/reportItem", {

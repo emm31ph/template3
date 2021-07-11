@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             'email' => 'r.tabor@app.com',
             'status' => '01',
             'branch' => 'MAIN',
+            'usertype' => '001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
             'email' => 'm.barabona@app.com',
             'status' => '01',
             'branch' => 'ILO',
+            'usertype' => '001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'email' => 's.santiago@app.com',
             'status' => '01',
             'branch' => 'ILO',
+            'usertype' => '001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
@@ -54,9 +57,39 @@ class UserSeeder extends Seeder
             'email' => 'cj.suing@app.com',
             'status' => '01',
             'branch' => 'CEB',
+            'usertype' => '001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
 
+
+
+        $datas = DB::connection('mysql2')->select("select userid as username,username as `name`, ISVALID from users where GROUPID='SALES' and ISVALID='1'");
+       
+        $chucks = array_chunk($datas,500);
+        foreach($chucks as $chuck ){
+        foreach($chuck as $data ){ 
+            $item = [
+                        [
+                            'username' => $data->username, 
+                            'name' =>  $data->name, 
+                            'email' =>  ucwords(str_replace('_', ' ', $data->name)). '@app.com', 
+                            'password' => bcrypt('password'), 
+                            'usertype' => '002', 
+                        ],
+                    ]; 
+            DB::table('users')->insert($item); 
+
+            // $item = [
+            //     [ 
+            //         'salespersonname' =>  $data->name,  
+            //     ],
+            // ]; 
+            
+        
+            // DB::table('sales_persons')->insert($item); 
+           DB::select('UPDATE sales_persons sp INNER JOIN users u on sp.salespersonname=u.name SET sp.user_id = u.id');
+            } 
+        }
     }
 }

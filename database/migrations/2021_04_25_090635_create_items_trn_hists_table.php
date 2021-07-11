@@ -39,8 +39,8 @@ class CreateItemsTrnHistsTable extends Migration
         CREATE DEFINER = 'root'@'localhost'
         PROCEDURE sp_items(
              IN pi_branch VARCHAR(10),
-             IN pi_trndatefrom VARCHAR(10),
-             IN pi_trndateto VARCHAR(10)
+             IN pi_trndatefrom DATE,
+             IN pi_trndateto DATE
              )
           BEGIN
           select qq.*  from (

@@ -19,6 +19,12 @@ class CreatePriceCustomerListsTable extends Migration
             $table->string('custno', 50)->nullable();
             $table->string('itemcode', 50); 
             $table->decimal('price',18,0)->default(0); 
+            $table->decimal('discount',18,0)->default(0); 
+            $table->decimal('discount2',18,0)->default(0); 
+            $table->decimal('discount3',18,0)->default(0); 
+            $table->decimal('discount4',18,0)->default(0); 
+            $table->decimal('discount5',18,0)->default(0); 
+            $table->decimal('unitprice',18,0)->default(0); 
             $table->timestamps();
         });
     }

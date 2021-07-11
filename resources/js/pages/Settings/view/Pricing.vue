@@ -53,6 +53,7 @@
 											),
 										}"
 										:name="`pricecat`"
+										ref='pricecatlist'
 									/>
 									<has-error
 										:form="form"
@@ -141,12 +142,29 @@ Buttonmiddleware: "auth",
 	},
 	methods: {
 		handleSave(){
+			Swal.fire({
+					title: "Checking...",
+					text: "Please wait",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					willOpen: () => {
+						Swal.showLoading();
+					},
+				});
 			this.form.post('/api/settings/price')
 			.then(res =>{
-				console.log(res.data);
-			});
-			 
-			 
+				 Swal.fire({
+					position: 'top-end',
+					icon: 'success',
+					toast:true,
+					title: 'successful process',
+					showConfirmButton: false,
+					timer: 2500
+				})
+				this.$refs.pricecatlist.selectedItem = ''; 
+				this.form.reset(); 
+			}); 
+			 Swal.close();
 		},
 		openModalGenerateWindow(){
 			Swal.fire({
@@ -172,17 +190,21 @@ Buttonmiddleware: "auth",
 				axios.post('/api/settings/price', {
 					trntype: 'generate-price-list', 
 					}).then(res =>{
-						Swal.fire(
-						'Successful!',
-						'Data has been overwrite',
-						'success'
-						)
+						 Swal.fire({
+							position: 'top-end',
+							icon: 'success',
+							toast:true,
+							title: 'successful process',
+							showConfirmButton: false,
+							timer: 2500
+						}) 
 						
-					Swal.close();
-						this.fetchPriceCategory();
-					}) 
-				}
+				this.$refs.pricecatlist.selectedItem = ''; 
+							this.fetchPriceCategory(); 
+						}) 
+					}
 				})
+					// Swal.close();
 		}, 
 		 
 		itemSelected(item) {
@@ -255,7 +277,7 @@ Buttonmiddleware: "auth",
 
 	}, 
 	mounted() {
-		// this.isAbleToAuth(["price-list-*"]); 
+		this.isAbleToAuth(["price-list-*"]); 
 		this.currentPage = 1;
 		bus.$on("send", (data) => {
 			this.query = data;

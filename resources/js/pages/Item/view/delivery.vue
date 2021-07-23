@@ -200,11 +200,11 @@
 										@change="toTin(k)"
 									>
 										<option
-											v-for="option in unit_options"
-											v-bind:value="option.value"
-											:key="option.value"
+											v-for="option in getLookup('UOM1')"
+											v-bind:value="option.code"
+											:key="option.code"
 										>
-											{{ option.text }}
+											{{ option.fulltitle }}
 										</option>
 									</select>
 								</td>
@@ -309,16 +309,16 @@ export default {
 		allerrors: [],
 		success: false,
 		items_total: "0",
-		unit_options: [
-			{
-				text: "Case",
-				value: "CASE",
-			},
-			{
-				text: "Tins",
-				value: "TIN",
-			},
-		],
+		// unit_options: [
+		// 	{
+		// 		text: "Case",
+		// 		value: "CASE",
+		// 	},
+		// 	{
+		// 		text: "Tins",
+		// 		value: "TIN",
+		// 	},
+		// ],
 	}),
 
 	created() {
@@ -331,6 +331,11 @@ export default {
 		this.fetchItemsOut();
 	},
 	methods: {
+		fetchItemsOut(){
+			this.$store.dispatch("Item/fetchItemsOut", { 
+				branch: this.isUser.branch,
+			});
+		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
@@ -353,13 +358,18 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				const res = await this.form.post("/api/items/dlvry-trans");
-			 
-				this.$router.push({
-					name: "report-dlvry",
-					params: { id: res.data.id },
+				await this.form.post("/api/items/dlvry-trans")
+					.then(res => { 
+						this.$router.push({
+						name: "report-dlvry",
+						params: { id: res.data.id },
+					});
+					this.resetForm();
+				})
+				.catch(error => {
+					console.log(error)
 				});
-				this.resetForm();
+				
 			}
 		},
 		addNewLine() {

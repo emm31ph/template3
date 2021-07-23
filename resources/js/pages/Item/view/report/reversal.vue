@@ -708,7 +708,7 @@ export default {
         };
     },
     metaInfo() {
-        return { title: "Report Reject" };
+        return { title: "Reversal Report" };
     }, 
     computed: { 
         drQtyCase: function() {
@@ -777,7 +777,65 @@ export default {
     methods: {
         
         handleEdit(data){},
-        handleCancel(data){},
+        handleCancel(data){
+            Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then((result) => { 
+				if (result.value) { 
+						axios.get("/api/items/reportItem", {
+						params: { id: data },
+					}).then(res => {
+						 
+						this.form.batch= data;
+						this.form.trndate= this.datenow;
+						this.form.trnmode= "CANCEL";
+						this.form.customer= res.data.customer;
+						this.form.userid= this.isUser.id;
+						this.form.rono= res.data.rono;
+						this.form.refno= res.data.refno;
+						this.form.from= res.data.from;
+						this.form.to= res.data.to;
+						this.form.van_no= res.data.van_no;
+						this.form.seal_no= res.data.seal_no; 
+						this.form.remarks= 'Base '+data;
+						for (let i = 0; i < res.data.hist.length; i++) {
+						this.form.items.push( 
+							{
+								drqty: res.data.hist[i].crQtyCase,
+								crqty: res.data.hist[i].drQtyCase,
+								trntype: "CN",
+								itemdesc: res.data.hist[i].itemdesc,
+								branch: res.data.hist[i].branch,
+								itemcode: res.data.hist[i].itemcode,
+								expdate: res.data.hist[i].expdate,
+								unit: res.data.hist[i].unit,
+								numperuompu: res.data.hist[i].numperuompu
+							})
+						};
+							this.form.post("/api/items/cancel-trans")
+							.then(resp =>{ 
+                                	 Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        toast:true,
+                                        title: 'successful process',
+                                        showConfirmButton: false,
+                                        timer: 2500
+                                    })
+								this.$router.push({
+									name: "dashboard" 
+								});
+							});
+					});   
+				}
+			});
+        },
         async handleSubmit() {
             const res = await axios.get("/api/items/reportItem", {
                 params: { id: this.id }

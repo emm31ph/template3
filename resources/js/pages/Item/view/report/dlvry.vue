@@ -543,12 +543,16 @@ export default {
 					}).then(res => {
 						
 						this.form.batch= data;
-						this.form.trndate= res.data.trndate;
+						this.form.trndate=  this.datenow;
 						this.form.trnmode= "CANCEL";
 						this.form.customer= res.data.customer;
+						this.form.from= res.data.from;
+						this.form.to= res.data.to;
 						this.form.userid= this.isUser.id;
 						this.form.rono= res.data.rono;
 						this.form.refno= res.data.refno;
+						this.form.van_no= res.data.van_no;
+						this.form.seal_no= res.data.seal_no; 
 						this.form.remarks= (res.data.remarks);
 						for (let i = 0; i < res.data.hist.length; i++) {
 						this.form.items.push( 
@@ -574,9 +578,10 @@ export default {
 								showConfirmButton: false,
 								timer: 2500
 							})
-								this.$router.push({
-									name: "dashboard" 
-								});
+                                    this.$router.push({
+                                        name: "report-can",
+                                        params: { id: resp.data.id },
+                                    }); 
 							});
 					});   
 				}

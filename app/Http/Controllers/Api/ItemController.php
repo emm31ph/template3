@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\DeliveryRequest;
-use App\Http\Requests\FptdRequest;
-use App\Http\Requests\ProductRequest;
-use App\Http\Requests\ReclassRequest;
-use App\Http\Requests\RRMRequest;
-use App\Http\Requests\RRRequest;
-use App\Models\Counter;
 use App\Models\Item;
+use App\Models\User;
+use App\Models\Counter;
 use App\Models\ItemsBatch;
 use App\Models\ItemsBranch;
 use App\Models\ItemsTrnHist;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RRRequest;
+use App\Http\Requests\RRMRequest;
+use App\Http\Requests\FptdRequest;
+use App\Http\Requests\RJCTRequest;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ReclassRequest;
+use App\Http\Requests\DeliveryRequest;
 
 class ItemController extends Controller
 {
@@ -140,16 +141,23 @@ class ItemController extends Controller
     {
 
        $stat = [];
-        // return response()->json($request->input('reversal'), 400);
+        
         DB::disableQueryLog();
         DB::beginTransaction();
             if($request->input('reversal')!=''){
                 $stat = $this->reversalDelivery($request->input('reversal'));
+                $branch = $stat['branch'];
+            }else{
+                $stat['id'] = '';
+                $branch =  auth()->user()->branch;
             }
-         
+            
                
             try {
-                $branch = $stat['branch']?:auth()->user()->branch;
+                
+
+               
+                
                 $counter = Counter::where('key', 'DELIVERY')
                     ->where('branch', $branch)
                     ->first();
@@ -334,8 +342,8 @@ class ItemController extends Controller
             $dateInvt['crqty'] = $totalcr;
             $dateInvt['refno'] = $request['refno'];
             $dateInvt['rono'] = $request['rono']?:'';
-            #$dateInvt['from'] = $request['from']?:'';
-            #$dateInvt['to'] = $request['to'];
+            $dateInvt['from'] = $request['from']?:'';
+            $dateInvt['to'] = $request['to'];
             $dateInvt['customer'] = $request['customer'];
 
             $dateInvt['user_id'] = auth()->user()->id;
@@ -446,10 +454,12 @@ class ItemController extends Controller
                 $dateInvt['drqty'] = $totaldr;
                 $dateInvt['crqty'] = $totalcr;
                 $dateInvt['refno'] = $request->refno;
-                $dateInvt['rono'] = $request->rono?:'';
-                $dateInvt['from'] = $request->from?:'';
-                $dateInvt['to'] = $request->to?:'';
-                $dateInvt['customer'] = $request->customer?:'';
+                $dateInvt['rono'] = $request->rono;
+                $dateInvt['from'] = $request->from;
+                $dateInvt['to'] = $request->to;
+                $dateInvt['seal_no'] = $request->seal_no;
+                $dateInvt['van_no'] = $request->van_no;
+                $dateInvt['customer'] = $request->customer;
 
                 $dateInvt['user_id'] = auth()->user()->id;
                 $dateInvt['status'] = '01';
@@ -683,7 +693,7 @@ class ItemController extends Controller
     public function RJCTTrans(RJCTRequest $request)
     {
 
-        // return response()->json($request->all(), 200);
+        return response()->json($request->all(), 400);
 
         DB::disableQueryLog();
         DB::beginTransaction();
@@ -1029,10 +1039,10 @@ class ItemController extends Controller
     {
 
         $request['type'] = 'delete';
-        $request['id'] = $id;
+        $request['id'] = $itemcode;
         // $user = User::WherePermissionIs('users-notify')->get();
         // $user->each->notify(new ItemsNotify(Auth::user(), ['data' => $request->all()]));
-        Item::where('id', '=', $id)->update(['status' => '99']);
+        Item::where('id', '=', $itemcode)->update(['status' => '0']);
 
         return \response()->json(['data' => 'successful'], 200);
     }

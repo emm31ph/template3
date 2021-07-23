@@ -66,14 +66,15 @@ class LaratrustSeeder extends Seeder
                     if($key!='sales'){
                         $user = \App\Models\User::create([
                             'name' => ucwords(str_replace('_', ' ', $key)),
-                            'username' => ucwords(str_replace('_', ' ', $key)),
-                            'email' => $key . '@app.com',
+                            'username' => ucwords(str_replace(' ', '_', $key)),
+                            'email' => ucwords(str_replace(' ', '_', $key)). '@app.com',
                             'status' => '01',
                             'branch' => 'MAIN',
-                            'usertype' => '001',
+                            'usertype' => 'U001',
                             'password' => bcrypt('password'),
                         ]);
-                        $user->attachRole($role);
+                        $user->attachRole($role); 
+                        $user->syncBranch()->sync(["BIC","BTN","CEB","DAV","GEN","ILO","MAIN","MEY","ZAM"]);
                     }
                 }
             }

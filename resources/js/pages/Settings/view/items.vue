@@ -2,9 +2,9 @@
 	<div>
 		<div class="card shadow mb-4">
 			<div class="card-header py-3 d-flex justify-content-between">
-				<h6 class="m-0 font-weight-bold text-primary">Products 1</h6>
+				<h6 class="m-0 font-weight-bold text-primary">Products</h6>
 
-						<ul class="navbar-nav float-right">
+					<ul class="navbar-nav float-right">
 						<li class="nav-item dropdown">
 							<a
 								id="my-dropdown"
@@ -20,12 +20,12 @@
 								class="dropdown-menu dropdown-menu-right"
 								style=""
 							>
-								<a 	class="dropdown-item" v-if="can('price-cat-create')" @click="openModalWindow">
+								<a 	class="dropdown-item" v-if="can('products-create')" @click="openModalWindow">
 									New Product
 								</a>
 								 
-								 	<a 	class="dropdown-item" v-if="!can('products-generate')" @click="openModalGenerateWindow">
-									Re-Gerate Price Category from EBT
+								 	<a 	class="dropdown-item" v-if="can('products-generate')" @click="openModalGenerateWindow">
+									Copy Items from EBT
 								</a>
 							</div>
 							
@@ -106,8 +106,6 @@
 							<tr
 								v-for="product in filteredProducts"
 								:key="product.id"
-                                @dblclick="can('products-update')?editModalWindow(product):''"
-										 
 							>
 								<td class="text-capitalize">
 									{{ product.itemdesc }}
@@ -148,7 +146,7 @@
 										<a
 											href="#"
 											@click="deleteProduct(product.id)"
-											v-if="can('products-delete')"
+											v-if="can('products-cancel')"
 										>
 											<i
 												class="fa fa-trash text-danger"
@@ -416,7 +414,7 @@ export default {
 			items: 6,
 			currentPage: 1,
 			postsPerPage: 20,
-			sortBy: "",
+			sortBy: "itemdesc",
 			sortDirection: "desc",
 			bootstrapPaginationClasses: {
 				// http://getbootstrap.com/docs/4.1/components/pagination/
@@ -442,6 +440,42 @@ export default {
 		return { title: "Products" };
 	},
 	methods: {
+		openModalGenerateWindow(){
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "The data will be Overwrite!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, Confirm!'
+				}).then((result) => {
+				if (result.isConfirmed) {
+				Swal.fire({
+					title: "Checking...",
+					text: "Please wait",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+					willOpen: () => {
+						Swal.showLoading();
+					},
+				});
+
+				axios.post('/api/settings/price', {
+					trntype: 'generate-product', 
+					}).then(res =>{
+						Swal.fire(
+						'Successful!',
+						'Data has been overwrite',
+						'success'
+						)
+						
+					Swal.close();
+						this.fetchProducts();
+					}) 
+				}
+				})
+		},
 		editModalWindow(product) {
 			this.form.clear();
 			this.form.reset();
@@ -499,7 +533,7 @@ export default {
 				showCancelButton: true,
 				confirmButtonColor: "#3085d6",
 				cancelButtonColor: "#d33",
-				confirmButtonText: "Yes, delete it!",
+				confirmButtonText: "Yes, Remove it!",
 			}).then((result) => {
 				if (result.value) {
 					//Send Request to server
@@ -507,19 +541,11 @@ export default {
 						.delete("/api/items/" + id)
 						.then((response) => {
 							Swal.fire(
-								"Deleted!",
-								"User deleted successfully",
+								"Removed!",
+								"Item successfully remove",
 								"success"
 							);
 							this.fetchProducts();
-						})
-						.catch(() => {
-							Swal.fire({
-								icon: "error",
-								title: "Oops...",
-								text: "Something went wrong!",
-								footer: "<a href>Why do I have this issue?</a>",
-							});
 						});
 				}
 			});

@@ -1,6 +1,7 @@
 <template>
 	<div
 		class="myMultiselect"
+		:style="`z-index:{index}`"
 		@click="handleClick"
 		@blur="focused = false"
 		tabindex="-1"
@@ -58,6 +59,10 @@ export default {
 		placeholder: {
 			type: String,
 			default: "Select",
+		},
+		index: {
+			type: Number,
+			default: 1,
 		},
 		displayProperty: {
 			type: String,
@@ -189,16 +194,19 @@ export default {
 	min-height: 55px;
 	max-height: 180px;
 	overflow-y: auto;
+	z-index: 1000;
 }
 .myMultiselect__option {
 	padding: 6px 11px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
+	z-index: 1000;
 }
 .myMultiselect__option--checked {
 	color: #1f7bb8;
 	font-weight: bold;
+	z-index: 1000;
 }
 .myMultiselect__checkbox {
 	width: 22px;
@@ -207,10 +215,12 @@ export default {
 	position: relative;
 	margin-right: 2px;
 	border-radius: 15px;
+	z-index: 1000;
 }
 .myMultiselect__option--checked .myMultiselect__checkbox {
 	border: 1px solid #1f7bb8;
 	background: #1f7bb8;
+	z-index: 1000;
 }
 .myMultiselect__option--checked .myMultiselect__checkbox:after {
 	width: 11px;

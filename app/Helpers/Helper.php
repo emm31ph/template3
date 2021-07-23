@@ -37,7 +37,7 @@ function getUOM($itemcode = null)
     return ($val === null) ? 1 : $val->numperuompu;
 }
 
-function convertCase($unit = 'Case', $qty = 0)
+function convertCase($unit = 'CASE', $qty = 0)
 {
     if ($unit == 'CASE') {
 
@@ -46,7 +46,7 @@ function convertCase($unit = 'Case', $qty = 0)
     return $qty;
 }
 
-function convertTin($unit = 'Case', $qty = 0, $uom = 1)
+function convertTin($unit = 'CASE', $qty = 0, $uom = 1)
 {
     if ($unit == 'CASE') {
 

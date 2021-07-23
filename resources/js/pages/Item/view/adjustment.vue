@@ -400,7 +400,12 @@ export default {
 		this.fetchAllItemsBranch();
 		this.items_variance_total = 0;
 	},
-	methods: {
+	methods: { 
+		async fetchAllItemsBranch(){
+			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+				branch: this.isUser.branch,
+			});
+		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;

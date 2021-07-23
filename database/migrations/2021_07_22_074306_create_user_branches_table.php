@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLookupsTable extends Migration
+class CreateUserBranchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateLookupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lookups', function (Blueprint $table) {
-            
-            $table->String('lookup',4);
-            $table->String('code',4);
-            $table->String('fulltitle',50);
-            $table->String('fulldesc',50);
-            
+        Schema::create('user_branches', function (Blueprint $table) { 
+            $table->integer('user_id')->nullable();
+            $table->string('branchcode', 10)->nullable();
+            $table->timestamps();
         });
     }
 
@@ -30,6 +27,6 @@ class CreateLookupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lookups');
+        Schema::dropIfExists('user_branches');
     }
 }

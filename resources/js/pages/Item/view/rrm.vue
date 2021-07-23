@@ -324,9 +324,15 @@ export default {
 		this.canAuth("items-rrm");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
-		this.fetchAllItemsBranch();
+		this.fetchAllItemsBranchRRM();
 	},
 	methods: {
+		
+		async fetchAllItemsBranchRRM(){
+			await this.$store.dispatch("Item/fetchAllItemsBranchRRM", { 
+				branch: this.isUser.branch,
+			});
+		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
@@ -350,6 +356,8 @@ export default {
 						params: { id: res.data.id },
 					});
 					this.resetForm();
+				}).catch(error => {
+					console.log(error)
 				});
 			}
 		},

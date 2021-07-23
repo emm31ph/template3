@@ -2,7 +2,7 @@
 	<div>
 		<div class="card shadow mb-4">
 			<div class="card-header py-3 d-flex justify-content-between">
-				<h6 class="m-0 font-weight-bold text-primary">Users</h6>
+				<h6 class="m-0 font-weight-bold text-primary">Sales Person</h6>
 
 				<h6
 					class="m-0 font-weight-bold text-primary"
@@ -17,114 +17,44 @@
 				<div class="table-responsive">
 					<table class="table table-sm table-hover">
 						<thead class="thead-dark">
-							<tr>
+							<tr> 
 								<th
 									v-bind:class="[
-										sortBy === 'id' ? sortDirection : '',
+										sortBy === 'salesperson' ? sortDirection : '',
 									]"
-									@click="sort('id')"
+									@click="sort('salesperson')"
 								>
-									ID
+									SALES PERSON ID
 								</th>
 								<th
 									v-bind:class="[
-										sortBy === 'name' ? sortDirection : '',
+										sortBy === 'salespersonname' ? sortDirection : '',
 									]"
-									@click="sort('name')"
+									@click="sort('salespersonname')"
 								>
-									Name
+									SALES PERSON NAME
 								</th>
 								<th
 									v-bind:class="[
-										sortBy === 'email' ? sortDirection : '',
-									]"
-									@click="sort('email')"
-								>
-									Email
-								</th>
-								<th
-									v-bind:class="[
-										sortBy === 'username'
+										sortBy === 'user_id'
 											? sortDirection
 											: '',
 									]"
-									@click="sort('username')"
+									@click="sort('user_id')"
 								>
-									Username
+									Linked
 								</th>
-								<th
-									v-bind:class="[
-										sortBy === 'branch'
-											? sortDirection
-											: '',
-									]"
-									@click="sort('branch')"
-								>
-									Branch
-								</th>
-								<th  class="text-center"
-									v-bind:class="[
-										sortBy === 'usertype'
-											? sortDirection
-											: '',
-									]"
-									@click="sort('usertype')"
-								>
-									User Type
-								</th>
-								<th  class="text-center"
-									v-bind:class="[
-										sortBy === 'usertype'
-											? sortDirection
-											: '',
-									]"
-									@click="sort('status')"
-								>
-									Status
-								</th>
-								<th>Roles</th>
-								<th>Created</th>
+								 
 								<th class="text-center">Modify</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="user in filteredUsers" :key="user.id">
-								<td>{{ user.id }}</td>
-								<td class="text-capitalize">{{ user.name }}</td>
-								<td>{{ user.email }}</td>
-								<td>{{ user.username }}</td>
-								<td>{{ user.branch }}</td>
-								<td class="text-center">{{ usertype(user.usertype)['fulltitle'] }}</td>
-								<td  class="text-center">
-									<span
-										class="badge"
-										:class="
-											user.status == '99'
-												? ' badge-danger'
-												: ' badge-success'
-										"
-										>{{
-											user.status == "99"
-												? "Delete"
-												: "Active"
-										}}</span
-									>
-								</td>
-
-								<td>
-									<span
-										v-for="role in user.roles"
-										:key="role.id"
-										class="
-											badge badge-success
-											mr-1
-											text-capitalize
-										"
-										>{{ role.display_name }}</span
-									>
-								</td>
-
-								<td>{{ dataF(user.created_at) }}</td>
+							<tr v-for="user in filteredSalesPerson" :key="user.id">
+							 
+								<td>{{ user.salesperson }}</td>
+								<td  class="text-capitalize">{{ user.salespersonname }}</td>
+								<td><span class="badge badge-success" v-if="user.user_id">{{ getLinked(user.user_id) }}</span></td> 
+								 
 
 								<td class="text-center">
 									<div v-if="user.status != '99'">
@@ -133,8 +63,7 @@
 											data-id="user.id"
 											@click="
 												editModalWindow(user);
-												showModal = true;
-											"
+												showModal = true;"
 											v-if="can('users-update')"
 										>
 											<i class="fa fa-edit blue"></i>
@@ -179,14 +108,14 @@
 										class="modal-title"
 										id="addNewLabel"
 									>
-										Add New User
+										Add New Sale Person
 									</h5>
 									<h5
 										v-show="editMode"
 										class="modal-title"
 										id="addNewLabel"
 									>
-										Update User
+										Update Sale Person
 									</h5>
 
 									<button
@@ -200,167 +129,78 @@
 								</div>
 								<form
 									@submit.prevent="
-										editMode ? updateUser() : createUser()
+										editMode ? updateSalesperson() : createSalesperson()
 									"
 									@keydown="form.onKeydown($event)"
 								>
 									<div class="modal-body">
 										<div class="form-group">
 											<input
-												v-model="form.name"
+												v-model="form.salesperson"
 												type="text"
 												name="name"
-												placeholder="Name"
+												placeholder="salesperson"
 												class="form-control"
 												:class="{
 													'is-invalid':
-														form.errors.has('name'),
+														form.errors.has('salesperson'),
 												}"
 											/>
 											<has-error
 												:form="form"
-												field="name"
+												field="salesperson"
 											></has-error>
 										</div>
 
 										<div class="form-group">
 											<input
-												v-model="form.email"
-												type="email"
-												name="email"
-												placeholder="Email Address"
-												class="form-control"
-												:class="{
-													'is-invalid':
-														form.errors.has(
-															'email'
-														),
-												}"
-											/>
-											<has-error
-												:form="form"
-												field="email"
-											></has-error>
-										</div>
-
-										<div class="form-group">
-											<input
-												v-model="form.password"
-												type="password"
-												name="password"
-												id="password"
-												placeholder="Enter password"
-												class="form-control"
-												:class="{
-													'is-invalid':
-														form.errors.has(
-															'password'
-														),
-												}"
-											/>
-											<has-error
-												:form="form"
-												field="password"
-											></has-error>
-										</div>
-
-										
-										<div class="form-group">
-											<input
-												v-model="form.username"
+												v-model="form.salespersonname"
 												type="text"
-												name="username"
-												id="username"
-												placeholder="Enter username"
-												:disabled="editMode"
+												name="salespersonname"
+												placeholder="Sales Person Name"
 												class="form-control"
 												:class="{
 													'is-invalid':
 														form.errors.has(
-															'username'
+															'salespersonname'
 														),
 												}"
 											/>
 											<has-error
 												:form="form"
-												field="username"
+												field="salespersonname"
 											></has-error>
-										</div>
-
-										<div class="form-group">
-											<select
-												name="branch"
-												v-model="form.branch"
-												id="branch"
-												class="form-control"
-												:class="{
-													'is-invalid':
-														form.errors.has(
-															'branch'
-														),
-												}"
-											>
-												<option
-													v-for="(
-														branch, k
-													) in getBranch"
-													:key="k"
-													v-bind:value="branch.branch"
-												>
-													{{ branch.branchname }}
-												</option>
-											</select>
-											<has-error
-												:form="form"
-												field="branch"
-											></has-error>
-										</div>
+										</div> 
 										<div class="form-group" >
-											<select  :disabled="editMode"
-												v-model="form.usertype" 
+											<select 
+												v-model="form.link_id" 
 												class="form-control"
 												:class="{
 													'is-invalid':
 														form.errors.has(
-															'usertype'
+															'link_id'
 														),
 												}"
 											>
-											<option value="" disabled selected>User Type</option>
+											<option value="" disabled selected>User</option>
 												<option
 													v-for="(
 														lookup, k
-													) in getLookup('U01')"
+													) in linkUser()"
 													:key="k"
-													v-bind:value="lookup.code"
+													v-bind:value="lookup.id"
 												>
-													{{ lookup.fulltitle }}
+													{{ lookup.name }}
 												</option>
 											</select>
 											<has-error
 												:form="form"
-												field="usertype"
+												field="link_id"
 											></has-error>
 										</div>
 
 
-										<div>
-											<label class="typo__label"
-												>Roles</label
-											>
-											<multi-select
-												:options="roles"
-												display-property="name"
-												value-property="id"
-												v-model="form.selectedOptions"
-											/>
-
-											<label
-												class="typo__label form__label"
-												>Must have at least one
-												value</label
-											>
-										</div>
+										 
 									</div>
 									<div
 										class="
@@ -417,14 +257,9 @@ export default {
 			roles: [],
 			form: new Form({
 				id: "",
-				name: "",
-				email: "",
-				password: "",
-				username: "",
-				usertype:'',
-				status: "",
-				branch: "MAIN",
-				selectedOptions: [],
+				salespersonname: "",
+				salesperson: "",
+			 	link_id:'',
 			}),
 			query: "",
 			page: 1,
@@ -457,43 +292,58 @@ export default {
 		return { title: "Sales Person" };
 	},
 	methods: {
-		usertype(data){
-			let val  = this.getLookup('U01');
-			var val1 = val.filter(el => el.code === data)
-			return val1[0];
+		getLinked(id) { 
+			if(id){
+			var val = this.getUsers 
+			var val1 = val.filter(el => el.id===id); 
+			return val1[0]['name'];
+			} 
+			return '';
 		},
-		editModalWindow(user) {
-			let roleid = user.roles.map(function (item) {
-				return item.id;
-			});
 
+		linkUser(){
+			let val  = this.getUsers; 
+			var val1 = val.filter(el => el.usertype === 'U002').sort(function(a, b) {
+			var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+			var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+
+			// names must be equal
+			return 0;
+			}); 
+			return val1;
+		},
+		editModalWindow(user) { 
+			this.linkUser();
 			this.form.clear();
 			this.form.reset();
 			this.editMode = true;
 			this.form.fill(user);
-			this.form.selectedOptions = roleid;
+		 
 		},
-		async updateUser() {
+		async updateSalesperson() {
+			 this.form.trntype='update'
 			await this.form
-				.patch("/api/user/update")
-				.then((response) => {
-					Swal.fire({
-						title: "User created successfully",
-						icon: "success",
-						showConfirmButton: false,
-						timer: 1500,
-					});
+				.patch("/api/settings/salesperson")
+				.then((res) => {
+					console.log(res.data);
+			// 		Swal.fire({
+			// 			title: "User created successfully",
+			// 			icon: "success",
+			// 			showConfirmButton: false,
+			// 			timer: 1500,
+			// 		});
 
-					this.fetchUsers();
-					this.closeModal();
+			// 		this.fetchUsers();
+			// 		this.closeModal();
 				})
 				.catch((error) => { 
-					Swal.fire({
-						icon: "error",
-						title: "Oops...",
-						text: "Something went wrong!",
-						footer: "<a href>Why do I have this issue?</a>",
-					});
+				 console.log(error);
 				});
 		},
 		openModalWindow() {
@@ -501,7 +351,7 @@ export default {
 			this.editMode = false;
 			this.form.reset();
 		},
-		createUser() {
+		createSalesperson() {
 			 
 			this.form
 				.post("/api/user/create")
@@ -515,13 +365,6 @@ export default {
 
 					this.fetchUsers();
 					this.closeModal();
-				})
-				.catch(() => {
-					// Swal.fire({
-					// 	icon: "error",
-					// 	title: "Oops...",
-					// 	text: "Something went wrong!",
-					// });
 				});
 		},
 		closeModal() {
@@ -572,26 +415,23 @@ export default {
 			this.$emit("change", this.query);
 			if (this.query == "") {
 				return [];
-			} 
-
-			return this.filteredUsers.filter(
-				(item) => item["name"].toLowerCase().startsWith(this.query) //search start left side
+			}  
+			return this.filteredSalesPerson.filter(
+				(item) => item["salespersonname"].toLowerCase().startsWith(this.query) //search start left side
 				// .includes(this.query.toLowerCase()) //search match letter
 			);
 		},
 		reload() {
 			this.fetchUsers();
 		},
+		
 	},
 
 	mounted() {
-		
-	 
-
-		this.isAbleToAuth(["users-*"]);
-		this.fetchBranch();
-		this.fetchRoles();
+		 
+		this.isAbleToAuth(["users-*"]); 
 		this.fetchUsers();
+		this.fetchSalesPerson();
 		this.getRole;
 		this.currentPage = 1;
 		bus.$on("send", (data) => {
@@ -600,21 +440,17 @@ export default {
 	},
 
 	computed: {
-		getRole() {
-			axios.get("/api/roles").then((res) => {
-				this.roles = res.data;
-			});
-		},
+		
 		allUsers() {
-			const data = this.getUsers ? this.getUsers : "";
+			const data = this.getSalesperson ? this.getSalesperson : "";
 
-			if (this.getUsers != "undefined ") {
+			if (this.getSalesperson != "undefined ") {
 				this.$emit("change", this.query);
 				if (!this.query == "") {
 					return data
 						.filter(
 							(item) =>
-								item["name"]
+								item["salespersonname"]
 									.toLowerCase()
 									// .startsWith(this.query) //search start left side
 									.includes(this.query.toLowerCase()) //search match letter
@@ -686,7 +522,7 @@ export default {
 
 			return false;
 		},
-		filteredUsers() {
+		filteredSalesPerson() {
 			var page = this.currentPage;
 			var perPage = this.postsPerPage;
 			var from = page * perPage - perPage;

@@ -465,6 +465,7 @@
 					><i class="fa fa-trash"></i> Cancel</a
 				> 
 				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a>
+
             </div>
         </div>
     </div>
@@ -575,15 +576,19 @@ export default {
 						axios.get("/api/items/reportItem", {
 						params: { id: data },
 					}).then(res => {
-						
+						 
 						this.form.batch= data;
-						this.form.trndate= res.data.trndate;
+						this.form.trndate= this.datenow;
 						this.form.trnmode= "CANCEL";
 						this.form.customer= res.data.customer;
 						this.form.userid= this.isUser.id;
 						this.form.rono= res.data.rono;
 						this.form.refno= res.data.refno;
-						this.form.remarks= (res.data.remarks);
+						this.form.from= res.data.from;
+						this.form.to= res.data.to;
+						this.form.van_no= res.data.van_no;
+						this.form.seal_no= res.data.seal_no; 
+						this.form.remarks= 'Base '+data;
 						for (let i = 0; i < res.data.hist.length; i++) {
 						this.form.items.push( 
 							{
@@ -598,6 +603,7 @@ export default {
 								numperuompu: res.data.hist[i].numperuompu
 							})
 						};
+                      
 							this.form.post("/api/items/cancel-trans")
 							.then(resp =>{ 
                                 	 Swal.fire({
@@ -607,10 +613,11 @@ export default {
                                         title: 'successful process',
                                         showConfirmButton: false,
                                         timer: 2500
-                                    })
-								this.$router.push({
-									name: "dashboard" 
-								});
+                                    }) 
+                                    this.$router.push({
+                                        name: "report-can",
+                                        params: { id: resp.data.id },
+                                    }); 
 							});
 					});   
 				}
@@ -620,7 +627,8 @@ export default {
             const res = await axios.get("/api/items/reportItem", {
                 params: { id: this.id }
             });
-            this.data = res.data; 
+            this.data = res.data;
+			this.status = res.data.status;  
             const cnt = 11 - res.data["hist"].length;
             this.countitems = cnt > 0 ? cnt : 0;
         },

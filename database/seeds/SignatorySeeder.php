@@ -12,9 +12,31 @@ class SignatorySeeder extends Seeder
     public function run()
     {
         DB::table('signatories')->insert([
-            'type' => '00001',
-            'signatory1' => 'Admin',
-            'signatory2' => 'Admin 2',
+            'type' => 'RO001',
+            'signatories' => 'Prepared By',
+            'signee' => 'Admin 2',
+            'designation' => 'Administrator',
+        ]);
+        DB::table('signatories')->insert([
+            'type' => 'RO001',
+            'signatories' => 'Prepared By',
+            'signee' => 'Admin 2',
+            'designation' => 'Administrator',
+        ]);
+        DB::table('signatories')->insert([
+            'type' => 'RO001',
+            'signatories' => 'Prepared By',
+            'signee' => 'Admin 2',
+            'designation' => 'Administrator',
+        ]);
+
+
+        
+        DB::table('signatories')->insert([
+            'type' => 'DL001',
+            'signatories' => 'Checked By',
+            'signee' => 'Admin 2',
+            'designation' => 'Administrator',
         ]);
 
     }

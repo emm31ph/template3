@@ -220,11 +220,16 @@
 					<img
 						:src="isUser.photo_url"
 						class="img-profile rounded-circle mr-1"
+						align="left"
 					/>
 
 					<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{
 						this.isUser.name
-					}}</span>
+					}} <br>
+					<sub>{{ setBranch(this.isUser.branch) }}</sub>
+					</span> 
+					
+					
 				</a>
 				<!-- Dropdown - User Information -->
 				<div
@@ -251,6 +256,12 @@
 						></i>
 						Settings
 					</a>
+					<a class="dropdown-item" @click="showModalBranch">
+						<i
+							class="fas fa-university fa-sm fa-fw mr-2 text-gray-400"
+						></i>
+						Change Branch
+					</a>
 					<a class="dropdown-item" @click="showModal">
 						<i
 							class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"
@@ -273,7 +284,8 @@
 			</li>
 		</ul>
 
-		<modal-trnlog v-show="isModalVisible" @close="closeModal" />
+		<modal-trnlog v-show="isModalVisible" @close="closeModal" /> 
+		<modal-branch v-show="isModalBranchVisible" @close="closeModalBranch" />
 	</nav>
 </template>
 
@@ -285,9 +297,24 @@ export default {
 			nclick: 0,
 			name: null,
 			isModalVisible: false,
+			isModalBranchVisible: false,
 		};
 	},
+	mounted(){
+		
+		this.fetchBranch();
+	},
 	methods: {
+		setBranch(data){
+			if(data){
+			let val = this.getBranch;
+			var val1 = val.filter(el => el.branch===data);
+			 	if(val1.length){ 
+					 return  val1[0]['branchname'];
+				 } 
+			}
+			return '';
+		},
 		sendMsg() {
 			bus.$emit("send", this.name);
 		},
@@ -296,6 +323,12 @@ export default {
 		},
 		closeModal() {
 			this.isModalVisible = false;
+		},
+		showModalBranch() {
+			this.isModalBranchVisible = true;
+		},
+		closeModalBranch() {
+			this.isModalBranchVisible = false;
 		},
 	},
 };

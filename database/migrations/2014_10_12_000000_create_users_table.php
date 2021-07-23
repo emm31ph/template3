@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('status', 2)->default('00');
             $table->string('password');
-            $table->string('usertype',3)->default('001');
+            $table->string('usertype',5)->default('U001');
             $table->rememberToken();
             $table->timestamps();
         });

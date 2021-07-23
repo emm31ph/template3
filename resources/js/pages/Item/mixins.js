@@ -60,12 +60,9 @@ Vue.mixin({
             //         ((qty >= 0 ? 1 : -1) *
             //             100))
         },
-        async fetchItemsOut() {
+        async fetchItemsOut1() {
             await this.$store.dispatch("Item/fetchItemsOut");
-        },
-        async fetchAllItemsBranch() {
-            await this.$store.dispatch("Item/fetchAllItemsBranch");
-        },
+        }, 
         async fetchAllItems() {
             await this.$store.dispatch("Item/fetchAllItems");
         },

@@ -44,13 +44,17 @@ class ItemBranchController extends Controller
         DB::statement(DB::raw('SET @rundrtot:=0;'));
         DB::statement(DB::raw('SET @runtot:=0;'));
         
-        $data = DB::table(DB::raw("(select `items_trn_hists`.*, `rono`, `refno`, `remarks`, `customer`, `from`, `to`, `van_no`, `seal_no`, `user_id` from items_trn_hists left join items_batches on items_batches.batch = items_trn_hists.batch where items_trn_hists.itemcode in ('{$request->itemcode}') and branch = '{$request->branch}' and items_trn_hists.trndate between '{$request->trndatefrom}' and '{$request->trndateto}' and ifnull(expdate,'1900-01-01')='{$expdate}' order by items_trn_hists.trndate, id) as tt"))
+        $data = DB::table(DB::raw("(select `items_trn_hists`.*, `rono`, `refno`, `remarks`, `customer`, `from`, `to`, `van_no`, `seal_no`, `user_id` from items_trn_hists left join items_batches on items_batches.batch = items_trn_hists.batch 
+        where items_trn_hists.itemcode in ('{$request->itemcode}') and 
+                branch = '{$request->branch}' and items_trn_hists.trndate <= '{$request->trndateto}' and 
+                ifnull(expdate,'1900-01-01')='{$expdate}' order by items_trn_hists.trndate, id) as tt"))
             ->selectRaw("*,(@runcrtot := @runcrtot + tt.crqty)- (@rundrtot := @rundrtot + tt.drqty)  AS runtot")
             ->get();
         return \response()->json($data, 200);
     }
     public function reportItem(Request $request)
     {
+      
         // if(!$request->get('edit')){
         $data = ItemsBatch::with(['hist','user:id,name'])
             ->where('items_batches.batch', '=', $request->get('id'))
@@ -72,7 +76,7 @@ class ItemBranchController extends Controller
 
     public function getAllItems(Request $request)
     {
-        $data = Item::orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 when status =1 then 7 else 0 end) asc")
+        $data = Item::where('items.status','1')->orderByRaw("(case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 when status =1 then 7 else 0 end) asc, itemdesc asc")
             ->orderByRaw("itemdesc asc")
 
         #->where('itemdesc', 'not like', '%LABEL%')
@@ -87,10 +91,26 @@ class ItemBranchController extends Controller
     {
 
         $data = ItemsBranch::rightJoin('items', 'items.itemcode', 'items_branches.itemcode')
-            ->where('items_branches.branch', '=', auth()->user()->branch)
-            ->where('items_branches.qty', '!=', '0')
+            ->where('items_branches.branch', '=', $request->branch)
+            
+            ->whereOr('items.itemcode','reject')
+            ->whereOr('items_branches.qty', '!=', '0')
+            
+            ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc , (case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc, itemdesc asc")
+            ->get();
+        return response()->json($data, 200);
 
-            ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc , (case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc")
+    }
+
+    public function getAllItemsBranchRRM(Request $request)
+    {
+
+        $data = ItemsBranch::rightJoin('items', 'items.itemcode', 'items_branches.itemcode')
+            ->where('items_branches.branch', '=',  $request->branch)
+            
+            #->whereOr('items_branches.qty', '!=', '0')
+            #->whereOr('items.itemcode','reject')
+            ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc , (case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc, itemdesc asc")
             ->get();
         return response()->json($data, 200);
 
@@ -104,7 +124,7 @@ class ItemBranchController extends Controller
             ->selectRaw("concat('',(qty div numperuompu),' / ',(qty mod numperuompu)) as qtyDesc")
             ->leftJoin('items', 'items.itemcode', 'items_branches.itemcode')
             ->where('qty', '!=', '0')
-            ->where('items_branches.branch', '=', auth()->user()->branch)
+            ->where('items_branches.branch', '=', $request->branch)
             ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc ")
             ->get();
         return response()->json($data, 200);

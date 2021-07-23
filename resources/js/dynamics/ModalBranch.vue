@@ -8,7 +8,7 @@
 				aria-describedby="modalDescription"
 			>
 				<header class="modal-header" id="modalTitle">
-					<slot name="header"> Activity Log </slot>
+					<slot name="header"> Select Branch </slot>
 					<button
 						type="button"
 						class="btn-close"
@@ -19,136 +19,33 @@
 					</button>
 				</header>
 
-				<section class="modal-body" id="modalDescription">
+				<section class="modal-body  d-flex justify-content-center" id="modalDescription">
 					<slot name="body">
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="panel panel-default mb-2">
 								<form
 									method="POST"
 									onsubmit="event.preventDefault();"
 									enctype="multipart/form-data"
 								>
-									<fieldset class="col-md-3">
-										<legend>Select Date</legend>
 
-										<div class="input-group mb-3">
-											<input
-												type="date"
-												class="form-control"
-												placeholder="Recipient's username"
-												aria-label="Recipient's username"
-												aria-describedby="basic-addon2"
-												v-model="trndate"
-											/>
-											<div class="input-group-append">
-												<button
-													class="
-														btn
-														btn-outline-secondary
-													"
-													type="button"
-													@click="handleSubmit"
-												>
-													Generate
-												</button>
-											</div>
+                                <fieldset class="col">
+										<legend>Branch</legend>
+
+										<div class="  d-flex justify-content-center">
+											<ul class="list-group col-6" v-if="isUser.myBranch">
+                                                <li v-for="(item,i) in isUser.myBranch" :key="i" 
+                                                @dblclick="handleDBClick(item)"
+                                                class="list-group-item list-group-item-action">
+                                                {{item.branchname}}    
+                                                </li> 
+                                            </ul>
 										</div>
 									</fieldset>
+								 
 								</form>
 							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="card rounded">
-								<div class="tableFixHead1"  >
-									<table
-										class="table table-hover table-sm"
-										id="dev-table"
-									>
-										<thead>
-											<tr>
-												<th>TRN</th>
-												<th>TRNMODE</th>
-												<th>Customer/Supplier/From&To</th>
-												<th>REF#/RS#/PO#</th>
-												<th>Remarks</th>
-											</tr>
-										</thead>
-										<tbody
-											style="
-												height: 10px !important;
-												overflow: scroll;
-												flex-direction: column-reverse;
-											"
-										>
-											<tr
-												v-for="(data, i) in datas"
-												:key="i"
-												@dblclick="handleClick(data)"
-											>
-												<td>{{ data.batch }}</td>
-												<td>
-													{{
-														data.trnType == "001"
-															? "Delivery"
-															: data.trnType ==
-															  "002"
-															? "FPTD"
-															: data.trnType ==
-															  "003"
-															? "RR"
-															: data.trnType ==
-															  "004"
-															? "RRM"
-															: data.trnType ==
-															  "005"
-															? "Reject"
-															: data.trnType ==
-															  "007"
-															? "REVERSAL"
-															: data.trnType ==
-															  "008"
-															? "Import"
-															: data.trnType ==
-															  "009"
-															? "Adjust"
-															: ""
-													}}
-												</td>
-												<td>
-													{{ data.customer
-													}}{{
-															 ((data.from)) 
-															? data.from +
-															  " -> " +
-															  data.to
-															: ""
-													}}
-												</td>
-												<td>
-													{{
-														"".concat(
-															data.refno == null
-																? " "
-																: data.refno+"/ ",
-															data.rono == null
-																? " "
-																: data.rono+"/ ",
-															data.van_no == null
-																? " "
-																: data.van_no+"/ ",
-															data.seal_no == null
-																? " "
-																: data.seal_no+"/ "
-														)
-													}}
-												</td>
-												<td>{{ data.remarks }}</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
+						</div> 
 					</slot>
 				</section>
 
@@ -168,18 +65,42 @@
 </template>
 
 <script>
+
+import Form from "vform";
 export default {
 	name: "Modal",
 	data() {
 		return {
 			trndate: "",
 			datas: [],
+			form: new Form({ 
+				
+			})
 		};
 	},
 	mounted() {
 		this.trndate = this.datenow;
+        this.fetchBranch(); 
 	},
 	methods: {
+        async handleDBClick(data){
+            this.$store.state.Auth.user.branch =data.branch;  
+				// const res = await this.form.post("/api/settings/profile");
+			this.form.branch = data.branch;
+			this.form.id = this.isUser.id; 
+
+			const  userData  = await this.form.patch("/api/user/updateBranch");
+			// console.log(userData.data );
+			this.$store.dispatch("Auth/updateUser", { user: userData.data });
+
+
+			this.close();
+			if(this.$route.name!='dashboard'){
+				this.$router.push({
+					name: "dashboard"
+				});  
+			}
+        },
 		close() {
 			this.$emit("close");
 		},
@@ -198,8 +119,8 @@ export default {
 				.catch((err) => {});
 		},
 		handleClick(data) { 
-			 this.datas = '';
 			 
+			this.datas = [];
 			this.$router.push({
 				name: "report-view",
 				params: { batch: data.batch }
@@ -217,7 +138,7 @@ export default {
 <style>
 .tableFixHead1 {
 	overflow-y: scroll; 
-	max-height: 500px;  
+	max-height: 700px;
 	width: auto;
 	display: flex;
 	flex-direction: column-reverse;

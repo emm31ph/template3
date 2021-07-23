@@ -399,6 +399,11 @@ export default {
 		this.items_variance_total = 0;
 	},
 	methods: {
+		async fetchAllItemsBranch(){
+			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+				branch: this.isUser.branch,
+			});
+		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
@@ -416,13 +421,16 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				this.form.post("/api/items/fptd-trans").then((res) => {
+				await this.form.post("/api/items/fptd-trans").then((res) => {
 					this.$router.push({
 						name: "report-wp",
 						params: { id: res.data.id },
 					});
 					this.resetForm();
-				});
+				})
+				.catch(error => {
+					console.log(error)
+				});;
 			}
 		},
 		addNewLine() {

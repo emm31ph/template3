@@ -72,7 +72,7 @@ class CreateItemsTrnHistsTable extends Migration
                 ifnull((select max(itr.trndate ) from items_trn_hists itr
                 where itr.trndate <= pi_trndateto and itr.itemcode=ibr.itemcode and itr.branch=ibr.branch and ifnull(itr.expdate,'1900-01-01')=ifnull(ibr.expdate,'1900-01-01') limit 1),'') as lasttrn 
                 from items_branches ibr
-                left join items i on i.itemcode=ibr.itemcode
+                left join items i on i.itemcode=ibr.itemcode and i.status!=0
                 left join (select ith.branch,ith.itemcode,ith.expdate,
                 sum(if(ith.trntype='RRM', ith.crqty,0)) as BR,
                 sum(if(ith.trntype='RR', ith.crqty,0))as RR,
@@ -132,7 +132,7 @@ class CreateItemsTrnHistsTable extends Migration
               ifnull((select max(itr.trndate ) from items_trn_hists itr
               where itr.trndate <= pi_trndateto and itr.itemcode=ibr.itemcode and itr.branch=ibr.branch and ifnull(itr.expdate,'1900-01-01')=ifnull(ibr.expdate,'1900-01-01') limit 1),'') as lasttrn 
               from items_branches ibr
-              left join items i on i.itemcode=ibr.itemcode
+              left join items i on i.itemcode=ibr.itemcode and i.status!=0
               left join (select ith.branch,ith.itemcode,ith.expdate,
               sum(if(ith.trntype='RRM', ith.crqty,0)) as BR,
               sum(if(ith.trntype='RR', ith.crqty,0))as RR,

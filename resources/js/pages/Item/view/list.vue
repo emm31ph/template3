@@ -249,8 +249,7 @@
 														) in getBranch"
 														:key="k"
 														v-bind:value="
-															branch.branch
-														"
+															branch.branch"
 													>
 														{{ branch.branchname }}
 													</option>
@@ -820,7 +819,7 @@ export default {
 				next: "Next",
 				last: "Last",
 			},
-			sortBy: "qty",
+			sortBy: "itemdesc",
 			sortDirection: "asc",
 			trnHistData: [],
 		};

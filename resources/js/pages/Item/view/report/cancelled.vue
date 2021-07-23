@@ -77,164 +77,154 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="pb-1 px-2 py-2" v-if="data['seal_no']=='' ">
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
+ 
+                                            <div class="row pb-2" v-if="isEmpty(data['seal_no']) && !isEmpty(data['from'])">
+												<div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+																		col-1
+																		px-0
+																	"
+                                                                >
+                                                                    From :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+																		col-11
+																		border-bottom
+																		border-dark
+																	"
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "from"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+																		col-1
+																		px-0
+																	"
+                                                                >
+                                                                    To :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+																		col-11
+																		border-bottom
+																		border-dark
+																	"
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "to"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+																		col-3
+																		text-right
+																	"
+                                                                >
+                                                                    Date :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+																		col-9
+																		border-bottom
+																		border-dark
+																	"
+                                                                >
+                                                                    {{
+                                                                        this
+                                                                            .data[
+                                                                            "trndate"
+                                                                        ]
+                                                                    }}
+                                                                </div>
+                                                                <div
+                                                                    class="
+																		col-3
+																		text-right
+																	"
+                                                                >
+                                                                    RS No :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+																		col-9
+																		border-bottom
+																		border-dark
+																	"
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "refno"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-12 px-0"
+                                                            style="height: 70px"
+                                                        >
+                                                            <span
+                                                                class="
+																	col-1
+																	px-0
 																"
-															>
-																Reference No:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"refno"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
+                                                            >
+                                                                Remarks :
+                                                            </span>
+                                                            <span
+                                                                v-if="data"
+                                                                class="
+																	col-10
+																	pl-4
 																"
-															>
-																Supporting
-																Document:
-															</div>
-															<div class="col-6">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"rono"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Issued Date:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"trndate"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Prepared By:
-															</div>
-															<div class="col-6">
-																{{
-																	this.data['user']['name']
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																style="
-																	height: 70px;
-																"
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Customer Name:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"customer"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Remarks
-															</div>
-															<div class="col-6">
-															 
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"basebatch"
-																		]
-																	)
-																}}{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"remarks"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
+                                                                >{{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "remarks"
+                                                                        ]
+                                                                    )
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </div>
 											</div>
-
-                                            <div class="row pb-2" v-else-if="data['seal_no']!=''">
+ 
+ 
+                                            <div class="row pb-2" v-else-if="!isEmpty(data['seal_no']) && !isEmpty(data['customer'])">
                                                 <div class="container-fluid">
                                                     <div class="row">
 														<div class="col-6">
@@ -245,7 +235,7 @@
 																		px-0
 																	"
 																>
-																	Supplier :
+																	Supplier1 :
 																</div>
 																<div
 																	v-if="data"
@@ -415,149 +405,162 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row pb-2" v-else>
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <div class="row">
-                                                                <div
-                                                                    class="
-																		col-1
-																		px-0
-																	"
-                                                                >
-                                                                    From :
-                                                                </div>
-                                                                <div
-                                                                    v-if="data"
-                                                                    class="
-																		col-11
-																		border-bottom
-																		border-dark
-																	"
-                                                                >
-                                                                    {{
-                                                                        this.Ucase(
-                                                                            this
-                                                                                .data[
-                                                                                "from"
-                                                                            ]
-                                                                        )
-                                                                    }}
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div
-                                                                    class="
-																		col-1
-																		px-0
-																	"
-                                                                >
-                                                                    To :
-                                                                </div>
-                                                                <div
-                                                                    v-if="data"
-                                                                    class="
-																		col-11
-																		border-bottom
-																		border-dark
-																	"
-                                                                >
-                                                                    {{
-                                                                        this.Ucase(
-                                                                            this
-                                                                                .data[
-                                                                                "to"
-                                                                            ]
-                                                                        )
-                                                                    }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="row">
-                                                                <div
-                                                                    class="
-																		col-3
-																		text-right
-																	"
-                                                                >
-                                                                    Date :
-                                                                </div>
-                                                                <div
-                                                                    v-if="data"
-                                                                    class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
-                                                                >
-                                                                    {{
-                                                                        this
-                                                                            .data[
-                                                                            "trndate"
-                                                                        ]
-                                                                    }}
-                                                                </div>
-                                                                <div
-                                                                    class="
-																		col-3
-																		text-right
-																	"
-                                                                >
-                                                                    RS No :
-                                                                </div>
-                                                                <div
-                                                                    v-if="data"
-                                                                    class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
-                                                                >
-                                                                    {{
-                                                                        this.Ucase(
-                                                                            this
-                                                                                .data[
-                                                                                "refno"
-                                                                            ]
-                                                                        )
-                                                                    }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div
-                                                            class="col-12 px-0"
-                                                            style="height: 70px"
-                                                        >
-                                                            <span
-                                                                class="
-																	col-1
-																	px-0
+                                            <div class="pb-1 px-2 py-2" v-else>
+                                                
+
+                                                <div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
 																"
-                                                            >
-                                                                Remarks :
-                                                            </span>
-                                                            <span
-                                                                v-if="data"
-                                                                class="
-																	col-10
-																	pl-4
+															>
+																Reference No:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"refno"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
 																"
-                                                                >{{
-                                                                    this.Ucase(
-                                                                        this
-                                                                            .data[
-                                                                            "remarks"
-                                                                        ]
-                                                                    )
-                                                                }}</span
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
+															>
+																Supporting
+																Document:
+															</div>
+															<div class="col-6">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"rono"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
+																"
+															>
+																Issued Date:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"trndate"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
+																"
+															>
+																Prepared By:
+															</div>
+															<div class="col-6">
+																{{
+																	this.data['user']['name']
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-6">
+														<div class="row">
+															<div
+																style="
+																	height: 70px;
+																"
+																class="
+																	col-4
+																	text-right
+																	font-weight-bold
+																"
+															>
+																Customer Name:
+															</div>
+															<div class="col-8">
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"customer"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="row">
+															<div
+																class="
+																	col-6
+																	text-right
+																	font-weight-bold
+																"
+															>
+																Remarks
+															</div>
+															<div class="col-6">
+															 
+																{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"basebatch"
+																		]
+																	)
+																}}{{
+																	this.Ucase(
+																		this
+																			.data[
+																			"remarks"
+																		]
+																	)
+																}}
+															</div>
+														</div>
+													</div>
+												</div>
                                             </div>
 
                                             <div class="row h6">

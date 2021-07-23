@@ -8,6 +8,7 @@ export const state = {
     pricecust: null,
     pricelist: null,
     lookup: null,
+    salesperson: null,
 }
 
 // getters
@@ -17,6 +18,7 @@ export const getters = {
     pricecust: state => state.pricecust,
     pricelist: state => state.pricelist,
     lookup: state => state.lookup,
+    salesperson: state => state.salesperson,
 }
 
 // mutations
@@ -43,12 +45,21 @@ export const mutations = {
     [types.FETCH_LOOKUP_FAILURE](state) {
         state.lookup = null
     }, 
+    
+    //salesperson
+    [types.FETCH_SALESPERSON_SUCCESS](state, { salesperson }) {
+        state.salesperson = salesperson
+    },
+    [types.FETCH_SALESPERSON_FAILURE](state) {
+        state.salesperson = null
+    }, 
     [types.CLEAR_ALL](state) {
         state.branch = null
         state.pricecat = null
         state.pricecust = null
         state.pricelist = null
         state.lookup = null
+        state.salesperson = null
     }
 }
 
@@ -63,6 +74,16 @@ export const actions = {
             })
         } catch (e) {
             commit(types.FETCH_BRANCH_FAILURE)
+        }
+    },
+    async fetchSalesPerson({ commit }) {
+        try {
+            const { data } = await axios.get('/api/settings/salesperson')
+            commit(types.FETCH_SALESPERSON_SUCCESS, {
+                salesperson: data
+            })
+        } catch (e) {
+            commit(types.FETCH_SALESPERSON_FAILURE)
         }
     },
 

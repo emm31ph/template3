@@ -21,7 +21,7 @@ class equalToZero implements Rule
     public function passes($attribute, $value)
     {
         // if ($value !== 0) {
-        //     return false;
+            // return false;
         // }
         return '0' === (string) $value;
     }

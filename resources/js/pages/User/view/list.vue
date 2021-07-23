@@ -94,7 +94,7 @@
 								<td>{{ user.email }}</td>
 								<td>{{ user.username }}</td>
 								<td>{{ user.branch }}</td>
-								<td class="text-center">{{ usertype(user.usertype)['fulltitle'] }}</td>
+								<td class="text-center">{{ usertype(user.usertype)}}</td>
 								<td  class="text-center">
 									<span
 										class="badge"
@@ -315,6 +315,24 @@
 												field="branch"
 											></has-error>
 										</div>
+										<div>
+											<label class="typo__label"
+												>Selected Branch</label
+											>
+											<multi-select
+											:index="1000"
+												:options="getBranch"
+												display-property="branchname"
+												value-property="branch"
+												v-model="form.selectedOptionsBranch"
+											/>
+
+											<label
+												class="typo__label form__label"
+												>Must have at least one
+												value</label
+											>
+										</div>
 										<div class="form-group" >
 											<select  :disabled="editMode"
 												v-model="form.usertype" 
@@ -349,6 +367,8 @@
 												>Roles</label
 											>
 											<multi-select
+											
+											:index="900"
 												:options="roles"
 												display-property="name"
 												value-property="id"
@@ -425,14 +445,15 @@ export default {
 				status: "",
 				branch: "MAIN",
 				selectedOptions: [],
+				selectedOptionsBranch:[],
 			}),
 			query: "",
 			page: 1,
 			items: 6,
 			currentPage: 1,
 			postsPerPage: 20,
-			sortBy: "",
-			sortDirection: "desc",
+			sortBy: "id",
+			sortDirection: "asc",
 			bootstrapPaginationClasses: {
 				// http://getbootstrap.com/docs/4.1/components/pagination/
 				ul: "pagination",
@@ -458,20 +479,33 @@ export default {
 	},
 	methods: {
 		usertype(data){
-			let val  = this.getLookup('U01');
-			var val1 = val.filter(el => el.code === data)
-			return val1[0];
+			if(data){
+				let val  = this.getLookup('U01'); 
+				var val1 = val.filter(el => el.code === data) 
+				if(val1.length){ 
+					return val1[0]['fulltitle'];
+				}
+			}
+			return '';
 		},
 		editModalWindow(user) {
+			console.log(user);
 			let roleid = user.roles.map(function (item) {
 				return item.id;
 			});
+			
+			let branchid = user.myBranch.map(function (item) {
+				return item.branch;
+			});
+
+			console.log(branchid);
 
 			this.form.clear();
 			this.form.reset();
 			this.editMode = true;
 			this.form.fill(user);
 			this.form.selectedOptions = roleid;
+			this.form.selectedOptionsBranch = branchid;
 		},
 		async updateUser() {
 			await this.form

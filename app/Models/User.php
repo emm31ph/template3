@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\UserBranch;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -24,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
     protected $appends = [
         'photo_url',
         'allPermissions',
+        'myBranch',
     ];
 
     public function getPhotoUrlAttribute()
@@ -67,14 +69,26 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    public function branch()
-    {
-        return hasOne('App\Models\Branch', 'branch', 'branch');
-    }
+ 
 
     public function getAllPermissionsAttribute()
     {
         return ($this->allPermissions());
+    }
+    public function syncBranch()
+    {
+        return $this->belongsToMany('App\Models\Branch','App\Models\UserBranch','user_id','branchcode');
+    }
+
+    public function getMyBranchAttribute()
+        {
+        // return $this->hasManyThrough('App\Models\UserBranch','App\Models\Branch');
+        $data = UserBranch::join('Branches','branch','branchcode')->where('user_id',$this->id)->get();
+        return  $data;
+        }
+
+    public function getBranch()
+    {
+        return  $this->hasOne('App\Models\Branch', 'branch', 'branch');
     }
 }

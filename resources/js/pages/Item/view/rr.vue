@@ -366,12 +366,14 @@ export default {
 			});
 			if (result) {
 				// const res = await this.form.post("/api/items/rr-trans");
-				this.form.post("/api/items/rr-trans").then((res) => {
+				await this.form.post("/api/items/rr-trans").then((res) => {
 					this.$router.push({
 						name: "report-rr",
 						params: { id: res.data.id },
 					});
 					this.resetForm();
+				}).catch(error => {
+					console.log(error)
 				});
 			}
 		},

@@ -27,7 +27,7 @@ class DeliveryRequest extends FormRequest
         $checkbal = $this->bal * $this->numperuompu;
         return [
             'refno' => 'required',
-            'rono' => 'required',
+            // 'rono' => 'required',
             'trndate' => 'required|date',
             'userid' => 'required',
             'customer' => 'required',

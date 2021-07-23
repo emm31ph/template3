@@ -14,9 +14,19 @@ Vue.mixin({
         
         getBranch() {
             if (this.isUser) { 
-                const getBranch = store.getters['Settings/branch']
+                var getBranch = store.getters['Settings/branch']
                 if (getBranch) {
                     return getBranch
+                }
+            }
+            return []
+        },
+        
+        getSalesperson() {
+            if (this.isUser) { 
+                const getSalesperson = store.getters['Settings/salesperson']
+                if (getSalesperson) {
+                    return getSalesperson
                 }
             }
             return []
@@ -31,13 +41,23 @@ Vue.mixin({
         },
     },
     methods: {
-        getLookup(data){ 
+        isEmpty(val){
+            return (val === undefined || val == null || val.length <= 0) ? true : false;
+        },
+        getLookup(data){       
             const lookup = store.getters['Settings/lookup'] 
+            if(lookup){
             return lookup.filter(el => el.lookup === data)
-               
+            }
+            return [];
         },
         async fetchLookupMixins() { 
             await this.$store.dispatch("Settings/fetchLookup");
+        },
+
+        
+        async fetchSalesPerson() { 
+            await this.$store.dispatch("Settings/fetchSalesPerson");
         },
 
         async fetchPriceCategory() {

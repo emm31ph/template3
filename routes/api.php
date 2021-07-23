@@ -23,6 +23,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('user', 'Auth\UserController@current');
     Route::patch('settings/profile', 'Auth\UserController@update');
+    Route::patch('user/updateBranch', 'Auth\UserController@updateBranch');
 
     Route::apiResource('roles', 'Api\RolesController');
     Route::apiResource('permissions', 'Api\PermissionsController');
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
 
         Route::get('/getAllItems', 'Api\ItemBranchController@getAllItems');
         Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
+        Route::get('/getAllitemsBranchRRM', 'Api\ItemBranchController@getAllItemsBranchRRM');
         Route::get('/getItemsOut', 'Api\ItemBranchController@getItemsOut');
         Route::get('/getItemDetailTran', 'Api\ItemBranchController@getItemDetailTran');
         Route::get('/trnExportD', 'Api\ItemBranchController@trnExportD');
@@ -67,6 +69,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::any('price', 'Settings\PriceController@price');  
         Route::any('customer', 'Settings\CustomerController@index'); 
         Route::any('lookup', 'Settings\LookupController@index'); 
+        Route::any('salesperson', 'Settings\SalesPersonController@index'); 
     });
 
 });

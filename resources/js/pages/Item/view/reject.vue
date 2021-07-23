@@ -172,6 +172,8 @@
 									<input
 										v-model="item.expdate"
 										type="date"
+										
+										:disabled="item.drqty != 0 ? true : false"
 										class="
 											form-control form-control-sm
 											text-center
@@ -269,6 +271,7 @@
 											fa-trash-alt
 											btn btn-danger btn-sm
 										"
+									 
 										@click="deleteRow(k, item)"
 									></i>
 								</td>
@@ -397,7 +400,12 @@ export default {
 		this.fetchAllItemsBranch();
 		this.items_variance_total = 0;
 	},
-	methods: {
+	methods: { 
+		async fetchAllItemsBranch(){
+			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+				branch: this.isUser.branch,
+			});
+		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
@@ -414,13 +422,15 @@ export default {
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, processed!",
 			});
-			if (result) {
-				this.form.post("/api/items/fptd-trans").then((res) => {
+			if (result) { 
+				this.form.post("/api/items/reject-trans").then((res) => {
 					this.$router.push({
 						name: "report-rj",
 						params: { id: res.data.id },
 					});
 					this.resetForm();
+				}).catch(error => {
+					console.log(error)
 				});
 			}
 		},
@@ -441,6 +451,8 @@ export default {
 				this.form.items.splice(idx, 1);
 			}
 			this.checkBtn();
+			this.calculateTotalDr();
+			this.calculateTotalCr();
 		},
 		resetForm() {
 			this.$children[0].selectItem = [];

@@ -41,6 +41,8 @@ class UserController extends Controller
         if ($user->save()) {
             if ($request->selectedOptions) {
                 $user->syncRoles($request->selectedOptions);
+                $user->syncBranch()->sync($request->selectedOptionsBranch);
+ 
             }
             if($request->usertype='002'){
                 $item = 
@@ -79,6 +81,7 @@ class UserController extends Controller
 
             if ($request->selectedOptions) {
                 $user->syncRoles($request->selectedOptions);
+                $user->syncBranch()->sync($request->selectedOptionsBranch);
             }
 
         }
@@ -100,6 +103,13 @@ class UserController extends Controller
         ]);
 
         return tap($user)->update($request->only('name', 'email'));
+    }
+    public function updateBranch(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->branch = $request->branch;
+        $user->save();
+        return \response()->json( $user, 200);
     }
 
     public function updatePassword(Request $request)

@@ -489,8 +489,8 @@
 					<i class="fa fa-print"></i> Print
 				</button>  
 				<!-- <a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-rr-update')" class="btn-sm btn btn-success"
-					><i class="fa fa-edit"></i> Edit</a -->
-				> 
+					><i class="fa fa-edit"></i> Edit</a> -->
+			 
 				
 				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
 					><i class="fa fa-trash"></i> Cancel</a
@@ -608,15 +608,19 @@ export default {
 						axios.get("/api/items/reportItem", {
 						params: { id: data },
 					}).then(res => {
-						
+						 
 						this.form.batch= data;
-						this.form.trndate= res.data.trndate;
+						this.form.trndate= this.datenow;
 						this.form.trnmode= "CANCEL";
 						this.form.customer= res.data.customer;
 						this.form.userid= this.isUser.id;
 						this.form.rono= res.data.rono;
 						this.form.refno= res.data.refno;
-						this.form.remarks= (res.data.remarks);
+						this.form.from= res.data.from;
+						this.form.to= res.data.to;
+						this.form.van_no= res.data.van_no;
+						this.form.seal_no= res.data.seal_no; 
+						this.form.remarks= 'Base '+data;
 						for (let i = 0; i < res.data.hist.length; i++) {
 						this.form.items.push( 
 							{
@@ -641,9 +645,10 @@ export default {
                                         showConfirmButton: false,
                                         timer: 2500
                                     })
-								this.$router.push({
-									name: "dashboard" 
-								});
+                                    this.$router.push({
+                                        name: "report-can",
+                                        params: { id: resp.data.id },
+                                    }); 
 							});
 					});   
 				}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -20,25 +21,31 @@ class UserSeeder extends Seeder
         // ]);
 
         $user = \App\Models\User::create([
-            'name' => 'Raymond Tabor',
-            'username' => 'r.tabor',
-            'email' => 'r.tabor@app.com',
+            'name' => 'Edmund Managuit',
+            'username' => 'e.managuit',
+            'email' => 'e.managuit@app.com',
             'status' => '01',
             'branch' => 'MAIN',
-            'usertype' => '001',
+            'usertype' => 'U001',
             'password' => bcrypt('password'),
         ]);
-        $user->syncRoles([2 ,3]);
+
+        $user->syncRoles([2 ,3]); 
+        $user->syncBranch()->sync(['MAIN', "CEB", "ILO"]);
+ 
+
         $user = \App\Models\User::create([
             'name' => 'Martin Barabona',
             'username' => 'm.barabona',
             'email' => 'm.barabona@app.com',
             'status' => '01',
             'branch' => 'ILO',
-            'usertype' => '001',
+            'usertype' => 'U001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
+        $user->syncBranch()->sync(["ILO"]);
+ 
 
         $user = \App\Models\User::create([
             'name' => 'Stephanie Santiago',
@@ -50,6 +57,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
+        $user->syncBranch()->sync(["ILO"]);
 
         $user = \App\Models\User::create([
             'name' => 'Christian Jay Loyd Suing',
@@ -57,10 +65,11 @@ class UserSeeder extends Seeder
             'email' => 'cj.suing@app.com',
             'status' => '01',
             'branch' => 'CEB',
-            'usertype' => '001',
+            'usertype' => 'U001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);
+        $user->syncBranch()->sync(["CEB"]);
 
 
 
@@ -69,25 +78,20 @@ class UserSeeder extends Seeder
         $chucks = array_chunk($datas,500);
         foreach($chucks as $chuck ){
         foreach($chuck as $data ){ 
-            $item = [
+            $item = 
                         [
                             'username' => $data->username, 
                             'name' =>  $data->name, 
-                            'email' =>  ucwords(str_replace('_', ' ', $data->name)). '@app.com', 
+                            'email' =>  strtolower(str_replace(' ', '_', $data->name)). '@app.com', 
                             'password' => bcrypt('password'), 
-                            'usertype' => '002', 
-                        ],
-                    ]; 
-            DB::table('users')->insert($item); 
-
-            // $item = [
-            //     [ 
-            //         'salespersonname' =>  $data->name,  
-            //     ],
-            // ]; 
-            
-        
-            // DB::table('sales_persons')->insert($item); 
+                            'usertype' => 'U002', 
+                        ]
+                    ; 
+            // DB::table('users')->insert($item); 
+            $user = User::create($item);
+            $user->syncRoles([4]);
+            $user->syncBranch()->sync(["MAIN"]);
+ 
            DB::select('UPDATE sales_persons sp INNER JOIN users u on sp.salespersonname=u.name SET sp.user_id = u.id');
             } 
         }

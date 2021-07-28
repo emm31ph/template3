@@ -334,7 +334,7 @@
 											>
 										</div>
 										<div class="form-group" >
-											<select  :disabled="editMode"
+											<select   
 												v-model="form.usertype" 
 												class="form-control"
 												:class="{

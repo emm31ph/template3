@@ -84,22 +84,20 @@ export default {
 	},
 	methods: {
         async handleDBClick(data){
-            this.$store.state.Auth.user.branch =data.branch;  
-				// const res = await this.form.post("/api/settings/profile");
+            this.$store.state.Auth.user.branch =data.branch;   
 			this.form.branch = data.branch;
-			this.form.id = this.isUser.id; 
-
-			const  userData  = await this.form.patch("/api/user/updateBranch");
-			// console.log(userData.data );
-			this.$store.dispatch("Auth/updateUser", { user: userData.data });
-
-
+			this.form.id = this.isUser.id;  
+			const  userData  = await this.form.patch("/api/user/updateBranch"); 
+			this.$store.dispatch("Auth/updateUser", { user: userData.data }); 
 			this.close();
 			if(this.$route.name!='dashboard'){
 				this.$router.push({
 					name: "dashboard"
 				});  
+				
+        		this.fetchCustomer();
 			}
+
         },
 		close() {
 			this.$emit("close");

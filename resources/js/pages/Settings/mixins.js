@@ -40,7 +40,17 @@ Vue.mixin({
             return []
         },
     },
-    methods: {
+    methods: { 
+        getSalesPerson(data){
+            if(data){ 
+            let val = this.getSalesperson; 
+            let val1 = val.filter(el => el.salesperson===data);
+                if(val1.length){ 
+                    return val1[0]['salespersonname'];
+                }  
+            }
+            return []
+        },
         isEmpty(val){
             return (val === undefined || val == null || val.length <= 0) ? true : false;
         },

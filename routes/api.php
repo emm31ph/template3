@@ -72,6 +72,10 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::any('salesperson', 'Settings\SalesPersonController@index'); 
     });
 
+    Route::group(['prefix' => 'invoices', 'as' => 'invoice'], function () { 
+        Route::any('process', 'Invoices\InvoiceController@index'); 
+    });
+
 });
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('login', 'Auth\LoginController@login');

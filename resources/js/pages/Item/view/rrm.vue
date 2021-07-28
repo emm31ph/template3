@@ -151,9 +151,9 @@
 										filterby="itemdesc"
 										addOnDisplay="expdate"
 										@change="onChangeItems"
-										title="Type Itemdesc"
+										title="Itemdesc"
 										@selected="itemSelected"
-										:classes="`form-control form-control-sm`"
+										class="form-control form-control-sm"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.itemcode`

@@ -82,6 +82,110 @@ class LookupSeeder extends Seeder
                 'fulltitle' => 'CRUSHED GRAHAM', 
                 'fulldesc' => 'CRUSHED GRAHAM',  
             ], 
+
+            
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'RG01', 
+                'fulltitle' => '', 
+                'fulldesc' => '',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'ARMM', 
+                'fulltitle' => 'ARMM', 
+                'fulldesc' => 'Autonomous Region of Muslim Mindanao',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'CAR', 
+                'fulltitle' => 'CAR', 
+                'fulldesc' => 'Cordillera Administrative Region',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'I', 
+                'fulltitle' => 'I', 
+                'fulldesc' => 'Ilocos',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'II', 
+                'fulltitle' => 'II', 
+                'fulldesc' => 'Cagayan Valley',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'III', 
+                'fulltitle' => 'III', 
+                'fulldesc' => 'Central Luzon',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'IV', 
+                'fulltitle' => 'IV', 
+                'fulldesc' => 'CALABARZON/MIMAROPA',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'IX', 
+                'fulltitle' => 'IX', 
+                'fulldesc' => 'Zamboanga Peninsula',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'NCR', 
+                'fulltitle' => 'NCR', 
+                'fulldesc' => 'National Capital Region',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'V', 
+                'fulltitle' => 'V', 
+                'fulldesc' => 'Bicol',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'VI', 
+                'fulltitle' => 'VI', 
+                'fulldesc' => 'Iloilo',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'VII', 
+                'fulltitle' => 'VII', 
+                'fulldesc' => 'Central Visayas',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'VIII', 
+                'fulltitle' => 'VIII', 
+                'fulldesc' => 'Easterm Visayas',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'X', 
+                'fulltitle' => 'X', 
+                'fulldesc' => 'Northen Mindanao',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'XI', 
+                'fulltitle' => 'XI', 
+                'fulldesc' => 'Davao',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'XII', 
+                'fulltitle' => 'XII', 
+                'fulldesc' => 'SOCCSKSARGEN',  
+            ],
+            [
+                'lookup' => 'REG0', 
+                'code' =>  'XIII', 
+                'fulltitle' => 'XIII', 
+                'fulldesc' => 'CARAGA',  
+            ],
         ]; 
     DB::table('lookups')->insert($item); 
     }

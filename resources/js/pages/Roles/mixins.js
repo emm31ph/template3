@@ -47,7 +47,7 @@ Vue.mixin({
             if (authUser != null) {
                 const uPermission = authUser.allPermissions;
 
-                if (Array.isArray(permission)) {
+                if (Array.isArray(permission) || permission.length) {
                     var i;
                     for (i = 0; i < permission.length; i++) {
                         const aa = uPermission.filter(function (item) {

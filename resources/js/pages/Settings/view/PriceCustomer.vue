@@ -47,9 +47,9 @@
 								v-model="pricecust"
 								:items="getCustomer"
 								filterby="custname"
-								title="Type Custoname"
+								title="Customer Name"
 								@selected="itemSelected"
-								:classes="`form-control form-control-sm`"
+								class="form-control form-control-sm"
 								:class="{
 									'is-invalid': form.errors.has(`pricecust`),
 								}"
@@ -69,9 +69,9 @@
 							:index="`1`"
 							:datavalue="itemdesc"
 							filterby="itemdesc" 
-							title="Type Itemdesc"
+							title="Itemdesc"
 							@selected="itemSelectedProduct"
-							:classes="`form-control form-control-sm`" 
+							class="form-control form-control-sm" 
 							:name="`itemcode`"
 							ref="itemproduct"
 							:disable="itemDisable"
@@ -229,8 +229,7 @@ import Form from "vform";
 import bus from "../../../EventBus";
 import Button from "../../../components/Button.vue";
 export default {
-	name: "CustomerPrice",
-
+	name: "CustomerPrice", 
 	Buttonmiddleware: "auth",
 	data() {
 		return {
@@ -377,15 +376,21 @@ export default {
 								timer: 2500,
 							});
 							this.fetchCustomer();
+							this.$refs.customer.selectedItem = '';
+							this.$refs.itemproduct.selectedItem = '';
+							this.pricecust = "";
+							this.form.reset();
 						});
 				}
 			});
 			// Swal.close();
 		},
 		itemSelectedProduct(item){
+
 			this.itemdesc = item.itemdesc;
 			this.itemcode = item.itemcode;  
 			this.itemEnable = false;
+
 			
 		},
 		itemSelected(item) {

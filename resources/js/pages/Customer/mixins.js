@@ -21,10 +21,13 @@ Vue.mixin({
             return [];
         }
     },
-    methods: {
-        async fetchCustomer() { 
-            await this.$store.dispatch("Customer/fetchCustomer");
+    methods: { 
+        fetchCustomer() {
+            this.$store.dispatch("Customer/fetchCustomer", {
+                branch: this.isUser.branch
+            });
         },
     }
+
 
 })

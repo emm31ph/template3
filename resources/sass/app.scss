@@ -79,3 +79,18 @@
     // }
 }
 /* ============ desktop view .end// ============ */
+
+fieldset.legend-border {
+    background-color: white;
+    padding: -0px 10px 10px 10px;
+    border:none;
+    margin: 1px;
+}
+
+legend.legend-border { 
+    padding: -0px 10px 10px 10px;
+    width:inherit; /* Or auto */
+    border:none;
+}
+
+ 

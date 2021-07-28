@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         //     'display_name' => 'Warehouse', // optional
         //     'description' => 'Warehouse access contro list', // optional
         // ]);
-
+        
         $user = \App\Models\User::create([
             'name' => 'Edmund Managuit',
             'username' => 'e.managuit',
@@ -31,6 +31,19 @@ class UserSeeder extends Seeder
         ]);
 
         $user->syncRoles([2 ,3]); 
+        $user->syncBranch()->sync(['MAIN', "CEB", "ILO"]);
+ 
+        $user = \App\Models\User::create([
+            'name' => 'Arland Peña',
+            'email' => 'a.peña@app.com',
+          'status' => '01',
+            'username' => 'a.peña',
+            'branch' => 'MAIN',
+            'usertype' => 'U001',
+            'password' => bcrypt('password'),
+        ]);
+
+        $user->syncRoles([1, 2 ,3]); 
         $user->syncBranch()->sync(['MAIN', "CEB", "ILO"]);
  
 
@@ -53,7 +66,7 @@ class UserSeeder extends Seeder
             'email' => 's.santiago@app.com',
             'status' => '01',
             'branch' => 'ILO',
-            'usertype' => '001',
+            'usertype' => 'U001',
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2 ,3]);

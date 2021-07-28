@@ -68,6 +68,7 @@ class UserController extends Controller
             'name' => 'required',
             'username' => 'required',
             'email' => 'required',
+            'usertype' => 'required',
         ]);
 
         $user = User::findOrFail($request->id);
@@ -76,7 +77,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = $request->password == '' ? $user->password : Hash::make($request->password);
         $user->branch = $request->branch;
-        // $user->branch = $request->branch;
+        $user->usertype = $request->usertype; 
         if ($user->save()) {
 
             if ($request->selectedOptions) {

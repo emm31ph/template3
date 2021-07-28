@@ -49,8 +49,11 @@ export default {
 	},
 	created(){
 		this.fetchLookupMixins();
+        this.fetchSalesPerson();
+		this.fetchAllItems();
 	},
 	mounted() {
+        this.fetchCustomer();
 		
 		// 	Echo.join(`chat`)
 		// 		.here((users) => {
@@ -66,5 +69,8 @@ export default {
 		// 			console.error(error);
 		// 		});
 	},
+    methods: { 
+       
+	}
 };
 </script>

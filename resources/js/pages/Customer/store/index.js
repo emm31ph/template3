@@ -24,15 +24,15 @@ export const mutations = {
 
 
 export const actions = {
-    async fetchCustomer({ commit }) {
+    async fetchCustomer({ commit }, payload) {
         try {
             const { data } = await axios.get('/api/settings/customer', {
                 params: {
-                    trntype: 'customer-list' 
+                    trntype: 'customer-list' ,
+                    branch: payload.branch, 
                 }
-            })  
-            commit(types.FETCH_CUSTOMER_SUCCESS, {
-              
+            })   
+            commit(types.FETCH_CUSTOMER_SUCCESS, { 
                 customers: data
             })
         } catch (e) {

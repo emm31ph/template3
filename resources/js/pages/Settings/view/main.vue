@@ -110,7 +110,7 @@ export default {
                                 level: 2,
                                 title: "Sales Person",
                                 link: "settings-salesperson",
-                                access: true
+                                access: this.can('sales-person-read')
                             },
                             ]
                         },

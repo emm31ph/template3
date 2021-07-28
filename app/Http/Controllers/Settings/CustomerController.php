@@ -30,7 +30,7 @@ class CustomerController extends Controller
     private function GetCustomer($request)
     {
         $data = Customer::where('status','=','1')
-        ->where('branch','=',auth()->user()->branch)
+        ->where('branch','=',$request->branch)
         ->get();
 
 

@@ -34,6 +34,49 @@
 		<!-- Heading -->
 		<div class="sidebar-heading">Interface</div>
 
+		<!-- Nav Item - Tables -->
+		<li class="nav-item" v-if="isAbleTo(['invoice-*'])">
+			<a
+				class="nav-link collapsed"
+				href="#"
+				data-toggle="collapse"
+				data-target="#collapseInvoice"
+				aria-expanded="true"
+				aria-controls="collapseInvoice"
+			>
+				<i class="fas fa-fw fa-file-invoice"></i> 
+				<span>Invoice</span>
+			</a>
+				<div
+				id="collapseInvoice"
+				class="collapse"
+				aria-labelledby="headingInvoice"
+				data-parent="#accordionSidebar"
+			>
+				<div class="bg-white py-2 collapse-inner rounded">
+					<router-link
+						:to="{ name: 'invoice-create' }"
+						class="collapse-item" 
+						v-if="can('invoice-create')"
+					>
+						Create Order
+					</router-link>
+					<router-link
+						:to="{ name: 'invoice-list' }"
+						class="collapse-item"
+						v-if="can('invoice-read')"
+					>
+						Order List
+					</router-link>
+				
+				</div>
+			</div>
+
+			<!-- <router-link :to="{ name: 'invoice' }" class="nav-link">
+				<i class="fas fa-fw fa-file-invoice"></i> 
+				<span>Invoice</span></router-link
+			> -->
+		</li>
 		<!-- Nav Item - Pages Collapse Menu -->
 		<li class="nav-item" v-if="isAbleTo(['items-*'])">
 			<a
@@ -150,13 +193,7 @@
 					>
 						Roles
 					</router-link>
-					<!-- <router-link
-						:to="{ name: 'product' }"
-						class="collapse-item"
-						v-if="can('products-read')"
-					>
-						Product
-					</router-link> -->
+				
 				</div>
 			</div>
 		</li>

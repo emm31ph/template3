@@ -1,34 +1,40 @@
 <template>
-	<div class="position-relative">
+	<div style="position: relative;" :class="[classes,(disable)?'disabled':'']">
 		<div style="display: flex; flex-direction: row; z-index: 1">
-			<div class="input-group" style="z-index: 1">
+			<div class="" style="z-index: 1; width:100%;  display: flex; flex-direction: row; justify-content: space-between;">
 				<div
 					:class="[classes,(disable)?'disabled':'']"
-					class="no-clear search-typeahead"
-					style="z-index: 1"
+					class=""
+					style="z-index: 1; width:100%; height:20px; "
 					@click="toggleVisible"
-					v-text="selectedItem ? selectedItem[filterby] : datavalue"
+					v-text="selectedItem[filterby]"
 				></div>
 				<div
-					class="form-control-sm"
-					v-if="selectedItem == null"
+					v-if="selectedItem == ''"
 					v-text="title"
 					style="position: absolute; z-index: 1"
 				></div>
-				<div class="input-group-append">
+				 
 					<button
-						class="btn btn-sm btn-info"
-						@click="selectedItem = null"
+						style="
+						background-color: Transparent;
+						background-repeat:no-repeat;
+						border: none;
+						cursor:pointer;
+						overflow: hidden;
+						outline:none;
+						"
+						@click="selectedItem = ''"
 						v-if="selectedItem"
 					>
 						<i class="fas fa-times-circle"></i>
 					</button>
-				</div>
+				 
 			</div>
 		</div>
 		<div 
-			style="z-index: 2050"
-			class="position-absolute w-100"
+			style="z-index: 900;left:-2; top:5px"
+			class="position-relative w-100"
 			v-if="!disable"
 			v-show="visible"
 		>
@@ -139,10 +145,12 @@ export default {
 	},
 	methods: {
 		toggleVisible() {
+			if(!this.disable){
 			this.visible = !this.visible;
 			setTimeout(() => {
 				this.$refs.input.focus();
 			}, 50);
+			}
 		},
 		itemClicked(index) {
 			this.selected = index;

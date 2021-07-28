@@ -173,9 +173,9 @@
 										:index="`${k}`"
 										filterby="itemdesc"
 										@change="onChangeItems"
-										title="Type Itemdesc"
+										title="Itemdesc"
 										@selected="itemSelected"
-										:classes="`form-control form-control-sm`"
+										class="form-control form-control-sm"
 										:class="{
 											'is-invalid': form.errors.has(
 												`items.${k}.itemcode`
@@ -346,7 +346,6 @@ export default {
 		this.canAuth("items-rr");
 		this.form.userid = this.isUser.id;
 		this.form.trndate = this.datenow;
-		this.fetchAllItems();
 	},
 	methods: {
 		itemSelected(item) {

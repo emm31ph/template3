@@ -23,6 +23,8 @@ return [
             'price cust' => 'c,r,u,cn,g',
             'price list' => 'c,r,u,cn',
             'transaction' => 'tx',
+            'invoice' => 'c,r,u,cn',
+            'sales person' => 'c,r,u,d'
             
         ],
         'user' => [
@@ -31,7 +33,9 @@ return [
         'warehouse' =>[
             'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju', 
         ],
-        'sales' => [],
+        'sales' => [
+            'invoice' => 'c,r,u,cn'
+        ],
     ],
 
     'permissions_map' => [

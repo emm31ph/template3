@@ -6,7 +6,7 @@
 
 				<h6
 					class="m-0 font-weight-bold text-primary"
-					v-if="can('users-create')"
+					v-if="can('sales-person-create')"
 				>
 					<a @click="openModalWindow">
 						<i class="fas fa-cogs"></i>
@@ -64,7 +64,7 @@
 											@click="
 												editModalWindow(user);
 												showModal = true;"
-											v-if="can('users-update')"
+											v-if="can('sales-person-update')"
 										>
 											<i class="fa fa-edit blue"></i>
 										</a>
@@ -72,7 +72,7 @@
 										<a
 											href="#"
 											@click="deleteUser(user.id)"
-											v-if="can('users-delete')"
+											v-if="can('sales-person-delete')"
 										>
 											<i
 												class="fa fa-trash text-danger"
@@ -296,8 +296,9 @@ export default {
 			if(id){
 			var val = this.getUsers 
 			var val1 = val.filter(el => el.id===id); 
+			if(val1.length){
 			return val1[0]['name'];
-			} 
+			} }
 			return '';
 		},
 
@@ -316,6 +317,7 @@ export default {
 			// names must be equal
 			return 0;
 			}); 
+
 			return val1;
 		},
 		editModalWindow(user) { 
@@ -323,7 +325,9 @@ export default {
 			this.form.clear();
 			this.form.reset();
 			this.editMode = true;
+			this.form.id = user.id;
 			this.form.fill(user);
+			console.log(user);
 		 
 		},
 		async updateSalesperson() {
@@ -331,16 +335,17 @@ export default {
 			await this.form
 				.patch("/api/settings/salesperson")
 				.then((res) => {
-					console.log(res.data);
-			// 		Swal.fire({
-			// 			title: "User created successfully",
-			// 			icon: "success",
-			// 			showConfirmButton: false,
-			// 			timer: 1500,
-			// 		});
+					// console.log(res.data);
+					Swal.fire({
+						title: "successfully linked",
+						icon: "success",
+						showConfirmButton: false,
+						timer: 1500,
+					});
 
-			// 		this.fetchUsers();
-			// 		this.closeModal();
+					this.fetchUsers();
+					this.fetchSalesPerson();
+					this.closeModal();
 				})
 				.catch((error) => { 
 				 console.log(error);

@@ -15,8 +15,9 @@ class CreateOrderSlipsTable extends Migration
     {
         Schema::create('order_slips', function (Blueprint $table) {
             $table->string('os_id');
-            $table->integer('cid');
-            $table->integer('user_id')->comment('salesman');
+            $table->integer('cid')->comment('customer id');
+            $table->integer('user_id')->comment('user');
+            $table->integer('salesperson')->comment('salesperson');
             $table->date('trndate')->nullable();
             $table->string('sono')->nullable();
             $table->string('pono')->nullable();

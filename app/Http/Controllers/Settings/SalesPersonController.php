@@ -27,11 +27,17 @@ class SalesPersonController extends Controller
     {
         
         $this->validate($request,[
-            'salesperson'=>'required|unique:sales_persons,id,'.$request->id,
+            'salesperson'=>'required|unique:sales_persons,salesperson,'.$request->id,
             'salespersonname'=>'required',
-            'link_id'=>'required'
+            'link_id'=>'required|unique:sales_persons,user_id,'.$request->id
          ]);
 
-        return $request;
+        $user = SalesPerson::findOrFail($request->id);
+        $user->salesperson = $request->salesperson;
+        $user->salespersonname = $request->salespersonname;
+        $user->user_id = $request->link_id;
+        $user->save();
+
+        return \response()->json(['data'=>'successfull'],200);
     }
 }

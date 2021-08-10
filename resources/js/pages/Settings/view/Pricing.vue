@@ -110,12 +110,10 @@
 
 <script>
 import Form from "vform";
-import bus from "../../../EventBus";
-import Button from '../../../components/Button.vue';
+import bus from "../../../EventBus"; 
 export default {
 	name: "PriceList",
-	
-Buttonmiddleware: "auth",
+	middleware: "auth",
 	data() {
 		return { 
 			pagename: "Price List", 

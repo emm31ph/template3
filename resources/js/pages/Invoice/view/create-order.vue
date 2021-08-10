@@ -104,7 +104,7 @@
                             Items Order
                         </legend>
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-6">
                                 <typeahead
                                     v-model="itemcode"
                                     :items="getAllItems"
@@ -149,28 +149,28 @@
                                 </select>
                             </div>
 
-                            <div class="col-2">
+                            <div class="col-1">
                                 <input
                                     v-model="price"
                                     class="form-control form-control-sm" 
                                     placeholder="Unit Price"
-                                    :disabled="activeField"
+                                    disabled
                                 /> 
                             </div>
 
-                            <div class="col-2">
+                            <div class="col-1">
                                 <input
                                     v-model="disc"
-                                    class="form-control form-control-sm" 
+                                    class="form-control form-control-sm text-right" 
                                     placeholder="Discount"
-                                    :disabled="activeField"
+                                    disabled
                                 /> 
                             </div>
 
-                            <div class="col-2">
+                            <div class="col-1">
                                 <input
                                     v-model="total"
-                                    class="form-control form-control-sm" 
+                                    class="form-control form-control-sm text-right" 
                                     placeholder="Total"
                                     disabled
                                 /> 
@@ -179,7 +179,7 @@
                             <div class="col-1">
                                 <button
                                     @click="handleAdd"
-                                    :disabled="activeField"
+                                    :disabled="activeField || (itemcode!==''?false:true)"
                                     type="add"
                                     class="btn btn-sm btn-primary"
                                 >
@@ -292,14 +292,14 @@ export default {
         this.isLoggedCheck;
     },
     methods: {
-        itemSelected(item) {
-            console.log(item);
+        itemSelected(item) { 
             this.form.salesperson = this.getSalesPerson(item.salesperson);
+            
             this.activeField = false;
         },
         itemSelectedItem(item) {
-            //this.form.items[item.id].itemcode = item.itemcode;
-            console.log(item);
+            this.itemcode = item.itemcode
+            //this.form.items[item.id].itemcode = item.itemcode; 
         },
         handleAdd() {}
     }

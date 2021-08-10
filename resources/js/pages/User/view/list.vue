@@ -94,7 +94,7 @@
 								<td>{{ user.email }}</td>
 								<td>{{ user.username }}</td>
 								<td>{{ user.branch }}</td>
-								<td class="text-center">{{ usertype(user.usertype)}}</td>
+								<td class="text-center">{{ usertype(user.usertype) }}</td>
 								<td  class="text-center">
 									<span
 										class="badge"
@@ -488,8 +488,7 @@ export default {
 			}
 			return '';
 		},
-		editModalWindow(user) {
-			console.log(user);
+		editModalWindow(user) { 
 			let roleid = user.roles.map(function (item) {
 				return item.id;
 			});
@@ -497,8 +496,7 @@ export default {
 			let branchid = user.myBranch.map(function (item) {
 				return item.branch;
 			});
-
-			console.log(branchid);
+ 
 
 			this.form.clear();
 			this.form.reset();

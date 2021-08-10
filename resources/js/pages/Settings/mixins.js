@@ -11,7 +11,15 @@ var moment = require('moment');
 Vue.mixin({
 
     computed: {
-        
+        getSignatories() {
+            if (this.isUser) { 
+                var getSignatories = store.getters['Settings/signatories']
+                if (getSignatories) {
+                    return getSignatories
+                }
+            }
+            return []
+        },
         getBranch() {
             if (this.isUser) { 
                 var getBranch = store.getters['Settings/branch']
@@ -102,6 +110,11 @@ Vue.mixin({
             if (value == 0) {
                 return null;
             }
+            if(dicimal==0){
+
+                return value.toLocaleString()
+            }
+            
             return value.toFixed(dicimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
         printme() {

@@ -11,12 +11,12 @@ export default [{
     redirect: { name: 'invoice-list' },
     component: page('Invoice/view/main.vue'),
     children: [ {
-        path: 'invoice-create',
+        path: '',
         name: 'invoice-create',
         meta: { layout: 'default' },
         component: page('Invoice/view/create-order.vue')
     }, {
-        path: 'list',
+        path: '',
         name: 'invoice-list',
         meta: { layout: 'default' },
         component: page('Invoice/view/list.vue')

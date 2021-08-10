@@ -16,6 +16,7 @@ class CreateSignatoriesTable extends Migration
         Schema::create('signatories', function (Blueprint $table) {
             $table->id();
             $table->string('type', 5)->nullable();
+            $table->string('branch', 10)->nullable();
             $table->string('signatories', 100)->nullable();
             $table->string('signee', 100)->nullable();
             $table->string('designation', 100)->nullable();

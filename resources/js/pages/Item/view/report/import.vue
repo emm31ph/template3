@@ -29,7 +29,7 @@
 																img-thumbnail
 																mr-2
 															"
-															style="width: 75px"
+															style="width: 150px"
 														/> 
 													</div>
 													<div
@@ -44,7 +44,7 @@
 																h5
 																font-weight-bold
 																mb-1
-																mt-5
+																mt-2
 															"
 														>
 															IMPORT DOCUMENT

@@ -9,6 +9,7 @@ export const state = {
     pricelist: null,
     lookup: null,
     salesperson: null,
+    signatories: null,
 }
 
 // getters
@@ -19,6 +20,7 @@ export const getters = {
     pricelist: state => state.pricelist,
     lookup: state => state.lookup,
     salesperson: state => state.salesperson,
+    signatories: state => state.signatories,
 }
 
 // mutations
@@ -53,6 +55,14 @@ export const mutations = {
     [types.FETCH_SALESPERSON_FAILURE](state) {
         state.salesperson = null
     }, 
+    
+    //signatorie
+    [types.FETCH_SIGNATORIES_SUCCESS](state, { signatories }) {
+        state.signatories = signatories
+    },
+    [types.FETCH_SIGNATORIES_FAILURE](state) {
+        state.signatories = null
+    }, 
     [types.CLEAR_ALL](state) {
         state.branch = null
         state.pricecat = null
@@ -60,6 +70,7 @@ export const mutations = {
         state.pricelist = null
         state.lookup = null
         state.salesperson = null
+        state.signatories = null
     }
 }
 
@@ -111,6 +122,25 @@ export const actions = {
             })
         } catch (e) {
             commit(types.FETCH_LOOKUP_FAILURE)
+        }
+    },
+
+
+    
+    async fetchSignatories({ commit }, payload) {
+        try {
+            const { data } = await axios.get('/api/settings/signatories', {
+                params: {
+                    trnmode: payload.trnmode,
+                    trntype: payload.trntype
+                }
+            })   
+             
+            commit(types.FETCH_SIGNATORIES_SUCCESS, {
+                signatories: data
+            })
+        } catch (e) {
+            commit(types.FETCH_SIGNATORIES_FAILURE)
         }
     },
 

@@ -57,9 +57,7 @@
     border: 1px solid gainsboro;
     margin-bottom: 2px;
 }
-.mytable {
-    width: 100%;
-}
+ 
 
 .mytable {
     table,
@@ -93,4 +91,12 @@ legend.legend-border {
     border:none;
 }
 
- 
+.meprintTable{
+    display: none;
+}
+.meprint {
+    display: none;
+}
+.notprintTable{
+    display: block;
+}

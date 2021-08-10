@@ -22,6 +22,11 @@ export default [{
         component: page('Item/view/report/wp.vue'),
         props: true
     },{
+        path: 'report-adj',
+        name: 'report-adj',
+        component: page('Item/view/report/adjustment.vue'),
+        props: true
+    },{
         path: 'report-dlvry',
         name: 'report-dlvry',
         component: page('Item/view/report/dlvry.vue'),

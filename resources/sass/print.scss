@@ -40,8 +40,55 @@ td {
     border-color: black;
 }
 
-@media print {
-    body {
-        padding-top: 10px;
-    }
+td {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
+
+@media print {
+
+    @page
+    {
+     size: 5.5in 8.5in ;
+     size: landscape;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-color: black;
+    }
+    table{
+        width: 100%;
+    }
+    td {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+     .example-screen {
+       display: none;
+    }
+    .meprint{
+       display: block;
+    }
+    
+    .meprintTable{
+        display: block ;
+     }
+    
+.notprintTable{
+    display: none;
+}
+   
+     
+    // footer{
+    //     position: fixed;
+    //     height: 150px;
+    //     bottom: 0;
+    //     width: 100%;
+    // }
+    
+}
+
+ 

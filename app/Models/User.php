@@ -83,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
     public function getMyBranchAttribute()
         {
         // return $this->hasManyThrough('App\Models\UserBranch','App\Models\Branch');
-        $data = UserBranch::join('Branches','branch','branchcode')->where('user_id',$this->id)->get();
+        $data = UserBranch::join('branches','branch','branchcode')->where('user_id',$this->id)->get();
         return  $data;
         }
 

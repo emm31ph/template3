@@ -34,6 +34,53 @@
 		<!-- Heading -->
 		<div class="sidebar-heading">Interface</div>
 
+		<!-- Nav Item - Shipping advice -->
+		<!-- <li class="nav-item" v-if="isAbleTo(['shipping-advice-*'])">
+			<a
+				class="nav-link collapsed"
+				href="#"
+				data-toggle="collapse"
+				data-target="#collapseShippingAdvice"
+				aria-expanded="true"
+				aria-controls="collapseShippingAdvice"
+			>
+				<i class="fas fa-truck"></i>
+				<span>Shipping Advice</span>
+			</a>
+				<div
+				id="collapseShippingAdvice"
+				class="collapse"
+				aria-labelledby="headingShippingAdvice"
+				data-parent="#accordionSidebar"
+			>
+				<div class="bg-white py-2 collapse-inner rounded">
+					<router-link
+						:to="{ name: 'shipping-create' }"
+						class="collapse-item" 
+						v-if="can('shipping-advice-create')"
+					>
+						New Shipping Advice
+					</router-link>
+					<router-link
+						:to="{ name: 'shipping-list' }"
+						class="collapse-item"
+						v-if="can('shipping-advice-read')"
+					>
+						Shipping Advice List
+					</router-link>
+				
+				</div>
+			</div>
+ 
+		</li> -->
+
+		<!-- Nav Item - Packing List -->
+		<li class="nav-item" v-if="isAbleTo(['packing-list-*','shipping-advice-*'])">
+			<router-link :to="{ name: 'logistic' }" class="nav-link">
+				<i class="fas fa-fw fa-users"></i>
+				<span>Logistic</span></router-link
+			>
+		</li>
 		<!-- Nav Item - Tables -->
 		<li class="nav-item" v-if="isAbleTo(['invoice-*'])">
 			<a

@@ -141,17 +141,20 @@ class ItemController extends Controller
     {
 
        $stat = [];
-        
+       $stat['id'] = '';
         DB::disableQueryLog();
         DB::beginTransaction();
-            if($request->input('reversal')!=''){
+            if($request->input('reversal')!==''){
                 $stat = $this->reversalDelivery($request->input('reversal'));
-                $branch = $stat['branch'];
+                // $branch = $stat['branch'];
             }else{
-                $stat['id'] = '';
+                
                 $branch =  auth()->user()->branch;
             }
             
+
+            return response()->json(['branch' => $stat], 500);
+
                
             try {
                 
@@ -256,9 +259,9 @@ class ItemController extends Controller
     }
     public function reversalDelivery($request)
     { 
-        DB::disableQueryLog();
-        DB::beginTransaction(); 
-        try { 
+        // DB::disableQueryLog();
+        // DB::beginTransaction(); 
+        // try { 
             $items = []; 
             $totalcr = 0;
             $totaldr = 0;
@@ -352,15 +355,15 @@ class ItemController extends Controller
              $counter->increment('value');
              ItemsBatch::create($dateInvt);
             \DB::commit();
-
+   
             return ['branch' => $branch, 'id' => $batch];
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            // return response()->json(['error' => 'something error in data'], 400);
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-        return response()->json($data, 200);
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     // return response()->json(['error' => 'something error in data'], 400);
+        //     return response()->json(['error' => $e->getMessage()], 400);
+        // }
+        // return response()->json($data, 200);
     
     }
     public function CancelTrans(Request $request)

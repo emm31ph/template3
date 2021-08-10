@@ -326,16 +326,14 @@ export default {
 			this.form.reset();
 			this.editMode = true;
 			this.form.id = user.id;
-			this.form.fill(user);
-			console.log(user);
+			this.form.fill(user); 
 		 
 		},
 		async updateSalesperson() {
 			 this.form.trntype='update'
 			await this.form
 				.patch("/api/settings/salesperson")
-				.then((res) => {
-					// console.log(res.data);
+				.then((res) => { 
 					Swal.fire({
 						title: "successfully linked",
 						icon: "success",

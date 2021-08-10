@@ -26,6 +26,11 @@ export default [{
         meta: { layout: 'default' },
         component: page('Settings/view/list.vue')
     },{
+        path: 'list-signatories',
+        name: 'signatories-list',
+        meta: { layout: 'default' },
+        component: page('Settings/view/Signatories.vue')
+    },{
         path: 'master-data-items',
         name: 'master-data-items',
         meta: { layout: 'default' },

@@ -11,7 +11,7 @@
 				></div>
 				<div
 					v-if="selectedItem == ''"
-					v-text="title"
+					v-text="datavalue===''?title:datavalue"
 					style="position: absolute; z-index: 1"
 				></div>
 				 
@@ -143,6 +143,7 @@ export default {
 			visible: false,
 		};
 	},
+	 
 	methods: {
 		toggleVisible() {
 			if(!this.disable){

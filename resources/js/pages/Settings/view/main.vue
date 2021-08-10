@@ -100,6 +100,12 @@ export default {
                     link: "",
                     access: true,
                     childs: [
+                        {
+                            level: 1,
+                            title: "Signatories",
+                            link: "signatories-list",
+                            access: true,  
+                        },
                         { 
                             level: 1,
                             title: "Business Partners",

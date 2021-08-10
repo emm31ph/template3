@@ -24,9 +24,10 @@
 						<div class="col-md-12">
 							<div class="panel panel-default mb-2">
 								<form
-									method="POST"
-									onsubmit="event.preventDefault();"
-									enctype="multipart/form-data"
+									 
+
+										@submit.prevent="handleSubmit"
+										@keydown="form.onKeydown($event)"
 								>
 									<fieldset class="col-md-3">
 										<legend>Select Date</legend>
@@ -38,19 +39,25 @@
 												placeholder="Recipient's username"
 												aria-label="Recipient's username"
 												aria-describedby="basic-addon2"
-												v-model="trndate"
-											/>
+												v-model="form.trndate"
+												
+								name="trndate"
+												:class="{
+									'is-invalid': form.errors.has('trndate'),
+								}"
+											/> 
+						 
 											<div class="input-group-append">
-												<button
+												<v-button
 													class="
 														btn
 														btn-outline-secondary
 													"
-													type="button"
-													@click="handleSubmit"
+													type="submit" 
+													:loading="form.busy"
 												>
 													Generate
-												</button>
+												</v-button>
 											</div>
 										</div>
 									</fieldset>
@@ -150,12 +157,12 @@
 							</div>
 						</div>
 					</slot>
-				</section>
-
+				</section> 
 				<footer class="modal-footer">
 					<button
 						type="button"
 						class="btn-green"
+						
 						@click="close"
 						aria-label="Close modal"
 					>
@@ -168,11 +175,16 @@
 </template>
 
 <script>
+
+import Form from "vform";
 export default {
 	name: "Modal",
 	data() {
 		return {
-			trndate: "",
+		form: new Form({
+			trndate: "", 
+		}),
+			// trndate: "",
 			datas: [],
 		};
 	},
@@ -184,18 +196,35 @@ export default {
 			this.$emit("close");
 		},
 		handleSubmit() {
-			axios
-				.get("/api/items/myTrn", {
+			this.form.post("/api/items/myTrn", {
 					params: {
-						trndate: this.trndate,
+						trndate: this.form.trndate,
+						branch: this.isUser.branch,
 					},
 				})
-				.then((result) => {
-				 
+				.then((result) => { 
 					this.datas = result.data;
-
+					if( result.data.length===0){ 
+						 Swal.fire({
+								position: 'top-end',
+								icon: 'info',
+								toast:true,
+								title: 'no record found',
+								showConfirmButton: false,
+								timer: 2500
+						})
+					} 
 				})
-				.catch((err) => {});
+				.catch((err) => {
+						 Swal.fire({
+								position: 'top-end',
+								icon: 'error',
+								toast:true,
+								title: 'error process',
+								showConfirmButton: false,
+								timer: 2500
+							})
+				});
 		},
 		handleClick(data) { 
 			 this.datas = '';

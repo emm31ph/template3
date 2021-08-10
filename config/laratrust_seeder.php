@@ -24,7 +24,10 @@ return [
             'price list' => 'c,r,u,cn',
             'transaction' => 'tx',
             'invoice' => 'c,r,u,cn',
-            'sales person' => 'c,r,u,d'
+            'sales person' => 'c,r,u,d',
+            'shipping advice' => 'c,r,u,ap',
+            'packing list' => 'c,r,u,ap',
+            'signatory' =>  'r,u'
             
         ],
         'user' => [
@@ -66,6 +69,8 @@ return [
         'itrju' => 'Reject Update',
         #'itrjc' => 'Reject Cancel',
         'tx' => 'Cancel',
+        'cf' => 'Copy From',
+        'ap' => 'Approve'
 
     ],
 ];

@@ -35,7 +35,7 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::get('/getitems', 'Api\ItemBranchController@getItems')->name('-all');
         Route::get('/getTrnHist', 'Api\ItemBranchController@getTrnHist')->name('-trn');
 
-        Route::get('/myTrn', 'Api\ItemBranchController@mytransaction')->name('-myTrn');
+        Route::any('/myTrn', 'Api\ItemBranchController@mytransaction')->name('-myTrn');
 
         Route::get('/getAllItems', 'Api\ItemBranchController@getAllItems');
         Route::get('/getAllitemsBranch', 'Api\ItemBranchController@getAllItemsBranch');
@@ -69,11 +69,15 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::any('price', 'Settings\PriceController@price');  
         Route::any('customer', 'Settings\CustomerController@index'); 
         Route::any('lookup', 'Settings\LookupController@index'); 
+        Route::any('signatories', 'Settings\SignatoriesController@index'); 
         Route::any('salesperson', 'Settings\SalesPersonController@index'); 
     });
 
     Route::group(['prefix' => 'invoices', 'as' => 'invoice'], function () { 
         Route::any('process', 'Invoices\InvoiceController@index'); 
+    });
+    Route::group(['prefix' => 'process', 'as' => 'process'], function () { 
+        Route::any('logistic', 'Process\LogisticController@index'); 
     });
 
 });

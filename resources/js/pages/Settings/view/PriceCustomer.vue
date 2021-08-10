@@ -226,11 +226,10 @@
 
 <script>
 import Form from "vform";
-import bus from "../../../EventBus";
-import Button from "../../../components/Button.vue";
+import bus from "../../../EventBus"; 
 export default {
 	name: "CustomerPrice", 
-	Buttonmiddleware: "auth",
+	middleware: "auth",
 	data() {
 		return {
 			pagename: "Customer Price", 
@@ -324,8 +323,7 @@ export default {
 					Swal.showLoading();
 				},
 			});
-			this.form.post("/api/settings/price").then((res) => {
-				 console.log(res.data);
+			this.form.post("/api/settings/price").then((res) => { 
 				Swal.fire({
 					position: "top-end",
 					icon: "success",
@@ -481,26 +479,25 @@ export default {
 				this.unitprice = this.formatNumberDis(num);
 			}
 		},
-		calculateLineTotal(val) {
-			console.log(val);
+		calculateLineTotal(val) { 
 			 
 
 		}
 	},
 	mounted() {
 		this.isAbleToAuth(["price-cust-*"]);
-		// this.$refs.itemproduct.selectedItem = {id: "1",
-		// 	index: "1",
-		// 	itemclass: "001",
-		// 	itemcode: "FPARSNO0001010",
-		// 	itemdesc: "ARBELLA SPAGHETTI NOODLES 10/1Kg",
-		// 	numperuompu: "10",
-		// 	pckgsize: "10/1Kg",
-		// 	shortcode: "",
-		// 	status: "0",
-		// 	u_stockcode: "",
-		// 	uompu: "CASE"
-		// 	}
+		this.$refs.itemproduct.selectedItem = {id: "1",
+			index: "1",
+			itemclass: "001",
+			itemcode: "FPARSNO0001010",
+			itemdesc: "ARBELLA SPAGHETTI NOODLES 10/1Kg",
+			numperuompu: "10",
+			pckgsize: "10/1Kg",
+			shortcode: "",
+			status: "0",
+			u_stockcode: "",
+			uompu: "CASE"
+			}
 		this.currentPage = 1;
 		bus.$on("send", (data) => {
 			this.query = data;

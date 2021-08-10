@@ -29,7 +29,7 @@
 																img-thumbnail
 																mr-2
 															"
-                                                            style="width: 75px"
+                                                            style="width: 150px"
                                                         />
                                                     </div>
                                                     <div
@@ -44,7 +44,7 @@
 																h5
 																font-weight-bold
 																mb-1
-																mt-5
+																mt-2
 															"
                                                         >
                                                             Working Progress Transaction
@@ -77,7 +77,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+<hr class="my-2" />
                                             <div class="row pb-2">
                                                 <div class="container-fluid">
                                                     <div class="row">
@@ -192,8 +192,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div
-                                                            class="col-12 px-0"
-                                                            style="height: 70px"
+                                                            class="col-12 px-0" 
                                                         >
                                                             <span
                                                                 class="
@@ -224,8 +223,9 @@
                                             </div>
 
                                             <div class="row h6">
-                                                <div class="col-md-12">
-                                                    <table class="mytable">
+                                                <div class="col p-3 d-flex justify-content-center">
+                                                    <div style="width:90%">
+                                                    <table class="mytable  w-100 " >
                                                         <thead>
                                                             <tr>
                                                                 <th 
@@ -295,7 +295,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody v-if="data">
-                                                            <tr
+                                                             <tr style="line-height: 15px;"
                                                                 class="
 																	text-center
 																"
@@ -434,14 +434,7 @@
                                                                             : ""
                                                                     }}
                                                                 </td>
-                                                                <td>
-                                                                    {{
-                                                                        formatNumberD(
-                                                                            this
-                                                                                .crQtyCase,
-                                                                            0
-                                                                        )
-                                                                    }}
+                                                                <td> 
                                                                     {{
                                                                         this
                                                                             .crQtyTin !=
@@ -466,53 +459,35 @@
                                                         </tfoot>
                                                     </table>
                                                 </div>
-                                            </div>
-                                            <div class="container-fluid pt-3">
-                                                <div class="row">
-                                                    <div
-                                                        class="
-															col-3
-															text-center
-														"
-                                                    >
-                                                        <div class="">
-                                                            {{
-                                                                this.isUser['name']
-                                                            }}
-                                                        </div>
-                                                        <div
-                                                            class="
-																border-top
-																font-weight-bold
-																border-dark
-															"
-                                                        >
-                                                            PREPARED BY
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-3"></div>
-                                                    <div class="col-3"></div>
-                                                    <div
-                                                        class="
-															col-3
-															text-center
-														"
-                                                    >
-                                                        <div class="">
-                                                            &nbsp;
-                                                        </div>
-                                                        <div
-                                                            class="
-																border-top
-																font-weight-bold
-																border-dark
-															"
-                                                        >
-                                                            RECEIVED BY
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
+                                            <!-- signatories -->
+                                                <div class="meprint pb-5"  >
+                                                    <div
+                                                        class="d-flex justify-content-around mt-4"
+                                                    >
+                                                        <div
+                                                            v-for="(data,
+                                                            i) in getSignatories"
+                                                            :key="i"
+                                                            class=" text-center col-4    text-uppercase 
+                                                                            font-weight-bold
+                                                                        "
+                                                        >
+                                                            <div class="col">
+                                                                {{ data.signatories }}
+                                                            </div>
+                                                            <div class="mt-4">
+                                                                {{ data.signee }}
+                                                            </div>
+                                                            <div
+                                                                class="border-top mx-5"
+                                                            >
+                                                                {{ data.designation }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -530,8 +505,8 @@
 					<i class="fa fa-print"></i> Print
 				</button>  
 				<!-- <a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-fptd-update')" class="btn-sm btn btn-success"
-					><i class="fa fa-edit"></i> Edit</a -->
-				> 
+					><i class="fa fa-edit"></i> Edit</a> -->
+			
 				
 				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
 					><i class="fa fa-trash"></i> Cancel</a
@@ -629,6 +604,12 @@ export default {
                 }
             });
             return sum;
+        },
+        onLoad() { 
+            this.$store.dispatch("Settings/fetchSignatories", {
+                trnmode: "print",
+                trntype: "RR001"
+            });
         }
     },
     methods: {
@@ -742,6 +723,7 @@ export default {
 		},
     },
     mounted(){  
+        this.onLoad;
         if(this.id==undefined){
         	this.$router.push({
 				name: "dashboard" 

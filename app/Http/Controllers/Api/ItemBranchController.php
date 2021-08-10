@@ -143,9 +143,15 @@ class ItemBranchController extends Controller
     public function mytransaction(Request $request)
     {
 
+        $request->validate([
+            'trndate' => 'bail|required', 
+        ]);
+
+
         $trn = ItemsBatch::where('items_batches.trndate', '=', $request->trndate)
             #->whereRaw("items_batches.batch not like '%CAN%'")
             ->whereRaw("IF(".auth()->user()->id."=1,''='',items_batches.user_id=".auth()->user()->id.")")
+            ->where('batch', 'like', '%'.$request->branch.'%')
             ->orderBy('batch','asc')
             ->get();
 

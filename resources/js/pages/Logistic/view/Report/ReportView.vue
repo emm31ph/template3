@@ -13,8 +13,8 @@ export default {
                 case "SH":
                     return "sh";
                     break;
-                case "CAN":
-                    return "can";
+                case "PL":
+                    return "pl";
                     break;
                 default:
                     this.$router.push({
@@ -31,7 +31,7 @@ export default {
         }else{
             let trnmode = this.repType(this.batch.slice(0, this.batch.search("-")));
             this.$router.push({
-                name: "report-view-shipping",
+                name: "log-report-"+trnmode.toLowerCase(),
                 params: { id: this.batch }
             });
         }

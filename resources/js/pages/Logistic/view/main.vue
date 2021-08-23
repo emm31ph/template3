@@ -2,7 +2,7 @@
     <div>
         <div class="row pt-0 pb-0">
             <nav class="menu">
-                <ul v-for="(item, i) in menusDis" :key="i"  v-if="item.access">
+                <ul v-for="(item, i) in menusDis" :key="i"  v-show="item.access">
                     <li >
                         <template v-if=" item.link!=''">
                         <router-link
@@ -92,7 +92,7 @@ export default {
                 {
                     id: "item2",
                     level: 0,
-                    title: "Packing List"+this.can("packing-list-read"),
+                    title: "Packing List",
                     link: "",
                     access: this.can("packing-list-read"),
                     childs: [

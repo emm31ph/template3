@@ -6,7 +6,7 @@
                     New Shipping Advice
                 </h6>
             </div>
-            <div class="card-body ">
+            <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a
@@ -23,7 +23,7 @@
                             class="nav-link"
                             :class="{
                                 disabled: max_step < 2,
-                                active: current_step == 2
+                                active: current_step == 2,
                             }"
                             href="#"
                             >Tracking</a
@@ -35,7 +35,7 @@
                             class="nav-link"
                             :class="{
                                 disabled: max_step < 3,
-                                active: current_step == 3
+                                active: current_step == 3,
                             }"
                             href="#"
                             >Detials</a
@@ -45,15 +45,19 @@
                 <div>
                     <div class="tab-pane" v-show="current_step == 1">
                         <div class="row mt-2">
-                            <div class="col-6">
-                                <div class="form-group form-group-sm mb-0 row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputPackingList"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Packing List:</label
                                     >
-                                    <div class="col-sm-10">
-                                        <input   
+                                    <div class="col-md-9">
+                                        <input
                                             v-model="form.packlist"
                                             type="text"
                                             class="form-control form-control-sm"
@@ -62,53 +66,76 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputContactPerson"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Contact Person:</label
                                     >
-                                    <div class="col-sm-10">
-                                        <input 
+                                    <div class="col-md-9">
+                                        <input
                                             v-model="form.contactPerson"
                                             type="text"
-                                            class="form-control form-control-sm "
-                                            :class="contactPersonIsValid==false?'is-invalid':''"
+                                            class="form-control form-control-sm"
+                                            :class="
+                                                contactPersonIsValid == false
+                                                    ? 'is-invalid'
+                                                    : ''
+                                            "
                                             id="inputContactPerson"
                                             placeholder="Contact Person"
-                                            
                                         />
                                     </div>
                                 </div>
 
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputConsignee"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Consignee:</label
                                     >
-                                    <div class="col-sm-10">
-                                        <input 
+                                    <div class="col-md-9">
+                                        <input
                                             v-model="form.consignee"
                                             type="text"
-                                            class="form-control form-control-sm  "
-                                            :class="consigneeIsValid==false?'is-invalid':''"
+                                            class="form-control form-control-sm"
+                                            :class="
+                                                consigneeIsValid == false
+                                                    ? 'is-invalid'
+                                                    : ''
+                                            "
                                             id="inputConsignee"
                                             placeholder="Consignee"
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputAddress"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Address:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <textarea
                                             v-model="form.address"
-                                            class="form-control form-control-sm  "
-                                            :class="addressIsValid==false?'is-invalid':''"
+                                            class="form-control form-control-sm"
+                                            :class="
+                                                addressIsValid == false
+                                                    ? 'is-invalid'
+                                                    : ''
+                                            "
                                             placeholder="Address"
                                             id="exampleFormControlTextarea1"
                                             rows="3"
@@ -116,14 +143,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="form-group form-group-sm mb-0 row">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputDate"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Date:</label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.trndate"
                                             type="date"
@@ -135,10 +166,14 @@
 
                                     <label
                                         for="inputSANo"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >SA No:</label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.sa_no"
                                             type="text"
@@ -149,13 +184,17 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputDR"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >DR:</label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.dr_no"
                                             type="text"
@@ -166,10 +205,14 @@
                                     </div>
                                     <label
                                         for="inputPO"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >PO:</label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.po_no"
                                             type="text"
@@ -179,28 +222,41 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputSONo"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >SO No.:</label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.so_no"
                                             type="text"
-                                            class="form-control form-control-sm "
-                                            :class="so_noIsValid==false?'is-invalid':''"
+                                            class="form-control form-control-sm"
+                                            :class="
+                                                so_noIsValid == false
+                                                    ? 'is-invalid'
+                                                    : ''
+                                            "
                                             id="inputSONo"
                                             placeholder="SO No."
                                         />
                                     </div>
                                     <label
                                         for="inputShipping"
-                                        class="col-sm-2 col-form-label text-right"
-                                        >Shipping Date:</label
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                            pr-0
+                                        "
+                                        ><small>Shipping Date:</small></label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.shippingDate"
                                             type="date"
@@ -210,13 +266,18 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputStockRequest"
-                                        class="col-sm-2 col-form-label text-right"
-                                        >Stock Request:</label
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                            pr-0
+                                        "
+                                        ><small>Stock Request:</small></label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-10">
                                         <input
                                             v-model="form.shippingRequest"
                                             type="text"
@@ -226,13 +287,18 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputShippingLine"
-                                        class="col-sm-2 col-form-label text-right"
-                                        >Shipping Line:</label
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                            pr-0
+                                        "
+                                        ><small>Shipping Line :</small></label
                                     >
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.shippingLine"
                                             type="text"
@@ -243,11 +309,16 @@
                                     </div>
                                     <label
                                         for="inputShippingMethod"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-2
+                                            col-form-label
+                                            col-form-label-sm
+                                            pr-0
+                                        "
                                     >
-                                        <small>Shipping Method:</small>
+                                        <small>Ship. Method:</small>
                                     </label>
-                                    <div class="col-sm-4">
+                                    <div class="col-md-4">
                                         <input
                                             v-model="form.shippingMethod"
                                             type="text"
@@ -263,13 +334,17 @@
                     <div class="tab-pane" v-show="current_step == 2">
                         <div class="row mt-2">
                             <div class="col-6">
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputControlNo"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Control No:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <input
                                             v-model="form.control_no"
                                             type="text"
@@ -279,13 +354,17 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputSealNo"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Seal No:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <input
                                             v-model="form.seal_no"
                                             type="text"
@@ -295,46 +374,62 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputTrurkingNo"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Trucking #:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <input
                                             v-model="form.trucking"
                                             type="text"
                                             class="form-control form-control-sm"
                                             id="inputTrurkingNo"
-                                            placeholder="Trurking #"
+                                            placeholder="Trucking #"
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputPickUpAt"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Pick Up At:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <input
                                             v-model="form.pickup"
                                             type="text"
-                                            class="form-control form-control-sm "
-                                            :class="pickupIsValid==false?'is-invalid':''"
+                                            class="form-control form-control-sm"
+                                            :class="
+                                                pickupIsValid == false
+                                                    ? 'is-invalid'
+                                                    : ''
+                                            "
                                             id="inputPickUpAt"
                                             placeholder="Pick Up At"
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputGrossWT"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Gross wt:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <input
                                             v-model="form.grosswt"
                                             type="text"
@@ -346,15 +441,19 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="form-group form-group-sm mb-0 row">
+                                <div class="form-group form-group-sm mb-1 row">
                                     <label
                                         for="inputRemarks"
-                                        class="col-sm-2 col-form-label text-right"
+                                        class="
+                                            col-md-3
+                                            col-form-label
+                                            col-form-label-sm
+                                        "
                                         >Remarks:</label
                                     >
-                                    <div class="col-sm-10">
+                                    <div class="col-md-9">
                                         <textarea
-                                        v-model="form.remarks"
+                                            v-model="form.remarks"
                                             class="form-control"
                                             placeholder="Remarks"
                                             id="exampleFormControlTextarea1"
@@ -380,18 +479,20 @@
                                             filterby="itemdesc"
                                             @change="onChangeItems"
                                             title="Product Description"
-                                            
-							                ref="itemproduct"
+                                            ref="itemproduct"
                                             @selected="itemSelectedItem"
                                             class="form-control form-control-sm"
-                                            :name="`itemcode`" 
+                                            :name="`itemcode`"
                                         />
                                     </div>
                                     <div class="col-1">
                                         <input
                                             v-model="qty"
                                             @change="getTotal"
-                                            class="form-control form-control-sm text-right"
+                                            class="
+                                                form-control form-control-sm
+                                                text-right
+                                            "
                                             placeholder="Quantity"
                                             :disabled="activeField"
                                         />
@@ -400,15 +501,15 @@
                                         <select
                                             id="inputState"
                                             class="
-											form-control form-control-sm
-											text-center
-										"
+                                                form-control form-control-sm
+                                                text-center
+                                            "
                                             v-model="unit"
                                             :disabled="activeField"
                                         >
-                                            <option value="" disabled selected
-                                                >Unit</option
-                                            >
+                                            <option value="" disabled selected>
+                                                Unit
+                                            </option>
                                             <option
                                                 v-for="option in getLookup(
                                                     'UOM1'
@@ -425,8 +526,11 @@
                                         <input
                                             @change="getTotal"
                                             v-model="price"
-                                            class="form-control form-control-sm  text-right"
-                                            placeholder="Unit Price" 
+                                            class="
+                                                form-control form-control-sm
+                                                text-right
+                                            "
+                                            placeholder="Unit Price"
                                             :disabled="activeField"
                                         />
                                     </div>
@@ -434,8 +538,10 @@
                                     <div class="col-2">
                                         <input
                                             v-model="total"
-                                            
-                                            class="form-control form-control-sm text-right"
+                                            class="
+                                                form-control form-control-sm
+                                                text-right
+                                            "
                                             placeholder="Total"
                                             disabled
                                         />
@@ -445,7 +551,11 @@
                                         <button
                                             @click="handleAdd"
                                             :disabled="
-                                                (total==''?true:(total!=='0.00'?false:true))
+                                                total == ''
+                                                    ? true
+                                                    : total !== '0.00'
+                                                    ? false
+                                                    : true
                                             "
                                             type="add"
                                             class="btn btn-sm btn-primary"
@@ -478,76 +588,105 @@
                                                     PACKSIZE
                                                 </th>
                                                 <th
-                                                    class="text-right pr-4 col-1"
+                                                    class="
+                                                        text-right
+                                                        pr-4
+                                                        col-1
+                                                    "
                                                 >
                                                     QTY
                                                 </th>
                                                 <th
-                                                    class="text-right pr-4 col-1"
+                                                    class="
+                                                        text-right
+                                                        pr-4
+                                                        col-1
+                                                    "
                                                 >
                                                     UNIT
                                                 </th>
                                                 <th
-                                                    class="text-right pr-4 col-1"
+                                                    class="
+                                                        text-right
+                                                        pr-4
+                                                        col-1
+                                                    "
                                                 >
                                                     UNIT PRICE
-                                                </th> 
+                                                </th>
                                                 <th
-                                                    class="text-right pr-4 col-1"
+                                                    class="
+                                                        text-right
+                                                        pr-4
+                                                        col-1
+                                                    "
                                                 >
                                                     TOTAL
                                                 </th>
                                                 <th
-                                                    class="text-right pr-4 col-1"
+                                                    class="
+                                                        text-right
+                                                        pr-4
+                                                        col-1
+                                                    "
                                                 ></th>
                                             </tr>
                                         </thead>
-                                        <tbody >
-                                            <tr 
-                                                v-for="(data, i ) in form.items"  
+                                        <tbody>
+                                            <tr
+                                                v-for="(data, i) in form.items"
                                                 :key="i"
-                                            > 
+                                            >
                                                 <td class="pr-4">
-                                                    {{ data.itemcode}}
+                                                    {{ data.itemcode }}
                                                 </td>
-                                                <td class="pr-4"> 
-                                                    {{ data.itemdesc}}
-                                                </td>
-                                                <td class="text-right pr-4">
-                                                    {{ data.pckgsize}}
+                                                <td class="pr-4">
+                                                    {{ data.itemdesc }}
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                    {{ data.qty}}
+                                                    {{ data.pckgsize }}
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                    {{ data.unit}}
+                                                    {{ data.qty }}
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                    {{ data.price}}
+                                                    {{ data.unit }}
+                                                </td>
+                                                <td class="text-right pr-4">
+                                                    {{ data.price }}
                                                 </td>
                                                 <td class="text-right pr-4">
                                                     {{ data.total }}
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                  <i
-                                                    class="
-                                                        fas
-                                                        fa-trash-alt
-                                                        btn btn-danger btn-sm
-                                                    "
-                                                    @click="deleteRow(i, data)"
-                                                ></i>   
+                                                    <i
+                                                        class="
+                                                            fas
+                                                            fa-trash-alt
+                                                            btn
+                                                            btn-danger
+                                                            btn-sm
+                                                        "
+                                                        @click="
+                                                            deleteRow(i, data)
+                                                        "
+                                                    ></i>
                                                 </td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <td colspan="2" class=""></td>
-                                                <td class="text-right ">
+                                                <td class="text-right">
                                                     Quantity
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                    {{ this.formatNumberD(this.grandQtyTotal,0) }}
+                                                    {{
+                                                        this.formatNumberD(
+                                                            this.grandQtyTotal,
+                                                            0
+                                                        )
+                                                    }}
                                                 </td>
                                                 <td
                                                     colspan="2"
@@ -556,7 +695,11 @@
                                                     Total
                                                 </td>
                                                 <td class="text-right pr-4">
-                                                    {{ this.formatNumberDis(this.grandTotal) }}
+                                                    {{
+                                                        this.formatNumberDis(
+                                                            this.grandTotal
+                                                        )
+                                                    }}
                                                 </td>
                                                 <td class=""></td>
                                             </tr>
@@ -567,19 +710,28 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-primary" @click="advanceStep" :disabled="max_step === 3?(grandTotal==''?true:(grandTotal!=='0.00'?false:true)):false">
-                    <span v-if="max_step === 3"
-                     >Submit</span>
+                <button
+                    class="btn btn-sm btn-primary"
+                    @click="advanceStep"
+                    :disabled="
+                        max_step === 3
+                            ? grandTotal == ''
+                                ? true
+                                : grandTotal !== '0.00'
+                                ? false
+                                : true
+                            : false
+                    "
+                >
+                    <span v-if="max_step === 3">Submit</span>
                     <span v-else>Next</span>
                 </button>
-
-                 
             </div>
         </div>
     </div>
 </template>
 
-<script> 
+<script>
 import Form from "vform";
 export default {
     name: "ShippingAdvice",
@@ -595,9 +747,7 @@ export default {
     mounted() {
         this.form.trndate = this.datenow;
     },
-     computed: {
-         
-     },
+    computed: {},
     data() {
         return {
             activeField: true,
@@ -606,18 +756,18 @@ export default {
             errors: [],
             max_step: 1,
             current_step: 1,
-            itemcode: "", 
+            itemcode: "",
             price: "",
             itemdesc: "",
-            pckgsize:'',
+            pckgsize: "",
             unit: "",
             total: "",
             qty: "",
-            grandTotal:0,
-            grandQtyTotal:0,
-            
+            grandTotal: 0,
+            grandQtyTotal: 0,
+
             form: new Form({
-                trnmode: "log-sp-create",
+                trnmode: "logspcreate",
                 packlist: "",
                 contactPerson: "",
                 consignee: "",
@@ -637,78 +787,76 @@ export default {
                 trucking: "",
                 pickup: "",
                 grosswt: "",
-                items: []
-            })
+                items: [],
+            }),
         };
     },
-    
-    methods: { 
-        getTotal() { 
+
+    methods: {
+        getTotal() {
             let calTaxTotal =
-                parseInt(this.price?this.price:0) *
-                parseInt(this.qty?this.qty:0)   
+                parseInt(this.price ? this.price : 0) *
+                parseInt(this.qty ? this.qty : 0);
             this.total = this.formatNumberDis(calTaxTotal);
         },
         itemSelectedItem(item) {
             this.itemcode = item.itemcode;
             this.pckgsize = item.pckgsize;
-            this.itemdesc = item.itemdesc; 
-            this.unit = 'CASE';
+            this.itemdesc = item.itemdesc;
+            this.unit = "CASE";
             this.activeField = false;
-             
+
             //this.form.items[item.id].itemcode = item.itemcode;
-            
         },
-        handleAdd() { 
+        handleAdd() {
             this.form.items.push({
-				qty:  this.formatNumberD(this.qty,0),
+                qty: this.formatNumberD(this.qty, 0),
                 price: this.formatNumberDis(this.price),
                 pckgsize: this.pckgsize,
-				trntype: "SHA",
-				itemcode:  this.itemcode,
-				itemdesc:  this.itemdesc,
-				unit:  this.unit,
-				total:  this.formatNumberDis(this.qty*this.price),
-			});
+                trntype: "SHA",
+                itemcode: this.itemcode,
+                itemdesc: this.itemdesc,
+                unit: this.unit,
+                total: this.formatNumberDis(this.qty * this.price),
+            });
             this.clearItems();
-            this.calculateTotal(); 
+            this.calculateTotal();
         },
-        clearItems(){
-            this.activeField=true;
-            this.itemcode= "";
-            this.price= "";
-            this.itemdesc= "";
+        clearItems() {
+            this.activeField = true;
+            this.itemcode = "";
+            this.price = "";
+            this.itemdesc = "";
             this.pckgsize = "";
-            this.unit= "";
-            this.total= "";
-            this.qty= "";
-            this.$refs.itemproduct.selectedItem = ""
+            this.unit = "";
+            this.total = "";
+            this.qty = "";
+            this.$refs.itemproduct.selectedItem = "";
         },
         calculateTotal() {
-			var totalPrice;
-			totalPrice = this.form.items.reduce(function (sum, item) {
-                 
-            let price = (item.price).replace(',',''); 
-            let qty = (item.qty).replace(',',''); 
-                
-				var lineTotal = parseFloat(price) * parseFloat(qty); 
-				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
-				}
-				return sum;
-			}, 0);
-			this.grandTotal = totalPrice;    
-            
-			var totalQty;
-			totalQty = this.form.items.reduce(function (sum, item) {
-				var lineTotal = parseFloat(item.qty);
-				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
-				}
-				return sum;
-			}, 0);
-			this.grandQtyTotal = totalQty; 
-		},
+            var totalPrice;
+            totalPrice = this.form.items.reduce(function (sum, item) {
+                let price = item.price.replace(",", "");
+                let qty = item.qty.replace(",", "");
+
+                var lineTotal = parseFloat(price) * parseFloat(qty);
+                if (!isNaN(lineTotal)) {
+                    return sum + lineTotal;
+                }
+                return sum;
+            }, 0);
+            this.grandTotal = totalPrice;
+
+            var totalQty;
+            totalQty = this.form.items.reduce(function (sum, item) {
+                var lineTotal = parseFloat(item.qty);
+                if (!isNaN(lineTotal)) {
+                    return sum + lineTotal;
+                }
+                return sum;
+            }, 0);
+            this.grandQtyTotal = totalQty;
+        },
         advanceStep() {
             if (!this.validate()) {
                 return;
@@ -723,31 +871,29 @@ export default {
             if (this.max_step < this.current_step) {
                 this.max_step = this.current_step;
             }
-     
         },
         goToStep(value) {
             if (!this.validate()) {
                 return;
             }
             this.current_step = value;
-              this.max_step = this.current_step;
+            this.max_step = this.current_step;
         },
         submitForm() {
-        this.form.post("/api/process/logistic").then((res) => { 
-            this.$router.push({
-                name: "log-report-sh",
-                params: { id: res.data },
-            }); 
-        });
-			 
+            this.form.post("/api/process/logistic").then((res) => {
+                this.$router.push({
+                    name: "log-report-sh",
+                    params: { id: res.data },
+                });
+            });
         },
 
-        validate() { 
+        validate() {
             if (this.current_step === 1) {
                 if (
                     _.isEmpty(this.form.contactPerson) ||
                     _.isEmpty(this.form.consignee) ||
-                    _.isEmpty(this.form.address)||
+                    _.isEmpty(this.form.address) ||
                     _.isEmpty(this.form.so_no)
                 ) {
                     return false;
@@ -767,27 +913,30 @@ export default {
             return true;
         },
         deleteRow(index, item) {
-			var idx = this.form.items.indexOf(item);
-			if (idx > -1) {
-				this.form.items.splice(idx, 1);
+            var idx = this.form.items.indexOf(item);
+            if (idx > -1) {
+                this.form.items.splice(idx, 1);
                 this.calculateTotal();
-			} 
-		},
-        
-    },
-    computed:{
-        contactPersonIsValid(){
-            return !!this.form.contactPerson
+            }
         },
-        consigneeIsValid(){
-            return !!this.form.consignee},
-        addressIsValid(){
-            return !!this.form.address},
-        so_noIsValid(){
-            return !!this.form.so_no},
-        pickupIsValid(){
-            return !!this.form.pickup},
-    }
+    },
+    computed: {
+        contactPersonIsValid() {
+            return !!this.form.contactPerson;
+        },
+        consigneeIsValid() {
+            return !!this.form.consignee;
+        },
+        addressIsValid() {
+            return !!this.form.address;
+        },
+        so_noIsValid() {
+            return !!this.form.so_no;
+        },
+        pickupIsValid() {
+            return !!this.form.pickup;
+        },
+    },
 };
 </script>
 

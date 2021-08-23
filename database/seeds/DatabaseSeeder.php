@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(LookupSeeder::class);
         $this->call(TruckerSeeder::class);
         $this->call(SignatorySeeder::class);
-        $this->call(SalesPersonSeeder::class);
+        //$this->call(SalesPersonSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(PriceCategoryListSeeder::class);
-        $this->call(PriceCustomerListSeeder::class);
-        $this->call(PriceItemsListSeeder::class);
+        //$this->call(PriceCategoryListSeeder::class);
+        //$this->call(PriceCustomerListSeeder::class);
+        //$this->call(PriceItemsListSeeder::class);
         $this->call(CustomerSeeder::class);
 
     }

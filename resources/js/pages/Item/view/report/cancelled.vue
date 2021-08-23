@@ -11,41 +11,41 @@
                             <div class="row p-2">
                                 <div class="col-12">
                                     <div class="card border-0">
-                                        <div class="card-body p-0">
+                                        <div class="card-body p-3">
                                             <div
                                                 class="
-													container-fluid
-													py-0
-													pl-0
-												"
+                                                    container-fluid
+                                                    py-0
+                                                    pl-0
+                                                "
                                             >
                                                 <div class="row mb-2">
                                                     <div class="col-3">
                                                         <img
                                                             src="/img/logo.png"
                                                             class="
-																rounded
-																float-left
-																img-thumbnail
-																mr-2
-															"
+                                                                rounded
+                                                                float-left
+                                                                img-thumbnail
+                                                                mr-2
+                                                            "
                                                             style="width: 150px"
                                                         />
                                                     </div>
                                                     <div
                                                         class="
-															col-6
-															text-center
-															position-relative
-														"
+                                                            col-6
+                                                            text-center
+                                                            position-relative
+                                                        "
                                                     >
                                                         <p
                                                             class="
-																h3
-																font-weight-bold
-																mb-1
-																mt-2
-															"
+                                                                h3
+                                                                font-weight-bold
+                                                                mb-1
+                                                                mt-2
+                                                            "
                                                         >
                                                             Cancelled Documents
                                                         </p>
@@ -55,9 +55,9 @@
                                                     >
                                                         <p
                                                             class="
-																font-weight-bold
-																mb-1
-															"
+                                                                font-weight-bold
+                                                                mb-1
+                                                            "
                                                         >
                                                             {{
                                                                 this.data[
@@ -67,9 +67,9 @@
                                                         </p>
                                                         <sub
                                                             class="
-																text-muted
-																mb-1
-															"
+                                                                text-muted
+                                                                mb-1
+                                                            "
                                                         >
                                                             Printed Date:
                                                             {{ this.dateTime }}
@@ -77,27 +77,33 @@
                                                     </div>
                                                 </div>
                                             </div>
- <hr class="my-2" />
-                                            <div class="row pb-2" v-if="isEmpty(data['seal_no']) && !isEmpty(data['from'])">
-												<div class="container-fluid">
+                                            <hr class="my-2" />
+                                            <div
+                                                class="row pb-2"
+                                                v-if="
+                                                    isEmpty(data['seal_no']) &&
+                                                    !isEmpty(data['from'])
+                                                "
+                                            >
+                                                <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-8">
                                                             <div class="row">
                                                                 <div
                                                                     class="
-																		col-1
-																		px-0
-																	"
+                                                                        col-1
+                                                                        px-0
+                                                                    "
                                                                 >
                                                                     From :
                                                                 </div>
                                                                 <div
                                                                     v-if="data"
                                                                     class="
-																		col-11
-																		border-bottom
-																		border-dark
-																	"
+                                                                        col-11
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
                                                                 >
                                                                     {{
                                                                         this.Ucase(
@@ -112,19 +118,19 @@
                                                             <div class="row">
                                                                 <div
                                                                     class="
-																		col-1
-																		px-0
-																	"
+                                                                        col-1
+                                                                        px-0
+                                                                    "
                                                                 >
                                                                     To :
                                                                 </div>
                                                                 <div
                                                                     v-if="data"
                                                                     class="
-																		col-11
-																		border-bottom
-																		border-dark
-																	"
+                                                                        col-11
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
                                                                 >
                                                                     {{
                                                                         this.Ucase(
@@ -141,19 +147,19 @@
                                                             <div class="row">
                                                                 <div
                                                                     class="
-																		col-3
-																		text-right
-																	"
+                                                                        col-3
+                                                                        text-right
+                                                                    "
                                                                 >
                                                                     Date :
                                                                 </div>
                                                                 <div
                                                                     v-if="data"
                                                                     class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
+                                                                        col-9
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
                                                                 >
                                                                     {{
                                                                         this
@@ -164,19 +170,19 @@
                                                                 </div>
                                                                 <div
                                                                     class="
-																		col-3
-																		text-right
-																	"
+                                                                        col-3
+                                                                        text-right
+                                                                    "
                                                                 >
                                                                     RS No :
                                                                 </div>
                                                                 <div
                                                                     v-if="data"
                                                                     class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
+                                                                        col-9
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
                                                                 >
                                                                     {{
                                                                         this.Ucase(
@@ -192,22 +198,22 @@
                                                     </div>
                                                     <div class="row">
                                                         <div
-                                                            class="col-12 px-0" 
+                                                            class="col-12 px-0"
                                                         >
                                                             <span
                                                                 class="
-																	col-1
-																	px-0
-																"
+                                                                    col-1
+                                                                    px-0
+                                                                "
                                                             >
                                                                 Remarks :
                                                             </span>
                                                             <span
                                                                 v-if="data"
                                                                 class="
-																	col-10
-																	pl-4
-																"
+                                                                    col-10
+                                                                    pl-4
+                                                                "
                                                                 >{{
                                                                     this.Ucase(
                                                                         this
@@ -220,609 +226,609 @@
                                                         </div>
                                                     </div>
                                                 </div>
-											</div>
- 
- 
-                                            <div class="row pb-2" v-else-if="!isEmpty(data['seal_no']) && !isEmpty(data['customer'])">
+                                            </div>
+
+                                            <div
+                                                class="row pb-2"
+                                                v-else-if="
+                                                    !isEmpty(data['seal_no']) &&
+                                                    !isEmpty(data['customer'])
+                                                "
+                                            >
                                                 <div class="container-fluid">
                                                     <div class="row">
-														<div class="col-6">
-															<div class="row">
-																<div
-																	class="
-																		col-2
-																		px-0
-																	"
-																>
-																	Supplier1 :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-10
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"customer"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-2
-																		px-0
-																	"
-																>
-																	Van No. :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-10
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"van_no"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-2
-																		px-0
-																	"
-																>
-																	Seal No. :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-10
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"seal_no"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
-														</div>
-														<div class="col-6">
-															<div class="row">
-																<div
-																	class="
-																		col-3
-																		text-right
-																	"
-																>
-																	Date :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this
-																			.data[
-																			"trndate"
-																		]
-																	}}
-																</div>
-															</div>
-															<div class="row">
-																<div
-																	class="
-																		col-3
-																		text-right
-																	"
-																>
-																	RS No :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-9
-																		border-bottom
-																		border-dark
-																	"
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"refno"
-																			]
-																		)
-																	}}
-																</div>
-															</div>
+                                                        <div class="col-6">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-2
+                                                                        px-0
+                                                                    "
+                                                                >
+                                                                    Supplier1 :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-10
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "customer"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-2
+                                                                        px-0
+                                                                    "
+                                                                >
+                                                                    Van No. :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-10
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "van_no"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-2
+                                                                        px-0
+                                                                    "
+                                                                >
+                                                                    Seal No. :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-10
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "seal_no"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-3
+                                                                        text-right
+                                                                    "
+                                                                >
+                                                                    Date :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-9
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this
+                                                                            .data[
+                                                                            "trndate"
+                                                                        ]
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-3
+                                                                        text-right
+                                                                    "
+                                                                >
+                                                                    RS No :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-9
+                                                                        border-bottom
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "refno"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
 
-															<div class="row">
-																<div
-																	class="
-																		col-3
-																		text-right
-																	"
-																>
-																	Remarks :
-																</div>
-																<div
-																	v-if="data"
-																	class="
-																		col-9
-																		border-dark
-																	" 
-																>
-																	{{
-																		this.Ucase(
-																			this
-																				.data[
-																				"remarks"
-																			]
-																		)
-																	}} {{
-																		this.Ucase(
-																			this
-																				.data[
-																				"basebatch"
-																			]
-																		)
-																	}}                
-																</div>
-															</div>
-														</div>
-													</div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="
+                                                                        col-3
+                                                                        text-right
+                                                                    "
+                                                                >
+                                                                    Remarks :
+                                                                </div>
+                                                                <div
+                                                                    v-if="data"
+                                                                    class="
+                                                                        col-9
+                                                                        border-dark
+                                                                    "
+                                                                >
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "remarks"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                    {{
+                                                                        this.Ucase(
+                                                                            this
+                                                                                .data[
+                                                                                "basebatch"
+                                                                            ]
+                                                                        )
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="pb-1 px-2 py-2" v-else>
-                                                
-
                                                 <div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Reference No:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"refno"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Supporting
-																Document:
-															</div>
-															<div class="col-6">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"rono"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Issued Date:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"trndate"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Prepared By:
-															</div>
-															<div class="col-6">
-																{{
-																	this.data['user']['name']
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div 
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Customer Name:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"customer"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Remarks
-															</div>
-															<div class="col-6">
-															 
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"basebatch"
-																		]
-																	)
-																}}{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"remarks"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-                                            </div>
-
-                                            <div class="row h6">
-                                                <div class="col p-3 d-flex justify-content-center">
-                                                    <div style="width:90%">
-                                                    <table class="mytable  w-100 " >
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																		h5
-																	"
-                                                                    style="
-																		width: 10%;
-																	"
-                                                                >
-                                                                    DR QTY
-                                                                </th>
-
-                                                                <th
-                                                                    class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																	"
-                                                                    style="
-																		width: 10%;
-																	"
-                                                                >
-                                                                    CR QTY
-                                                                </th>
-                                                                <th
-                                                                    class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																	"
-                                                                    style="
-																		width: 10%;
-																	"
-                                                                >
-                                                                    UNIT
-                                                                </th>
-                                                                <th
-                                                                    class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																	"
-                                                                >
-                                                                    Description
-                                                                </th>
-                                                                <th
-                                                                    class="
-																		text-uppercase
-																		small
-																		font-weight-bold
-																		text-center
-																	"
-                                                                    style="
-																		width: 10%;
-																	"
-                                                                >
-                                                                    EXPIRY DATE
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody v-if="data">
-                                                            <tr style="line-height: 15px;"
-                                                                class="
-																	text-center
-																"
-                                                                v-for="(item,
-                                                                i) in data[
-                                                                    'hist'
-                                                                ]"
-                                                                :key="i"
-                                                            >
-                                                                <td>
-                                                                    {{
-                                                                        item[
-                                                                            "unit"
-                                                                        ] !=
-                                                                        "TIN"
-                                                                            ? formatNumberD(
-                                                                                  toCase(
-                                                                                      item[
-                                                                                          "numperuompu"
-                                                                                      ],
-                                                                                      item[
-                                                                                          "drqty"
-                                                                                      ]
-                                                                                  ),
-                                                                                  0
-                                                                              )
-                                                                            : item[
-                                                                                  "drqty"
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : item[
-                                                                                  "drqty"
-                                                                              ]
-                                                                    }}
-                                                                </td>
-                                                                <td>
-                                                                    {{
-                                                                        item[
-                                                                            "unit"
-                                                                        ] !=
-                                                                        "TIN"
-                                                                            ? formatNumberD(
-                                                                                  toCase(
-                                                                                      item[
-                                                                                          "numperuompu"
-                                                                                      ],
-                                                                                      item[
-                                                                                          "crqty"
-                                                                                      ]
-                                                                                  ),
-                                                                                  0
-                                                                              )
-                                                                            : item[
-                                                                                  "crqty"
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : item[
-                                                                                  "crqty"
-                                                                              ]
-                                                                    }}
-                                                                </td>
-                                                                <td>
-                                                                    {{
-                                                                        Ucase(
-                                                                            item[
-                                                                                "unit"
-                                                                            ]
-                                                                        )
-                                                                    }}
-                                                                </td>
-                                                                <td
-                                                                    class="
-																		text-left
-																	"
-                                                                >
-                                                                    {{
-                                                                        Ucase(
-                                                                            item[
-                                                                                "itemdesc"
-                                                                            ]
-                                                                        )
-                                                                    }}
-                                                                </td>
-                                                                <td>
-                                                                    {{
-                                                                        item[
-                                                                            "expdate"
-                                                                        ]
-                                                                    }}
-                                                                </td>
-                                                            </tr>
-                                                            <tr
-                                                                v-for="i in countitems"
-                                                                :key="i + 1"
-                                                            >
-                                                                <td>&nbsp;</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tfoot
-                                                            class="
-																text-center
-																font-weight-bold
-															"
-                                                        >
-                                                            <tr>
-                                                                <td>
-                                                                    {{
-                                                                        formatNumberD(
-                                                                            this
-                                                                                .drQtyCase,
-                                                                            0
-                                                                        )
-                                                                    }}
-                                                                    {{
-                                                                        this
-                                                                            .drQtyTin !=
-                                                                        0
-                                                                            ? " & " +
-                                                                              formatNumberD(
-                                                                                  this
-                                                                                      .drQtyTin,
-                                                                                  0
-                                                                              )
-                                                                            : ""
-                                                                    }}
-                                                                </td>
-                                                                <td>
-                                                                    {{
-                                                                        formatNumberD(
-                                                                            this
-                                                                                .crQtyCase,
-                                                                            0
-                                                                        )
-                                                                    }}
-                                                                    {{
-                                                                        this
-                                                                            .crQtyTin !=
-                                                                        0
-                                                                            ? " & " +
-                                                                              formatNumberD(
-                                                                                  this
-                                                                                      .crQtyTin,
-                                                                                  0
-                                                                              )
-                                                                            : ""
-                                                                    }}
-                                                                </td>
-                                                                <td
-                                                                    colspan="3"
-                                                                    style="
-																		border-bottom: 0px;
-																		border-right: 0px;
-																	"
-                                                                ></td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- signatories -->
-                                                <div class="meprint pb-5"  >
-                                                    <div
-                                                        class="d-flex justify-content-around mt-4"
-                                                    >
-                                                        <div
-                                                            v-for="(data,
-                                                            i) in getSignatories"
-                                                            :key="i"
-                                                            class=" text-center col-4    text-uppercase 
-                                                                            font-weight-bold
-                                                                        "
-                                                        >
-                                                            <div class="col">
-                                                                {{ data.signatories }}
-                                                            </div>
-                                                            <div class="mt-4">
-                                                                {{ data.signee }}
-                                                            </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
                                                             <div
-                                                                class="border-top mx-5"
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
                                                             >
-                                                                {{ data.designation }}
+                                                                Reference No:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "refno"
+                                                                        ]
+                                                                    )
+                                                                }}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Supporting
+                                                                Document:
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "rono"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Issued Date:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "trndate"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Prepared By:
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.data[
+                                                                        "user"
+                                                                    ]["name"]
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Customer Name:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "customer"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Remarks
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "basebatch"
+                                                                        ]
+                                                                    )
+                                                                }}{{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "remarks"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row h6">
+                                                <div
+                                                    class="
+                                                        col
+                                                        p-3
+                                                        d-flex
+                                                        justify-content-center
+                                                    "
+                                                >
+                                                    <div style="width: 90%">
+                                                        <table
+                                                            class="
+                                                                mytable
+                                                                w-100
+                                                            "
+                                                        >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th
+                                                                        class="
+                                                                            text-uppercase
+                                                                            small
+                                                                            font-weight-bold
+                                                                            text-center
+                                                                            h5
+                                                                        "
+                                                                        style="
+                                                                            width: 10%;
+                                                                        "
+                                                                    >
+                                                                        DR QTY
+                                                                    </th>
+
+                                                                    <th
+                                                                        class="
+                                                                            text-uppercase
+                                                                            small
+                                                                            font-weight-bold
+                                                                            text-center
+                                                                        "
+                                                                        style="
+                                                                            width: 10%;
+                                                                        "
+                                                                    >
+                                                                        CR QTY
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            text-uppercase
+                                                                            small
+                                                                            font-weight-bold
+                                                                            text-center
+                                                                        "
+                                                                        style="
+                                                                            width: 10%;
+                                                                        "
+                                                                    >
+                                                                        UNIT
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            text-uppercase
+                                                                            small
+                                                                            font-weight-bold
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        Description
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            text-uppercase
+                                                                            small
+                                                                            font-weight-bold
+                                                                            text-center
+                                                                        "
+                                                                        style="
+                                                                            width: 10%;
+                                                                        "
+                                                                    >
+                                                                        EXPIRY
+                                                                        DATE
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody v-if="data">
+                                                                <tr
+                                                                    style="
+                                                                        line-height: 15px;
+                                                                    "
+                                                                    class="
+                                                                        text-center
+                                                                    "
+                                                                    v-for="(
+                                                                        item, i
+                                                                    ) in data[
+                                                                        'hist'
+                                                                    ]"
+                                                                    :key="i"
+                                                                >
+                                                                    <td>
+                                                                        {{
+                                                                            item[
+                                                                                "unit"
+                                                                            ] !=
+                                                                            "TIN"
+                                                                                ? formatNumberD(
+                                                                                      toCase(
+                                                                                          item[
+                                                                                              "numperuompu"
+                                                                                          ],
+                                                                                          item[
+                                                                                              "drqty"
+                                                                                          ]
+                                                                                      ),
+                                                                                      0
+                                                                                  )
+                                                                                : item[
+                                                                                      "drqty"
+                                                                                  ] ==
+                                                                                  0
+                                                                                ? ""
+                                                                                : item[
+                                                                                      "drqty"
+                                                                                  ]
+                                                                        }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{
+                                                                            item[
+                                                                                "unit"
+                                                                            ] !=
+                                                                            "TIN"
+                                                                                ? formatNumberD(
+                                                                                      toCase(
+                                                                                          item[
+                                                                                              "numperuompu"
+                                                                                          ],
+                                                                                          item[
+                                                                                              "crqty"
+                                                                                          ]
+                                                                                      ),
+                                                                                      0
+                                                                                  )
+                                                                                : item[
+                                                                                      "crqty"
+                                                                                  ] ==
+                                                                                  0
+                                                                                ? ""
+                                                                                : item[
+                                                                                      "crqty"
+                                                                                  ]
+                                                                        }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{
+                                                                            Ucase(
+                                                                                item[
+                                                                                    "unit"
+                                                                                ]
+                                                                            )
+                                                                        }}
+                                                                    </td>
+                                                                    <td
+                                                                        class="
+                                                                            text-left
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            Ucase(
+                                                                                item[
+                                                                                    "itemdesc"
+                                                                                ]
+                                                                            )
+                                                                        }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{
+                                                                            item[
+                                                                                "expdate"
+                                                                            ]
+                                                                        }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr
+                                                                    v-for="i in countitems"
+                                                                    :key="i + 1"
+                                                                >
+                                                                    <td>
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot
+                                                                class="
+                                                                    text-center
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                <tr>
+                                                                    <td>
+                                                                        {{
+                                                                            formatNumberD(
+                                                                                this
+                                                                                    .drQtyCase,
+                                                                                0
+                                                                            )
+                                                                        }}
+                                                                        {{
+                                                                            this
+                                                                                .drQtyTin !=
+                                                                            0
+                                                                                ? " & " +
+                                                                                  formatNumberD(
+                                                                                      this
+                                                                                          .drQtyTin,
+                                                                                      0
+                                                                                  )
+                                                                                : ""
+                                                                        }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{
+                                                                            formatNumberD(
+                                                                                this
+                                                                                    .crQtyCase,
+                                                                                0
+                                                                            )
+                                                                        }}
+                                                                        {{
+                                                                            this
+                                                                                .crQtyTin !=
+                                                                            0
+                                                                                ? " & " +
+                                                                                  formatNumberD(
+                                                                                      this
+                                                                                          .crQtyTin,
+                                                                                      0
+                                                                                  )
+                                                                                : ""
+                                                                        }}
+                                                                    </td>
+                                                                    <td
+                                                                        colspan="3"
+                                                                        style="
+                                                                            border-bottom: 0px;
+                                                                            border-right: 0px;
+                                                                        "
+                                                                    ></td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- signatories --> 
+                                            <signatories />
                                         </div>
                                     </div>
                                 </div>
@@ -833,14 +839,16 @@
             </div>
 
             <div class="card-footer">
-                 <button
-					class="btn btn-sm btn-primary"
-					@click.prevent="printing()"
-				>
-					<i class="fa fa-print"></i> Print
-				</button>  
-			
-				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a>
+                <button
+                    class="btn btn-sm btn-primary"
+                    @click.prevent="printing()"
+                >
+                    <i class="fa fa-print"></i> Print
+                </button>
+
+                <a @click="$router.back()" class="btn btn-sm btn-secondary"
+                    >Back</a
+                >
             </div>
         </div>
     </div>
@@ -851,25 +859,25 @@ import print from "print-js";
 export default {
     name: "report",
     middleware: "auth",
-   	props: ["id"] ,
+    props: ["id"],
     data() {
         return {
-            reportName: "", 
+            reportName: "",
             data: null,
             countitems: 0,
             drtotal: 0,
             crtotal: 0,
-            status:'',
+            status: "",
         };
     },
     metaInfo() {
         return { title: "Report Reject" };
-    }, 
-    computed: { 
-        drQtyCase: function() {
+    },
+    computed: {
+        drQtyCase: function () {
             let sum = 0;
 
-            this.data["hist"].forEach(function(item) {
+            this.data["hist"].forEach(function (item) {
                 if (item.unit != "TIN") {
                     sum += parseFloat(
                         (item.drqty > 0 ? 1 : -1) *
@@ -887,20 +895,20 @@ export default {
             });
             return sum;
         },
-        drQtyTin: function() {
+        drQtyTin: function () {
             let sum = 0;
 
-            this.data["hist"].forEach(function(item) {
+            this.data["hist"].forEach(function (item) {
                 if (item.unit == "TIN") {
                     sum += parseFloat(item.drqty);
                 }
             });
             return sum;
         },
-        crQtyCase: function() {
+        crQtyCase: function () {
             let sum = 0;
 
-            this.data["hist"].forEach(function(item) {
+            this.data["hist"].forEach(function (item) {
                 if (item.unit != "TIN") {
                     sum += parseFloat(
                         (item.crqty > 0 ? 1 : -1) *
@@ -918,39 +926,37 @@ export default {
             });
             return sum;
         },
-        crQtyTin: function() {
+        crQtyTin: function () {
             let sum = 0;
 
-            this.data["hist"].forEach(function(item) {
+            this.data["hist"].forEach(function (item) {
                 if (item.unit == "TIN") {
                     sum += parseFloat(item.crqty);
                 }
             });
             return sum;
         },
-        onLoad() { 
+        onLoad() {
             this.$store.dispatch("Settings/fetchSignatories", {
                 trnmode: "print",
-                trntype: "RR001"
+                trntype: "RR001",
             });
-        }
+        },
     },
     methods: {
-        
-        handleEdit(data){},
-        handleCancel(data){},
+        handleEdit(data) {},
+        handleCancel(data) {},
         async handleSubmit() {
             const res = await axios.get("/api/items/reportItem", {
-                params: { id: this.id }
+                params: { id: this.id },
             });
             this.data = res.data;
-            this.status = res.data.status
- 
+            this.status = res.data.status;
         },
         printing() {
             var style = [
                 window.location.origin + "/dist/css/app.css",
-                window.location.origin + "/dist/css/print.css"
+                window.location.origin + "/dist/css/print.css",
             ];
             printJS({
                 name: "_blank",
@@ -965,7 +971,7 @@ export default {
                 scanStyles: false,
                 onPrintDialogClose: () =>
                     console.log("The print dialog was closed"),
-                onError: e => console.log(e)
+                onError: (e) => console.log(e),
             });
         },
         printVisit(id) {
@@ -973,31 +979,30 @@ export default {
             this.$htmlToPaper("printme", () => {
                 console.log("Printing completed or was cancelled!");
             });
-        } ,
+        },
         repType(data) {
-              
-			switch (data) {
-				case "CAN":
-					return true;
-					break;  
-				default:
-					this.$router.push({
-						name: "dashboard" 
-					});
-			}
-		},
+            switch (data) {
+                case "CAN":
+                    return true;
+                    break;
+                default:
+                    this.$router.push({
+                        name: "dashboard",
+                    });
+            }
+        },
     },
-    mounted(){
+    mounted() {
         this.onLoad;
-        if(this.id==undefined){
-        	this.$router.push({
-				name: "dashboard" 
-			});
-        }else{ 
+        if (this.id == undefined) {
+            this.$router.push({
+                name: "dashboard",
+            });
+        } else {
             this.repType(this.id.slice(0, this.id.search("-")));
-			this.handleSubmit(); 
+            this.handleSubmit();
         }
-    }
+    },
 };
 </script>
 

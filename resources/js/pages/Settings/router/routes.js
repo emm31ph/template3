@@ -15,37 +15,37 @@ export default [{
         name: 'settings-salesperson',
         meta: { layout: 'default' },
         component: page('Settings/view/SalesPerson.vue')
-    },{
+    }, {
         path: 'listb',
         name: 'settings-l',
         meta: { layout: 'default' },
         component: page('Settings/view/blank.vue')
-    },{
+    }, {
         path: 'list',
         name: 'settings-list',
         meta: { layout: 'default' },
         component: page('Settings/view/list.vue')
-    },{
-        path: 'list-signatories',
+    }, {
+        path: 'signatory',
         name: 'signatories-list',
         meta: { layout: 'default' },
         component: page('Settings/view/Signatories.vue')
-    },{
+    }, {
         path: 'master-data-items',
         name: 'master-data-items',
         meta: { layout: 'default' },
         component: page('Settings/view/items.vue')
-    },{
+    }, {
         path: 'price-list',
         name: 'price-list',
         meta: { layout: 'default' },
         component: page('Settings/view/Pricing.vue')
-    },{
+    }, {
         path: 'price-category',
         name: 'price-category',
         meta: { layout: 'default' },
         component: page('Settings/view/PriceCategory.vue')
-    },{
+    }, {
         path: 'price-customer',
         name: 'price-customer',
         meta: { layout: 'default' },

@@ -135,7 +135,7 @@ Vue.mixin({
             this.$router.go(-1)
         },
         isAbleToAuth(permission) {
-
+ 
             const authUser = store.getters['Auth/user'];
             if (authUser != null) {
                 const uPermission = authUser.allPermissions;

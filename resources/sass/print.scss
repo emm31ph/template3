@@ -50,7 +50,7 @@ td {
     @page
     {
      size: 5.5in 8.5in ;
-     size: landscape;
+     size: landscape; 
     }
 
     table,
@@ -72,7 +72,10 @@ td {
     .meprint{
        display: block;
     }
-    
+    .meprint1{
+        padding-top: 100px;
+    }
+
     .meprintTable{
         display: block ;
      }

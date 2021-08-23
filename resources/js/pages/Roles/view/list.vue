@@ -10,14 +10,13 @@
 					</a>
 				</h6>
 			</div>
-			<div class="col col-12 card-body d-flex flex-wrap">
+			<div class="col card-body d-flex flex-wrap">
 				<div
-					class="card m-1"
-					style="width: 16rem"
+					class="col-3 px-1 py-1" 
 					v-for="role in filteredRoles"
 					:key="role.id"
 				>
-					<div class="card-body position-relative">
+					<div class="card-body position-relative border">
 						<a v-if="can('role-update')"
 								href="#"
 								@click="editModalWindow(role)"
@@ -220,278 +219,278 @@
 import Form from "vform";
 import bus from "../../../EventBus";
 export default {
-	name: "UsersList",
-	middleware: "auth",
-	data() {
-		return {
-			showModal: false,
-			pagename: "Users",
-			editMode: false,
-			value: [],
+    name: "UsersList",
+    middleware: "auth",
+    data() {
+        return {
+            showModal: false,
+            pagename: "Users",
+            editMode: false,
+            value: [],
 
-			form: new Form({
-				id: "",
-				display_name: "",
-				name: "",
-				description: "",
-				permission: [],
-			}),
-			query: "",
-			page: 1,
-			items: 6,
-			currentPage: 1,
-			postsPerPage: 20,
-			sortBy: "",
-			sortDirection: "desc",
-			bootstrapPaginationClasses: {
-				// http://getbootstrap.com/docs/4.1/components/pagination/
-				ul: "pagination",
-				li: "page-item",
-				liActive: "active",
-				liDisable: "disabled",
-				button: "page-link",
-			},
-			customLabels: {
-				first: "First",
-				prev: "Previous",
-				next: "Next",
-				last: "Last",
-			},
-		};
-	},
+            form: new Form({
+                id: "",
+                display_name: "",
+                name: "",
+                description: "",
+                permission: [],
+            }),
+            query: "",
+            page: 1,
+            items: 6,
+            currentPage: 1,
+            postsPerPage: 20,
+            sortBy: "",
+            sortDirection: "desc",
+            bootstrapPaginationClasses: {
+                // http://getbootstrap.com/docs/4.1/components/pagination/
+                ul: "pagination",
+                li: "page-item",
+                liActive: "active",
+                liDisable: "disabled",
+                button: "page-link",
+            },
+            customLabels: {
+                first: "First",
+                prev: "Previous",
+                next: "Next",
+                last: "Last",
+            },
+        };
+    },
 
-	created() {
-		this.isLoggedCheck;
-	},
-	metaInfo() {
-		return { title: "Users" };
-	},
-	methods: {
-		editModalWindow(role) {
-			this.form.clear();
-			this.form.reset();
-			this.editMode = true;
-			this.showModal = true;
-			this.form.fill(role);
+    created() {
+        this.isLoggedCheck;
+    },
+    metaInfo() {
+        return { title: "Users" };
+    },
+    methods: {
+        editModalWindow(role) {
+            this.form.clear();
+            this.form.reset();
+            this.editMode = true;
+            this.showModal = true;
+            this.form.fill(role);
 
-			this.form.permission = this.pluck(role.permissions, "id");
-		},
-		async updateUser(id) {
-			await this.form.put("/api/roles/" + id).then((response) => {
-				Swal.fire({
-					title: "User created successfully",
-					icon: "success",
-					showConfirmButton: false,
-					timer: 1500,
-				});
-				this.fetchRoles();
-				this.closeModal();
-			});
-		},
-		openModalWindow() {
-			this.showModal = true;
-			this.editMode = false;
-			this.form.reset();
-		},
-		createRole() {
-			this.form.post("/api/roles").then((res) => {
-				Swal.fire({
-					title: "Role created successfully",
-					icon: "success",
-					showConfirmButton: false,
-					timer: 1500,
-				});
-				this.fetchRoles();
-				this.closeModal();
-			});
-		},
-		closeModal() {
-			this.showModal = false;
-			this.form.errors.errors = "";
-		},
-		deleteRole(id) {
-			// Swal.fire({
-			// 	title: "Are you sure?",
-			// 	text: "You won't be able to revert this!",
-			// 	icon: "warning",
-			// 	showCancelButton: true,
-			// 	confirmButtonColor: "#3085d6",
-			// 	cancelButtonColor: "#d33",
-			// 	confirmButtonText: "Yes, delete it!",
-			// }).then((result) => {
-			// 	if (result.value) {
-			// 		//Send Request to server
-			// 		this.form
-			// 			.delete("/api/user/" + id)
-			// 			.then((response) => {
-			// 				Swal.fire(
-			// 					"Deleted!",
-			// 					"User deleted successfully",
-			// 					"success"
-			// 				);
-			// 				this.fetchRoles();
-			// 			})
-			// 			.catch(() => {
-			// 				Swal.fire({
-			// 					icon: "error",
-			// 					title: "Oops...",
-			// 					text: "Something went wrong!",
-			// 					footer: "<a href>Why do I have this issue?</a>",
-			// 				});
-			// 			});
-			// 	}
-			// });
-		},
-		sort: function (s) {
-			if (s.toLowerCase() === this.sortBy) {
-				this.sortDirection =
-					this.sortDirection === "asc" ? "desc" : "asc";
-			}
-			this.sortBy = s;
-		},
-		matches() {
-			this.$emit("change", this.query);
-			if (this.query == "") {
-				return [];
-			} 
+            this.form.permission = this.pluck(role.permissions, "id");
+        },
+        async updateUser(id) {
+            await this.form.put("/api/roles/" + id).then((response) => {
+                Swal.fire({
+                    title: "User created successfully",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                this.fetchRoles();
+                this.closeModal();
+            });
+        },
+        openModalWindow() {
+            this.showModal = true;
+            this.editMode = false;
+            this.form.reset();
+        },
+        createRole() {
+            this.form.post("/api/roles").then((res) => {
+                Swal.fire({
+                    title: "Role created successfully",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                this.fetchRoles();
+                this.closeModal();
+            });
+        },
+        closeModal() {
+            this.showModal = false;
+            this.form.errors.errors = "";
+        },
+        deleteRole(id) {
+            // Swal.fire({
+            // 	title: "Are you sure?",
+            // 	text: "You won't be able to revert this!",
+            // 	icon: "warning",
+            // 	showCancelButton: true,
+            // 	confirmButtonColor: "#3085d6",
+            // 	cancelButtonColor: "#d33",
+            // 	confirmButtonText: "Yes, delete it!",
+            // }).then((result) => {
+            // 	if (result.value) {
+            // 		//Send Request to server
+            // 		this.form
+            // 			.delete("/api/user/" + id)
+            // 			.then((response) => {
+            // 				Swal.fire(
+            // 					"Deleted!",
+            // 					"User deleted successfully",
+            // 					"success"
+            // 				);
+            // 				this.fetchRoles();
+            // 			})
+            // 			.catch(() => {
+            // 				Swal.fire({
+            // 					icon: "error",
+            // 					title: "Oops...",
+            // 					text: "Something went wrong!",
+            // 					footer: "<a href>Why do I have this issue?</a>",
+            // 				});
+            // 			});
+            // 	}
+            // });
+        },
+        sort: function (s) {
+            if (s.toLowerCase() === this.sortBy) {
+                this.sortDirection =
+                    this.sortDirection === "asc" ? "desc" : "asc";
+            }
+            this.sortBy = s;
+        },
+        matches() {
+            this.$emit("change", this.query);
+            if (this.query == "") {
+                return [];
+            }
 
-			return this.filteredRoles.filter(
-				(item) =>
-					item["display_name"].toLowerCase().startsWith(this.query) //search start left side
-				// .includes(this.query.toLowerCase()) //search match letter
-			);
-		},
-	},
+            return this.filteredRoles.filter(
+                (item) =>
+                    item["display_name"].toLowerCase().startsWith(this.query) //search start left side
+                // .includes(this.query.toLowerCase()) //search match letter
+            );
+        },
+    },
 
-	mounted() {
-		this.isAbleToAuth(["role-*"]);
-		this.fetchRoles();
-		this.fetchPermissions();
+    mounted() {
+        this.isAbleToAuth(["role-*"]);
+        this.fetchRoles();
+        this.fetchPermissions();
 
-		this.currentPage = 1;
-		bus.$on("send", (data) => {
-			this.query = data;
-		});
-	},
+        this.currentPage = 1;
+        bus.$on("send", (data) => {
+            this.query = data;
+        });
+    },
 
-	computed: {
-		allRoles() {
-			const data = this.getRoles ? this.getRoles : "";
+    computed: {
+        allRoles() {
+            const data = this.getRoles ? this.getRoles : "";
 
-			if (this.getRoles != "undefined ") {
-				this.$emit("change", this.query);
-				if (!this.query == "") {
-					return data
-						.filter(
-							(item) =>
-								item["name"]
-									.toLowerCase()
-									// .startsWith(this.query) //search start left side
-									.includes(this.query.toLowerCase()) //search match letter
-						)
-						.sort((p1, p2) => {
-							let modifier = 1;
-							if (p1[this.sortBy] != undefined) {
-								if (this.sortDirection === "desc")
-									modifier = -1;
-								if (parseInt(p1[this.sortBy])) {
-									if (p1[this.sortBy] < p2[this.sortBy])
-										return -1 * modifier;
-									if (p1[this.sortBy] > p2[this.sortBy])
-										return 1 * modifier;
-								} else {
-									if (
-										p1[this.sortBy]
-											.toString()
-											.toLowerCase() <
-										p2[this.sortBy].toString().toLowerCase()
-									)
-										return -1 * modifier;
-									if (
-										p1[this.sortBy]
-											.toString()
-											.toLowerCase() >
-										p2[this.sortBy].toString().toLowerCase()
-									)
-										return 1 * modifier;
-								}
-							}
-							return 0;
-						});
-				} else {
-					// return Object.keys(data).map((itemcode) => data[itemcode]);
-					return Object.keys(data)
-						.map((name) => data[name])
-						.sort((p1, p2) => {
-							let modifier = 1;
-							if (p1[this.sortBy] != undefined) {
-								if (this.sortDirection === "desc")
-									modifier = -1;
-								if (parseInt(p1[this.sortBy])) {
-									if (p1[this.sortBy] < p2[this.sortBy])
-										return -1 * modifier;
-									if (p1[this.sortBy] > p2[this.sortBy])
-										return 1 * modifier;
-								} else {
-									if (
-										p1[this.sortBy]
-											.toString()
-											.toLowerCase() <
-										p2[this.sortBy].toString().toLowerCase()
-									)
-										return -1 * modifier;
-									if (
-										p1[this.sortBy]
-											.toString()
-											.toLowerCase() >
-										p2[this.sortBy].toString().toLowerCase()
-									)
-										return 1 * modifier;
-								}
-							}
-							return 0;
-						});
-				}
-			}
+            if (this.getRoles != "undefined ") {
+                this.$emit("change", this.query);
+                if (!this.query == "") {
+                    return data
+                        .filter(
+                            (item) =>
+                                item["name"]
+                                    .toLowerCase()
+                                    // .startsWith(this.query) //search start left side
+                                    .includes(this.query.toLowerCase()) //search match letter
+                        )
+                        .sort((p1, p2) => {
+                            let modifier = 1;
+                            if (p1[this.sortBy] != undefined) {
+                                if (this.sortDirection === "desc")
+                                    modifier = -1;
+                                if (parseInt(p1[this.sortBy])) {
+                                    if (p1[this.sortBy] < p2[this.sortBy])
+                                        return -1 * modifier;
+                                    if (p1[this.sortBy] > p2[this.sortBy])
+                                        return 1 * modifier;
+                                } else {
+                                    if (
+                                        p1[this.sortBy]
+                                            .toString()
+                                            .toLowerCase() <
+                                        p2[this.sortBy].toString().toLowerCase()
+                                    )
+                                        return -1 * modifier;
+                                    if (
+                                        p1[this.sortBy]
+                                            .toString()
+                                            .toLowerCase() >
+                                        p2[this.sortBy].toString().toLowerCase()
+                                    )
+                                        return 1 * modifier;
+                                }
+                            }
+                            return 0;
+                        });
+                } else {
+                    // return Object.keys(data).map((itemcode) => data[itemcode]);
+                    return Object.keys(data)
+                        .map((name) => data[name])
+                        .sort((p1, p2) => {
+                            let modifier = 1;
+                            if (p1[this.sortBy] != undefined) {
+                                if (this.sortDirection === "desc")
+                                    modifier = -1;
+                                if (parseInt(p1[this.sortBy])) {
+                                    if (p1[this.sortBy] < p2[this.sortBy])
+                                        return -1 * modifier;
+                                    if (p1[this.sortBy] > p2[this.sortBy])
+                                        return 1 * modifier;
+                                } else {
+                                    if (
+                                        p1[this.sortBy]
+                                            .toString()
+                                            .toLowerCase() <
+                                        p2[this.sortBy].toString().toLowerCase()
+                                    )
+                                        return -1 * modifier;
+                                    if (
+                                        p1[this.sortBy]
+                                            .toString()
+                                            .toLowerCase() >
+                                        p2[this.sortBy].toString().toLowerCase()
+                                    )
+                                        return 1 * modifier;
+                                }
+                            }
+                            return 0;
+                        });
+                }
+            }
 
-			return false;
-		},
-		filteredRoles() {
-			var page = this.currentPage;
-			var perPage = this.postsPerPage;
-			var from = page * perPage - perPage;
-			var to = page * perPage;
-			return this.allRoles.slice(from, to);
-		},
-		totalPages() {
-			return Math.ceil(this.allRoles.length / this.postsPerPage);
-		},
-	},
+            return false;
+        },
+        filteredRoles() {
+            var page = this.currentPage;
+            var perPage = this.postsPerPage;
+            var from = page * perPage - perPage;
+            var to = page * perPage;
+            return this.allRoles.slice(from, to);
+        },
+        totalPages() {
+            return Math.ceil(this.allRoles.length / this.postsPerPage);
+        },
+    },
 };
 </script> 
 
 <style>
 .list-group {
-	max-height: 400px;
-	margin-bottom: 10px;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
+    max-height: 400px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-mask {
-	position: fixed;
-	z-index: 9998;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: table;
-	transition: opacity 0.3s ease;
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
-	display: table-cell;
-	vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 </style>

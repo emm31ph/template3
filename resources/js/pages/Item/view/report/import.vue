@@ -11,7 +11,7 @@
 							<div class="row p-2">
 								<div class="col-12">
 									<div class="card border-0">
-										<div class="card-body p-0">
+										<div class="card-body p-3">
 											<div
 												class="
 													container-fluid

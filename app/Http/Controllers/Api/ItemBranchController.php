@@ -119,7 +119,7 @@ class ItemBranchController extends Controller
     public function getItemsOut(Request $request)
     {
 
-        $data = ItemsBranch::select('items.itemcode', 'items.itemdesc', 'qty', 'expdate', 'numperuompu')
+        $data = ItemsBranch::select('items.itemcode', 'items.itemdesc', 'qty', 'expdate', 'numperuompu','pckgsize','u_stockcode')
         // ->selectRaw('Round((qty div numperuompu)+((qty mod numperuompu)/100),2) as qty')
             ->selectRaw("concat('',(qty div numperuompu),' / ',(qty mod numperuompu)) as qtyDesc")
             ->leftJoin('items', 'items.itemcode', 'items_branches.itemcode')

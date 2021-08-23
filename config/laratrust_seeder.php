@@ -15,8 +15,8 @@ return [
         'administrator' => [
             'users' => 'c,r,u,d,nt',
             'role' => 'c,u,r',
-            'profile' => 'r,u', 
-            'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju', 
+            'profile' => 'r,u',
+            'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju',
             'products' => 'c,r,u,cn,g',
             // 'products' => 'c,r,u,cn',
             'price cat' => 'c,r,u,cn,g',
@@ -27,17 +27,24 @@ return [
             'sales person' => 'c,r,u,d',
             'shipping advice' => 'c,r,u,ap',
             'packing list' => 'c,r,u,ap',
-            'signatory' =>  'r,u'
-            
+            'signatory' => 'r,u',
+
         ],
         'user' => [
             'profile' => 'r,u',
         ],
-        'warehouse' =>[
-            'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju', 
+        'warehouse' => [
+            'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju',
         ],
         'sales' => [
-            'invoice' => 'c,r,u,cn'
+            'invoice' => 'c,r,u,cn',
+        ],
+        'shipping' => [
+            'shipping advice' => 'c,r',
+            'packing list' => 'c,r',
+        ],
+        'packing' => [
+            'packing list' => 'c,r',
         ],
     ],
 
@@ -70,7 +77,7 @@ return [
         #'itrjc' => 'Reject Cancel',
         'tx' => 'Cancel',
         'cf' => 'Copy From',
-        'ap' => 'Approve'
+        'ap' => 'Approve',
 
     ],
 ];

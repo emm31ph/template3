@@ -20,6 +20,8 @@ class CreateSignatoriesTable extends Migration
             $table->string('signatories', 100)->nullable();
             $table->string('signee', 100)->nullable();
             $table->string('designation', 100)->nullable();
+$table->string('lookupcode', 10)->nullable();
+
             $table->timestamps();
 
         });

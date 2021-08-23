@@ -20,8 +20,6 @@ class CreatePackinglistItemsTable extends Migration
             $table->date('expdate')->nullable();
             $table->decimal('qty',16,0)->default(0);
             $table->string('unit',4)->nullable();
-            $table->decimal('price',16,0)->default(0);
-            $table->decimal('total',16,0)->default(0);
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

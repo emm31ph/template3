@@ -1,448 +1,463 @@
 <template>
-	<div>
-		<div class="card shadow mb-4">
-			<div class="card-header py-3 d-flex justify-content-between">
-				<h6 class="m-0 font-weight-bold text-primary">Print Preview</h6>
-			</div>
-			<div class="card-body">
-				<div class="warp">
-					<div id="printme">
-						<page v-if="data">
-							<div class="row p-2">
-								<div class="col-12">
-									<div class="card border-0">
-										<div class="card-body p-0">
-											<div
-												class="
-													container-fluid
-													py-0
-													pl-0
-												"
-											>
-												<div class="row mb-2">
-													<div class="col-3">
-														<img
-															src="/img/logo.png"
-															class="
-																rounded
-																float-left
-																img-thumbnail
-																mr-2
-															"
-															style="width: 150px"
-														/>
-													</div>
-													<div
-														class="
-															col-6
-															text-center
-															position-relative
-														"
-													>
-														<p
-															class="
-																h5
-																font-weight-bold
-																mb-1
-																mt-2
-															"
-														>
-															DELIVERY DOCUMENT
-															 
-														</p>
-													</div>
-													<div
-														class="col-3 text-right"
-													>
-														<p
-															class="
-																font-weight-bold
-																mb-1
-															"
-														>
-															{{
-																this.data[
-																	"batch"
-																]
-															}}
-														</p>
-														<sub
-															class="
-																text-muted
-																mb-1
-															"
-														>
-															Printed Date:
-															{{ this.dateTime }}
-														</sub>
-													</div>
-												</div>
-											</div>
-
-											<hr class="my-2" />
-
-											<div class="pb-1 px-2 py-2">
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Reference No:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"refno"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Supporting
-																Document:
-															</div>
-															<div class="col-6">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"rono"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Issued Date:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"trndate"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Prepared By:
-															</div>
-															<div class="col-6">
-																{{
-																	this.data['user']['name']
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="col-6">
-														<div class="row">
-															<div 
-																class="
-																	col-4
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Customer Name:
-															</div>
-															<div class="col-8">
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"customer"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-													<div class="col-6">
-														<div class="row">
-															<div
-																class="
-																	col-6
-																	text-right
-																	font-weight-bold
-																"
-															>
-																Remarks
-															</div>
-															<div class="col-6">
-															 
-																{{
-																	this.Ucase(
-																		this
-																			.data[
-																			"remarks"
-																		]
-																	)
-																}}
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-    <!-- start  -->
-                                        <div class="row mt-1 mb-3">
-                                            <div class="col p-3 d-flex justify-content-center">
-                                                  <div  style="width:90%" >
-                                                    <table class="mytable  w-100 " >
-														<thead>
-															<tr
-																class="
-																	text-uppercase
-																	small
-																	font-weight-bold
-																"
-															>
-																<th
-																	class="
-																		border-0
-																	"
-																>
-																	Item
-																	Description
-																</th>
-																<th
-																	class="
-																		border-0
-																		text-center
-																	"
-																>
-																	Expire Date
-																</th>
-																<th
-																	class="
-																		border-0
-																	"
-																>
-																	SHORT CODE
-																</th>
-																<th
-																	class="
-																		border-0
-																		text-center
-																	"
-																>
-																	Issue Qty
-																</th>
-															</tr>
-														</thead>
-														<tbody>
-                                                            <tr style="line-height: 15px;"
-																v-for="(
-																	item, i
-																) in data[
-																	'hist'
-																]"
-																:key="i"
-															>
-																<td>
-																	{{
-																		Ucase(
-																			item[
-																				"itemdesc"
-																			]
-																		)
-																	}}
-																</td>
-																<td
-																	class="
-																		text-center
-																	"
-																>
-																	{{
-																		item[
-																			"expdate"
-																		]
-																	}}
-																</td>
-																<td>
-																	{{
-																		Ucase(
-																			item[
-																				"u_stockcode"
-																			]
-																		)
-																	}}
-																</td>
-																<td
-																	class="
-																		text-center
-																	"
-																>
-																	{{
-																		item[
-																			"unit"
-																		] !=
-																		"TIN"
-																			? formatNumberD(
-																					toCase(
-																						item["numperuompu"],
-																						item["drqty"]
-																					),
-																					0
-																			  )
-																			: item["drqty"] ==
-																			  0
-																			? ""
-																			: item[
-																					"drqty"
-																			  ]
-																	}}
-																</td>
-															</tr>
-															<tr
-																v-for="i in this
-																	.countitems"
-																:key="i + data['hist'].length"
-															>
-																<td>&nbsp;</td>
-																<td></td>
-																<td></td>
-																<td></td>
-															</tr>
-														</tbody>
-														<tfoot>
-															<tr>
-																<td
-																	class="
-																		text-right
-																		font-weight-bold
-																	"
-																	colspan="3"
-																>
-																	Sub Total
-																</td>
-																<td
-																	class="
-																		text-center
-																	"
-																>
-																	{{
-																		formatNumberD(
-																			this
-																				.drQtyCase,
-																			0
-																		)
-																	}}
-																	{{
-																		this
-																			.drQtyTin !=
-																		0
-																			? " & " +
-																			  formatNumberD(
-																					this
-																						.drQtyTin,
-																					0
-																			  )
-																			: ""
-																	}}
-																</td>
-															</tr>
-														</tfoot>
-													</table>
-												</div>
-												</div>
-											</div>
-											<!-- signatories -->
-                                                <div class="meprint pb-5"  >
+    <div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Print Preview</h6>
+            </div>
+            <div class="card-body">
+                <div class="warp">
+                    <div id="printme">
+                        <page v-if="data">
+                            <div class="row p-2">
+                                <div class="col-12">
+                                    <div class="card border-0">
+                                        <div class="card-body p-3">
+                                            <div
+                                                class="
+                                                    container-fluid
+                                                    py-0
+                                                    pl-0
+                                                "
+                                            >
+                                                <div class="row mb-2">
+                                                    <div class="col-3">
+                                                        <img
+                                                            src="/img/logo.png"
+                                                            class="
+                                                                rounded
+                                                                float-left
+                                                                img-thumbnail
+                                                                mr-2
+                                                            "
+                                                            style="width: 150px"
+                                                        />
+                                                    </div>
                                                     <div
-                                                        class="d-flex justify-content-around mt-4"
+                                                        class="
+                                                            col-6
+                                                            text-center
+                                                            position-relative
+                                                        "
                                                     >
-                                                        <div
-                                                            v-for="(data,
-                                                            i) in getSignatories"
-                                                            :key="i"
-                                                            class=" text-center col-4    text-uppercase 
-                                                                            font-weight-bold
-                                                                        "
+                                                        <p
+                                                            class="
+                                                                h5
+                                                                font-weight-bold
+                                                                mb-1
+                                                                mt-2
+                                                            "
                                                         >
-                                                            <div class="col">
-                                                                {{ data.signatories }}
-                                                            </div>
-                                                            <div class="mt-4">
-                                                                {{ data.signee }}
-                                                            </div>
+                                                            DELIVERY DOCUMENT
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-3 text-right"
+                                                    >
+                                                        <p
+                                                            class="
+                                                                font-weight-bold
+                                                                mb-1
+                                                            "
+                                                        >
+                                                            {{
+                                                                this.data[
+                                                                    "batch"
+                                                                ]
+                                                            }}
+                                                        </p>
+                                                        <sub
+                                                            class="
+                                                                text-muted
+                                                                mb-1
+                                                            "
+                                                        >
+                                                            Printed Date:
+                                                            {{ this.dateTime }}
+                                                        </sub>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr class="my-2" />
+
+                                            <div class="pb-1 px-2 py-2">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="row">
                                                             <div
-                                                                class="border-top mx-5"
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
                                                             >
-                                                                {{ data.designation }}
+                                                                Reference No:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "refno"
+                                                                        ]
+                                                                    )
+                                                                }}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> 
-										</div> 
-									</div>
-								</div>
-							</div>
-						</page>
-					</div>
-				</div>
-			</div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Supporting
+                                                                Document:
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "rono"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-			<div class="card-footer">
-				<button
-					class="btn btn-sm btn-primary"
-					@click.prevent="printing()"
-				>
-					<i class="fa fa-print"></i> Print
-				</button>  
-				<a @click="handleEdit(data['batch'])" v-if="status=='01'  && this.can('items-delivery-update')" class="btn-sm btn btn-success"
-					><i class="fa fa-edit"></i> Edit</a
-				> 
-				
-				<a @click="handleCancel(data['batch'])" v-if="status=='01'  && this.can('transaction-cancel')" class="btn-sm btn btn-danger"
-					><i class="fa fa-trash"></i> Cancel</a
-				> 
-				<a @click="$router.back()" class="btn btn-sm btn-secondary" >Back</a>
-			</div>
-		</div>
-	</div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Issued Date:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "trndate"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Prepared By:
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.data[
+                                                                        "user"
+                                                                    ]["name"]
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-4
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Customer Name:
+                                                            </div>
+                                                            <div class="col-8">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "customer"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="row">
+                                                            <div
+                                                                class="
+                                                                    col-6
+                                                                    text-right
+                                                                    font-weight-bold
+                                                                "
+                                                            >
+                                                                Remarks
+                                                            </div>
+                                                            <div class="col-6">
+                                                                {{
+                                                                    this.Ucase(
+                                                                        this
+                                                                            .data[
+                                                                            "remarks"
+                                                                        ]
+                                                                    )
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- start  -->
+                                            <div class="row mt-1 mb-3">
+                                                <div
+                                                    class="
+                                                        col
+                                                        p-3
+                                                        d-flex
+                                                        justify-content-center
+                                                    "
+                                                >
+                                                    <div style="width: 90%">
+                                                        <table
+                                                            class="
+                                                                mytable
+                                                                w-100
+                                                            "
+                                                        >
+                                                            <thead>
+                                                                <tr
+                                                                    class="
+                                                                        text-uppercase
+                                                                        small
+                                                                        font-weight-bold
+                                                                    "
+                                                                >
+                                                                    <th
+                                                                        class="
+                                                                            border-0
+                                                                        "
+                                                                    >
+                                                                        Item
+                                                                        Description
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            border-0
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        Expire
+                                                                        Date
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            border-0
+                                                                        "
+                                                                    >
+                                                                        SHORT
+                                                                        CODE
+                                                                    </th>
+                                                                    <th
+                                                                        class="
+                                                                            border-0
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        Issue
+                                                                        Qty
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    style="
+                                                                        line-height: 15px;
+                                                                    "
+                                                                    v-for="(
+                                                                        item, i
+                                                                    ) in data[
+                                                                        'hist'
+                                                                    ]"
+                                                                    :key="i"
+                                                                >
+                                                                    <td>
+                                                                        {{
+                                                                            Ucase(
+                                                                                item[
+                                                                                    "itemdesc"
+                                                                                ]
+                                                                            )
+                                                                        }}
+                                                                    </td>
+                                                                    <td
+                                                                        class="
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            item[
+                                                                                "expdate"
+                                                                            ]
+                                                                        }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{
+                                                                            Ucase(
+                                                                                item[
+                                                                                    "u_stockcode"
+                                                                                ]
+                                                                            )
+                                                                        }}
+                                                                    </td>
+                                                                    <td
+                                                                        class="
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            item[
+                                                                                "unit"
+                                                                            ] !=
+                                                                            "TIN"
+                                                                                ? formatNumberD(
+                                                                                      toCase(
+                                                                                          item[
+                                                                                              "numperuompu"
+                                                                                          ],
+                                                                                          item[
+                                                                                              "drqty"
+                                                                                          ]
+                                                                                      ),
+                                                                                      0
+                                                                                  )
+                                                                                : item[
+                                                                                      "drqty"
+                                                                                  ] ==
+                                                                                  0
+                                                                                ? ""
+                                                                                : item[
+                                                                                      "drqty"
+                                                                                  ]
+                                                                        }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr
+                                                                    v-for="i in this
+                                                                        .countitems"
+                                                                    :key="
+                                                                        i +
+                                                                        data[
+                                                                            'hist'
+                                                                        ].length
+                                                                    "
+                                                                >
+                                                                    <td>
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td
+                                                                        class="
+                                                                            text-right
+                                                                            font-weight-bold
+                                                                        "
+                                                                        colspan="3"
+                                                                    >
+                                                                        Sub
+                                                                        Total
+                                                                    </td>
+                                                                    <td
+                                                                        class="
+                                                                            text-center
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            formatNumberD(
+                                                                                this
+                                                                                    .drQtyCase,
+                                                                                0
+                                                                            )
+                                                                        }}
+                                                                        {{
+                                                                            this
+                                                                                .drQtyTin !=
+                                                                            0
+                                                                                ? " & " +
+                                                                                  formatNumberD(
+                                                                                      this
+                                                                                          .drQtyTin,
+                                                                                      0
+                                                                                  )
+                                                                                : ""
+                                                                        }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- signatories -->
+                                            <signatories />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button
+                    class="btn btn-sm btn-primary"
+                    @click.prevent="printing()"
+                >
+                    <i class="fa fa-print"></i> Print
+                </button>
+                <a
+                    @click="handleEdit(data['batch'])"
+                    v-if="status == '01' && this.can('items-delivery-update')"
+                    class="btn-sm btn btn-success"
+                    ><i class="fa fa-edit"></i> Edit</a
+                >
+
+                <a
+                    @click="handleCancel(data['batch'])"
+                    v-if="status == '01' && this.can('transaction-cancel')"
+                    class="btn-sm btn btn-danger"
+                    ><i class="fa fa-trash"></i> Cancel</a
+                >
+                <a @click="$router.back()" class="btn btn-sm btn-secondary"
+                    >Back</a
+                >
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -450,222 +465,219 @@ import print from "print-js";
 import Form from "vform";
 
 export default {
-	name: "report",
-	middleware: "auth",
-   	props: ["id"] ,
-	data() {
-		return {
-			 
-			data: null,
-			status:'',
-			countitems: 0,
-			drtotal: 0,
-			crtotal: 0,
-			form: new Form({
-				items:[], 
-			}),
-		};
-	},
-	metaInfo() {
-		return { title: "Report" };
-	}, 
-	computed: {
-		
-		drQtyCase: function () {
-			let sum = 0;
+    name: "report",
+    middleware: "auth",
+    props: ["id"],
+    data() {
+        return {
+            data: null,
+            status: "",
+            countitems: 0,
+            drtotal: 0,
+            crtotal: 0,
+            form: new Form({
+                items: [],
+            }),
+        };
+    },
+    metaInfo() {
+        return { title: "Report" };
+    },
+    computed: {
+        drQtyCase: function () {
+            let sum = 0;
 
-			this.data["hist"].forEach(function (item) {
-				if (item.unit != "TIN") {
-					sum += parseFloat(
-						(item.drqty > 0 ? 1 : -1) *
-							(Math.floor(
-								item.drqty /
-									((item.drqty >= 0 ? 1 : -1) *
-										item.numperuompu)
-							) +
-								(item.drqty %
-									((item.drqty >= 0 ? 1 : -1) *
-										item.numperuompu)) /
-									((item.drqty >= 0 ? 1 : -1) * 100))
-					);
-				}
-			});
-			return sum;
-		},
-		drQtyTin: function () {
-			let sum = 0;
+            this.data["hist"].forEach(function (item) {
+                if (item.unit != "TIN") {
+                    sum += parseFloat(
+                        (item.drqty > 0 ? 1 : -1) *
+                            (Math.floor(
+                                item.drqty /
+                                    ((item.drqty >= 0 ? 1 : -1) *
+                                        item.numperuompu)
+                            ) +
+                                (item.drqty %
+                                    ((item.drqty >= 0 ? 1 : -1) *
+                                        item.numperuompu)) /
+                                    ((item.drqty >= 0 ? 1 : -1) * 100))
+                    );
+                }
+            });
+            return sum;
+        },
+        drQtyTin: function () {
+            let sum = 0;
 
-			this.data["hist"].forEach(function (item) {
-				if (item.unit == "TIN") {
-					sum += parseFloat(item.drqty);
-				}
-			});
-			return sum;
-		},
-		crQtyCase: function () {
-			let sum = 0; 
-			this.data["hist"].forEach(function (item) {
-				if (item.unit != "TIN") {
-					sum += parseFloat(
-						(item.crqty > 0 ? 1 : -1) *
-							(Math.floor(
-								item.crqty /
-									((item.crqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)
-							) +
-								(item.crqty %
-									((item.crqty >= 0 ? 1 : -1) *
-										item.items.numperuompu)) /
-									((item.crqty >= 0 ? 1 : -1) * 100))
-					);
-				}
-			});
-			return sum;
-		},
-		crQtyTin: function () {
-			let sum = 0;
+            this.data["hist"].forEach(function (item) {
+                if (item.unit == "TIN") {
+                    sum += parseFloat(item.drqty);
+                }
+            });
+            return sum;
+        },
+        crQtyCase: function () {
+            let sum = 0;
+            this.data["hist"].forEach(function (item) {
+                if (item.unit != "TIN") {
+                    sum += parseFloat(
+                        (item.crqty > 0 ? 1 : -1) *
+                            (Math.floor(
+                                item.crqty /
+                                    ((item.crqty >= 0 ? 1 : -1) *
+                                        item.items.numperuompu)
+                            ) +
+                                (item.crqty %
+                                    ((item.crqty >= 0 ? 1 : -1) *
+                                        item.items.numperuompu)) /
+                                    ((item.crqty >= 0 ? 1 : -1) * 100))
+                    );
+                }
+            });
+            return sum;
+        },
+        crQtyTin: function () {
+            let sum = 0;
 
-			this.data["hist"].forEach(function (item) {
-				if (item.unit == "TIN") {
-					sum += parseFloat(item.crqty);
-				}
-			});
-			return sum;
-		},
-        onLoad() { 
+            this.data["hist"].forEach(function (item) {
+                if (item.unit == "TIN") {
+                    sum += parseFloat(item.crqty);
+                }
+            });
+            return sum;
+        },
+        onLoad() {
             this.$store.dispatch("Settings/fetchSignatories", {
                 trnmode: "print",
-                trntype: "RR001"
+                trntype: "RR001",
             });
-        }
-	},
-	methods: {
-		repType(data) {
-			switch (data) {
-				case "DLVR":
-					return true;
-					break; 
-				default:
-					this.$router.push({
-						name: "dashboard" 
-					});
-			}
-		},
-		handleEdit(data){ 
-			this.$router.push({
-				name: "delivery-edit",
-				params: { id: data }
-			});
-			 
-		},
-		 handleCancel(data){
-			Swal.fire({
-				title: "Are you sure?",
-				text: "You won't be able to revert this!",
-				icon: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#3085d6",
-				cancelButtonColor: "#d33",
-				confirmButtonText: "Yes, delete it!",
-			}).then((result) => { 
-				if (result.value) {
-					 
-						axios.get("/api/items/reportItem", {
-						params: { id: data },
-					}).then(res => {
-						
-						this.form.batch= data;
-						this.form.trndate=  this.datenow;
-						this.form.trnmode= "CANCEL";
-						this.form.customer= res.data.customer;
-						this.form.from= res.data.from;
-						this.form.to= res.data.to;
-						this.form.userid= this.isUser.id;
-						this.form.rono= res.data.rono;
-						this.form.refno= res.data.refno;
-						this.form.van_no= res.data.van_no;
-						this.form.seal_no= res.data.seal_no; 
-						this.form.remarks= (res.data.remarks);
-						for (let i = 0; i < res.data.hist.length; i++) {
-						this.form.items.push( 
-							{
-								drqty: res.data.hist[i].crQtyCase,
-								crqty: res.data.hist[i].drQtyCase,
-								trntype: "CN",
-								itemdesc: res.data.hist[i].itemdesc,
-								branch: res.data.hist[i].branch,
-								itemcode: res.data.hist[i].itemcode,
-								expdate: res.data.hist[i].expdate,
-								unit: res.data.hist[i].unit,
-								numperuompu: res.data.hist[i].numperuompu
-							})
-						};
-							this.form.post("/api/items/cancel-trans")
-							.then(resp =>{
-								 Swal.fire({
-								position: 'top-end',
-								icon: 'success',
-								toast:true,
-								title: 'successful process',
-								showConfirmButton: false,
-								timer: 2500
-							})
+        },
+    },
+    methods: {
+        repType(data) {
+            switch (data) {
+                case "DLVR":
+                    return true;
+                    break;
+                default:
+                    this.$router.push({
+                        name: "dashboard",
+                    });
+            }
+        },
+        handleEdit(data) {
+            this.$router.push({
+                name: "delivery-edit",
+                params: { id: data },
+            });
+        },
+        handleCancel(data) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.value) {
+                    axios
+                        .get("/api/items/reportItem", {
+                            params: { id: data },
+                        })
+                        .then((res) => {
+                            this.form.batch = data;
+                            this.form.trndate = this.datenow;
+                            this.form.trnmode = "CANCEL";
+                            this.form.customer = res.data.customer;
+                            this.form.from = res.data.from;
+                            this.form.to = res.data.to;
+                            this.form.userid = this.isUser.id;
+                            this.form.rono = res.data.rono;
+                            this.form.refno = res.data.refno;
+                            this.form.van_no = res.data.van_no;
+                            this.form.seal_no = res.data.seal_no;
+                            this.form.remarks = res.data.remarks;
+                            for (let i = 0; i < res.data.hist.length; i++) {
+                                this.form.items.push({
+                                    drqty: res.data.hist[i].crQtyCase,
+                                    crqty: res.data.hist[i].drQtyCase,
+                                    trntype: "CN",
+                                    itemdesc: res.data.hist[i].itemdesc,
+                                    branch: res.data.hist[i].branch,
+                                    itemcode: res.data.hist[i].itemcode,
+                                    expdate: res.data.hist[i].expdate,
+                                    unit: res.data.hist[i].unit,
+                                    numperuompu: res.data.hist[i].numperuompu,
+                                });
+                            }
+                            this.form
+                                .post("/api/items/cancel-trans")
+                                .then((resp) => {
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        toast: true,
+                                        title: "successful process",
+                                        showConfirmButton: false,
+                                        timer: 2500,
+                                    });
                                     this.$router.push({
                                         name: "report-can",
                                         params: { id: resp.data.id },
-                                    }); 
-							});
-					});   
-				}
-			});
-		},
-		async handleSubmit() {
-			const res = await axios.get("/api/items/reportItem", {
-				params: { id: this.id },
-			}); 
-			this.status = res.data.status;
-			this.data = res.data; 
-			// this.countitems = 24 - res.data["hist"].length;
-		},
-		printing() {
-			var style = [
-				window.location.origin + "/dist/css/app.css",
-				window.location.origin + "/dist/css/print.css",
-			];
-			printJS({
-				name: "_blank",
-				specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
-				printable: "printme",
-				type: "html",
-				css: style,
-				//style: "@page {size: 5.5in 8.5in;size: landscape;}",
-				// style: "@page {size: 5.5in 4.25in;size: landscape;}",
-				style: "@page {size: 5.5in 8.5in;}",
-				// header: "Multiple Images",
-				scanStyles: false,
-				onPrintDialogClose: () =>
-					console.log("The print dialog was closed"),
-				onError: (e) => console.log(e),
-			});
-		},
-		printVisit(id) {
-			this.$htmlToPaper("printme");
-			this.$htmlToPaper("printme", () => {
-				console.log("Printing completed or was cancelled!");
-			});
-		},
-	},
-	mounted(){   
+                                    });
+                                });
+                        });
+                }
+            });
+        },
+        async handleSubmit() {
+            const res = await axios.get("/api/items/reportItem", {
+                params: { id: this.id },
+            });
+            this.status = res.data.status;
+            this.data = res.data;
+            // this.countitems = 24 - res.data["hist"].length;
+        },
+        printing() {
+            var style = [
+                window.location.origin + "/dist/css/app.css",
+                window.location.origin + "/dist/css/print.css",
+            ];
+            printJS({
+                name: "_blank",
+                specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+                printable: "printme",
+                type: "html",
+                css: style,
+                //style: "@page {size: 5.5in 8.5in;size: landscape;}",
+                // style: "@page {size: 5.5in 4.25in;size: landscape;}",
+                style: "@page {size: 5.5in 8.5in;}",
+                // header: "Multiple Images",
+                scanStyles: false,
+                onPrintDialogClose: () =>
+                    console.log("The print dialog was closed"),
+                onError: (e) => console.log(e),
+            });
+        },
+        printVisit(id) {
+            this.$htmlToPaper("printme");
+            this.$htmlToPaper("printme", () => {
+                console.log("Printing completed or was cancelled!");
+            });
+        },
+    },
+    mounted() {
         this.onLoad;
-        if(this.id==undefined){
-        	this.$router.push({
-				name: "dashboard" 
-			});
-        }else{ 
+        if (this.id == undefined) {
+            this.$router.push({
+                name: "dashboard",
+            });
+        } else {
             this.repType(this.id.slice(0, this.id.search("-")));
-			this.handleSubmit(); 
+            this.handleSubmit();
         }
-    }
+    },
 };
 </script>
 

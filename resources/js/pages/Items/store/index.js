@@ -76,7 +76,7 @@ export const actions = {
                     branch: payload.branch 
                 }
             })
-
+            console.log(data);
             commit(types.FETCH_ITEMS_SUCCESS, {
                 items: data
             })

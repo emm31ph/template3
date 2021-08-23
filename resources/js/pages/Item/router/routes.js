@@ -11,92 +11,92 @@ export default [{
     redirect: { name: 'items-list' },
     component: page('Item/view/main.vue'),
     children: [{
-        path: 'report-view',
+        path: '',
         name: 'report-view',
         component: page('Item/view/report/ReportView.vue'),
         props: true
 
     },{
-        path: 'report-wp',
+        path: '',
         name: 'report-wp',
         component: page('Item/view/report/wp.vue'),
         props: true
     },{
-        path: 'report-adj',
+        path: '',
         name: 'report-adj',
         component: page('Item/view/report/adjustment.vue'),
         props: true
     },{
-        path: 'report-dlvry',
+        path: '',
         name: 'report-dlvry',
         component: page('Item/view/report/dlvry.vue'),
         props: true
     },{
-        path: 'report-rr',
+        path: '',
         name: 'report-rr',
         component: page('Item/view/report/rr.vue'),
         props: true
     },{
-        path: 'report-rrm',
+        path: '',
         name: 'report-rrm',
         component: page('Item/view/report/rrm.vue'),
         props: true
     },{
-        path: 'report-rj',
+        path: '',
         name: 'report-rj',
         component: page('Item/view/report/reject.vue'),
         props: true
     },{
-        path: 'report-rev',
+        path: '',
         name: 'report-rev',
         component: page('Item/view/report/reversal.vue'),
         props: true
     },{
-        path: 'report-can',
+        path: '',
         name: 'report-can',
         component: page('Item/view/report/cancelled.vue'),
         props: true
     },{
-        path: 'report-imp',
+        path: '',
         name: 'report-imp',
         component: page('Item/view/report/import.vue'),
         props: true
     },
 
     {
-        path: 'delivery',
+        path: '',
         name: 'delivery',
         component: page('Item/view/delivery.vue')
     }, {
-        path: 'import',
+        path: '',
         name: 'import',
         component: page('Item/view/import.vue')
     }, {
-        path: 'list',
+        path: '',
         name: 'items-list',
         component: page('Item/view/list.vue')
     }, {
-        path: 'reject',
+        path: '',
         name: 'items-reject',
         component: page('Item/view/reject.vue')
     }, {
-        path: 'rr',
+        path: '',
         name: 'items-rr',
         component: page('Item/view/rr.vue')
     }, {
-        path: 'rrm',
+        path: '',
         name: 'items-rrm',
         component: page('Item/view/rrm.vue')
     }, {
-        path: 'fptd',
+        path: '',
         name: 'items-fptd',
         component: page('Item/view/fptd.vue')
     }, {
-        path: 'itemsadjust',
+        path: '',
         name: 'items-adjust',
         component: page('Item/view/adjustment.vue')
     }, {
-        path: 'delivery-edit',
+        path: '',
         name: 'delivery-edit',
         component: page('Item/view/edit/delivery.vue'), 
         props: true

@@ -14,12 +14,12 @@ class CreateLookupsTable extends Migration
     public function up()
     {
         Schema::create('lookups', function (Blueprint $table) {
-            
-            $table->String('lookup',4);
-            $table->String('code',4);
-            $table->String('fulltitle',50);
-            $table->String('fulldesc',50);
-            
+
+            $table->String('lookup', 4);
+            $table->String('code', 4);
+            $table->String('fulltitle', 50);
+            $table->String('fulldesc', 50);
+
         });
     }
 

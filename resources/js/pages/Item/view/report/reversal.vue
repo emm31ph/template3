@@ -11,7 +11,7 @@
                             <div class="row p-2">
                                 <div class="col-12">
                                     <div class="card border-0">
-                                        <div class="card-body p-0">
+										<div class="card-body p-3">
                                             <div
                                                 class="
 													container-fluid
@@ -615,32 +615,7 @@
                                                 </div>
                                             </div>
                                             <!-- signatories -->
-                                                <div class="meprint pb-5"  >
-                                                    <div
-                                                        class="d-flex justify-content-around mt-4"
-                                                    >
-                                                        <div
-                                                            v-for="(data,
-                                                            i) in getSignatories"
-                                                            :key="i"
-                                                            class=" text-center col-4    text-uppercase 
-                                                                            font-weight-bold
-                                                                        "
-                                                        >
-                                                            <div class="col">
-                                                                {{ data.signatories }}
-                                                            </div>
-                                                            <div class="mt-4">
-                                                                {{ data.signee }}
-                                                            </div>
-                                                            <div
-                                                                class="border-top mx-5"
-                                                            >
-                                                                {{ data.designation }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> 
+                                           <signatories/>
                                         </div>
                                     </div>
                                 </div>

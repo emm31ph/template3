@@ -12,10 +12,20 @@ Vue.mixin({
 
     computed: {
         getShippingList() {
-            if (this.isUser) { 
+            if (this.isUser) {
                 var getShippingAdvice = store.getters['Logistic/ShippingList']
                 if (getShippingAdvice) {
                     return getShippingAdvice
+                }
+            }
+            return []
+        },
+        getPackingList() {
+            if (this.isUser) {
+                var getPackinglist = store.getters['Logistic/PackingList']
+                console.log(getPackinglist);
+                if (getPackinglist) {
+                    return getPackinglist
                 }
             }
             return []

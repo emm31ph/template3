@@ -140,27 +140,24 @@ class ItemController extends Controller
     public function DeliveryTrans(DeliveryRequest $request)
     {
 
+        // return response()->json(['error' => $request->input('reversal')], 400);
+
        $stat = [];
        $stat['id'] = '';
         DB::disableQueryLog();
-        DB::beginTransaction();
-            if($request->input('reversal')!==''){
+        DB::beginTransaction(); 
+            if($request->input('reversal')['batch']!==null){
+                 
                 $stat = $this->reversalDelivery($request->input('reversal'));
-                // $branch = $stat['branch'];
+                $branch = $stat['branch'];
             }else{
                 
                 $branch =  auth()->user()->branch;
             }
             
-
-            return response()->json(['branch' => $stat], 500);
-
-               
+            // return response()->json(['error' =>  $stat], 400);
             try {
-                
-
-               
-                
+                 
                 $counter = Counter::where('key', 'DELIVERY')
                     ->where('branch', $branch)
                     ->first();
@@ -228,7 +225,7 @@ class ItemController extends Controller
                 }
 
                 $dateInvt['batch'] = $counter->prefix . sprintf('%011d', $counter->value);
-                $dateInvt['remarks'] = $request->get('remarks').' '. $stat['id'];
+                $dateInvt['remarks'] = $request->get('remarks');
 
                 $dateInvt['trndate'] = substr($request->get('trndate'), 0, 10);
                 $dateInvt['trnType'] = '001';
@@ -259,9 +256,10 @@ class ItemController extends Controller
     }
     public function reversalDelivery($request)
     { 
-        // DB::disableQueryLog();
-        // DB::beginTransaction(); 
-        // try { 
+ 
+        DB::disableQueryLog();
+        DB::beginTransaction(); 
+        try { 
             $items = []; 
             $totalcr = 0;
             $totaldr = 0;
@@ -344,8 +342,8 @@ class ItemController extends Controller
             $dateInvt['drqty'] = $totaldr;
             $dateInvt['crqty'] = $totalcr;
             $dateInvt['refno'] = $request['refno'];
-            $dateInvt['rono'] = $request['rono']?:'';
-            $dateInvt['from'] = $request['from']?:'';
+            $dateInvt['rono'] = $request['rono'];
+            $dateInvt['from'] = $request['from'];
             $dateInvt['to'] = $request['to'];
             $dateInvt['customer'] = $request['customer'];
 
@@ -358,12 +356,12 @@ class ItemController extends Controller
    
             return ['branch' => $branch, 'id' => $batch];
 
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     // return response()->json(['error' => 'something error in data'], 400);
-        //     return response()->json(['error' => $e->getMessage()], 400);
-        // }
-        // return response()->json($data, 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            // return response()->json(['error' => 'something error in data'], 400);
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+        return response()->json($data, 200);
     
     }
     public function CancelTrans(Request $request)

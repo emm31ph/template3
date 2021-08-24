@@ -9,11 +9,16 @@
                 <div class="col">
                    &nbsp; {{ data.signatories }} &nbsp;
                 </div>
-                <div class="mt-4">
-                 &nbsp; {{ data.signee }} &nbsp;
-                </div>
-                <div class="border-top mx-5">
+                  <div class="mt-4" v-if="data.signatories =='Approved By'">
+                    <input type="text" class="form-control border-0 text-center font-weight-bold" :value="data.signee">
+                </div>  
+                <div class="mt-4" v-else>
+                 
+                    <input type="text" class="form-control border-0 text-center font-weight-bold bg-white" readonly :value="data.signee">
+                </div> 
+                <div class="mx-lg-5 border-10" >
                    &nbsp; {{ data.designation }} &nbsp;
+                
                 </div>
             </div>
         </div>
@@ -25,4 +30,7 @@ export default {};
 </script>
 
 <style>
+.border-10{
+    border-top: 1px solid black;
+  }
 </style>

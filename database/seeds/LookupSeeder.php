@@ -201,7 +201,14 @@ class LookupSeeder extends Seeder
                 'code' => 'XIII',
                 'fulltitle' => 'XIII',
                 'fulldesc' => 'CARAGA',
+            ], 
+            [
+                'lookup' => 'LOGS',
+                'code' => 'LGDR',
+                'fulltitle' => 'YES',
+                'fulldesc' => 'BASE ON DR on NOT',
             ],
+
         ];
         DB::table('lookups')->insert($item);
     }

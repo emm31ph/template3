@@ -303,7 +303,8 @@ export default {
 					tins: 0,
 					numperuompu: 0,
 				},
-			],
+			], 
+			reversal: {items: []},
 		}),
 		btn: false,
 		allerrors: [],
@@ -357,7 +358,10 @@ export default {
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, processed!",
 			});
-			if (result) {
+			if (result) { 
+				
+			this.form.reversal.batch = '';
+			
 				await this.form.post("/api/items/dlvry-trans")
 					.then(res => { 
 						this.$router.push({

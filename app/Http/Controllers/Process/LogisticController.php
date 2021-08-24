@@ -17,6 +17,13 @@ class LogisticController extends Controller
     {
         $data = '';
         switch ($request->trnmode) {
+            case 'arinvoiceDR':
+                $docno = $request->docno ?: ''; 
+                $data = DB::connection('mysql2')
+                    ->select("call sp_release(?)", array($docno));
+                $request->docno = '';
+
+                break; 
             case 'logspcreate':
                 // $data = $request->all();
                 $data = $this->CreateShipping($request);
@@ -30,7 +37,7 @@ class LogisticController extends Controller
                 $data = 'successful';
                 break;
             case 'log-sp-alllist':
-                $data = ShippingAdvice::where('branch', $request->branch)->orderBy('status','ASC')->orderBy('trndate','Desc')->get();
+                $data = ShippingAdvice::where('branch', $request->branch)->orderBy('status','ASC')->orderBy('trndate','Desc')->orderBy('batch','Desc')->get();
                 break;
             case 'log-sp-report':
                 $data = $this->ReportShipping($request);

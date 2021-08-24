@@ -227,7 +227,7 @@ export default {
     },
 
     mounted() {
-        this.isAbleToAuth(["products-*"]);
+        this.isAbleToAuth(["shipping-advice-read"]); 
 
         this.onLoad;
         this.currentPage = 1;

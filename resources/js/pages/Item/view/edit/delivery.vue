@@ -283,13 +283,13 @@ import Form from "vform";
 export default {
     middleware: "auth",
     name: "inv-delivery",
-    props: ["id2"],
+    props: ["id"],
     metaInfo() {
         return { title: "Delivery Transaction" };
     },
     data() {
         return {
-            id: "",
+            // id: "",
             itemcode: "",
             itemdesc: "",
             data: null,
@@ -297,10 +297,17 @@ export default {
             drtotal: 0,
             crtotal: 0,
             form: new Form({
+                trndate: "",
+                trnmode: "DELIVERY",
+                customer: "",
+                userid: "",
+                rono: "",
+                refno: "",
+                remarks: "",
                 items: [],
                 reversal: {
-                    items: []
-                }
+                        items: []
+                    }
             }),
 
             btn: false,
@@ -325,7 +332,7 @@ export default {
 		  this.fetchItemsOut();
 	},
     mounted() {
-        
+       
         if (!this.id) {
             this.$router.push({
                 name: "dashboard"
@@ -358,6 +365,8 @@ export default {
             this.form.rono = res.data.rono;
             this.form.refno = res.data.refno;
             this.form.remarks = res.data.remarks;
+            this.form.to = res.data.to;
+            this.form.from = res.data.from;
 
             this.form.reversal.batch = this.id;
             this.form.reversal.trndate = res.data.trndate;
@@ -366,7 +375,9 @@ export default {
             this.form.reversal.userid = this.isUser.id;
             this.form.reversal.rono = res.data.rono;
             this.form.reversal.refno = res.data.refno;
-            this.form.reversal.remarks = res.data.remarks;
+            this.form.reversal.to = res.data.to;
+            this.form.reversal.from = res.data.from;
+            // this.form.reversal.remarks = res.data.remarks;
             this.form.reversal.remarks = ""
                 .concat(" ", res.data.remarks)
                 .replace("null", "")
@@ -423,20 +434,20 @@ export default {
             }
 
 
-			if(this.$refs.itemproduct!==undefined){
-				this.$refs.itemproduct.selectedItem = {id: "0",
-					index: "0",
-					itemclass: "001",
-					itemcode: "FPARSNO0001010",
-					itemdesc: "ARBELLA SPAGHETTI NOODLES 10/1Kg",
-					numperuompu: "10",
-					pckgsize: "10/1Kg",
-					shortcode: "",
-					status: "0",
-					u_stockcode: "",
-					uompu: "CASE"
-					}
-			}
+			// if(this.$refs.itemproduct!==undefined){
+			// 	this.$refs.itemproduct.selectedItem = {id: "0",
+			// 		index: "0",
+			// 		itemclass: "001",
+			// 		itemcode: "FPARSNO0001010",
+			// 		itemdesc: "ARBELLA SPAGHETTI NOODLES 10/1Kg",
+			// 		numperuompu: "10",
+			// 		pckgsize: "10/1Kg",
+			// 		shortcode: "",
+			// 		status: "0",
+			// 		u_stockcode: "",
+			// 		uompu: "CASE"
+			// 		}
+			// }
 
             this.calculateTotal();
         },

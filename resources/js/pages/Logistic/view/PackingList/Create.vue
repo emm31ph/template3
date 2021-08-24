@@ -357,6 +357,7 @@
                                         <input
                                             v-model="form.control_no"
                                             type="text"
+                                            maxlength="20"
                                             :class="
                                                 control_noIsValid == false
                                                     ? 'is-invalid'
@@ -382,6 +383,7 @@
                                         <input
                                             v-model="form.seal_no"
                                             type="text"
+                                            maxlength="20"
                                             :class="
                                                 seal_noIsValid == false
                                                     ? 'is-invalid'

@@ -49,6 +49,23 @@ Vue.mixin({
                 return moment(date).subtract(addless, 'd').format('YYYY-MM-DD')
             }
 
+        },
+        toIntR(data){
+          
+            return data.toString().replace(/[^0-9]/g,'');
+        },
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+              evt.preventDefault();;
+            } else {
+              return true;
+            }
+          },
+          formatPrice(value) {
+            let val = (value/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     }
 

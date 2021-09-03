@@ -74,8 +74,8 @@ class LogisticController extends Controller
 
     public function PackingCreate($request)
     {
-        // DB::beginTransaction();
-        // try {
+        DB::beginTransaction();
+        try {
             $counter = Counter::where('key', 'PACKING')
                 ->where('branch', auth()->user()->branch)
                 ->first();
@@ -128,14 +128,14 @@ class LogisticController extends Controller
                     PackinglistItems::insert($item);
                 }
             }
-            // \DB::commit();
+            \DB::commit();
             return $pl->batch;
 
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     // return response()->json(['error' => 'something error in data'], 400);
-        //     return response()->json(['error' => $e->getMessage()], 400);
-        // }
+        } catch (\Exception $e) {
+            DB::rollback();
+            // return response()->json(['error' => 'something error in data'], 400);
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
     public function ReportPacking($request)
     {

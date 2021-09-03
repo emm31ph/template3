@@ -151,6 +151,8 @@
 										:items="getAllItemsBranch"
 										:index="`${k}`"
 										filterby="itemdesc"
+										filterby2="itemcode"
+										filterby3="u_stockcode"
 										addOnDisplay="expdate"
 										@change="onChangeItems"
 										title="Itemdesc"
@@ -172,7 +174,9 @@
 									<input
 										v-model="item.expdate"
 										type="date"
-										:disabled="item.drqty != 0 ? true : false"
+										:disabled="
+											item.drqty != 0 ? true : false
+										"
 										class="
 											form-control form-control-sm
 											text-center
@@ -196,6 +200,10 @@
 										class="
 											form-control form-control-sm
 											text-center
+										"
+										@change="
+											calculateTotalCr(item);
+											calculateTotalDr(item);
 										"
 										v-model="item.unit"
 										:key="k"
@@ -279,10 +287,10 @@
 							<tr>
 								<td colspan="3" class="text-right">Total</td>
 								<td class="text-center">
-									{{ items_dr_total }}
+									{{ formatPrice(items_dr_total) }}
 								</td>
 								<td class="text-center">
-									{{ items_cr_total }}
+									{{ formatPrice(items_cr_total) }}
 
 									<input
 										v-model="form.crqty_total"
@@ -370,6 +378,7 @@ export default {
 					itemcode: null,
 					expdate: null,
 					unit: "CASE",
+					numperuompu: "",
 				},
 			],
 		}),
@@ -399,14 +408,16 @@ export default {
 		this.items_variance_total = 0;
 	},
 	methods: {
-		async fetchAllItemsBranch(){
-			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+		async fetchAllItemsBranch() {
+			await this.$store.dispatch("Item/fetchAllItemsBranch", {
 				branch: this.isUser.branch,
+				isvalid: 1
 			});
 		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
+			this.form.items[item.id].numperuompu = item.numperuompu;
 			this.calculateTotalDr();
 		},
 
@@ -421,16 +432,18 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				await this.form.post("/api/items/fptd-trans").then((res) => {
-					this.$router.push({
-						name: "report-wp",
-						params: { id: res.data.id },
+				await this.form
+					.post("/api/items/fptd-trans")
+					.then((res) => {
+						this.$router.push({
+							name: "report-wp",
+							params: { id: res.data.id },
+						});
+						this.resetForm();
+					})
+					.catch((error) => {
+						console.log(error);
 					});
-					this.resetForm();
-				})
-				.catch(error => {
-					console.log(error)
-				});;
 			}
 		},
 		addNewLine() {
@@ -470,8 +483,14 @@ export default {
 			var subtotaldr;
 			subtotaldr = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.drqty);
+
 				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
+					return (
+						sum +
+						(item.unit === "TIN"
+							? lineTotal / item.numperuompu
+							: lineTotal)
+					);
 				}
 				return sum;
 			}, 0);
@@ -484,8 +503,14 @@ export default {
 			var subtotalcr;
 			subtotalcr = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.crqty);
+
 				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
+					return (
+						sum +
+						(item.unit === "TIN"
+							? lineTotal / item.numperuompu
+							: lineTotal)
+					);
 				}
 				return sum;
 			}, 0);

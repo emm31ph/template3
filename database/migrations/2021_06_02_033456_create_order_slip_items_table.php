@@ -15,14 +15,15 @@ class CreateOrderSlipItemsTable extends Migration
     {
         Schema::create('order_slip_items', function (Blueprint $table) {
             $table->bigIncrements('line');
-            $table->string('os_id');
-            $table->string('itemcode', 50);
-            $table->decimal('tinsqty', 36, 0)->nullable();
+            $table->string('branch', 10)->nullable();
+            $table->integer('docid')->nullable();
+            $table->string('itemcode', 50); 
             $table->decimal('qty', 36, 0)->nullable();
-            $table->string('unit', 5);
-            $table->decimal('unit_price', 36, 0)->nullable();
+            $table->string('unit', 4);
+            $table->decimal('unitprice', 36, 0)->nullable();
+            $table->decimal('price', 36, 0)->nullable();
             $table->decimal('discount', 36, 0)->nullable();
-            $table->decimal('total', 36, 0)->nullable();
+            $table->decimal('linetotal', 36, 0)->nullable();
             $table->timestamps();
         });
     }

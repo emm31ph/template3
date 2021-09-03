@@ -24,6 +24,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+          $user->syncRoles([2, 3]);
+        $user->syncBranch()->sync(['MAIN', "CEB", "ILO"]); 
+
         $user = \App\Models\User::create([
             'name' => 'Martin Barabona',
             'username' => 'm.barabona',
@@ -58,11 +61,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $user->syncRoles([2, 3]);
-        $user->syncBranch()->sync(["CEB"]); 
-        
-
-        $user->syncRoles([2, 3]);
-        $user->syncBranch()->sync(['MAIN', "CEB", "ILO"]); 
+        $user->syncBranch()->sync(["CEB"]);  
 
         
         $user = \App\Models\User::create([
@@ -92,6 +91,20 @@ class UserSeeder extends Seeder
         $user->syncBranch()->sync(['MAIN']);
 
         
+         $user = \App\Models\User::create([
+            'name' => 'Rolando Santos Jr.',
+            'email' => 'r.santos@app.com',
+            'status' => '01',
+            'username' => 'r.santos',
+            'branch' => 'MAIN',
+            'usertype' => 'U001',
+            'password' => bcrypt('password'),
+        ]);
+
+        $user->syncRoles([2, 3]);
+        $user->syncBranch()->sync(['MAIN']);
+
+
         $datas = DB::connection('mysql2')->select("select userid as username,username as `name`, ISVALID from users where GROUPID='SALES' and ISVALID='1'");
 
         $chucks = array_chunk($datas, 500);

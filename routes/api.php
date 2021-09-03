@@ -73,12 +73,14 @@ Route::group(['middleware' => 'jwt.verify'], function () {
         Route::any('salesperson', 'Settings\SalesPersonController@index'); 
     });
 
-    Route::group(['prefix' => 'invoices', 'as' => 'invoice'], function () { 
+    Route::group(['prefix' => 'invoice', 'as' => 'invoice'], function () { 
         Route::any('process', 'Invoices\InvoiceController@index'); 
     });
     Route::group(['prefix' => 'process', 'as' => 'process'], function () { 
         Route::any('logistic', 'Process\LogisticController@index'); 
     });
+
+ 
 
 });
 Route::group(['middleware' => 'guest:api'], function () {

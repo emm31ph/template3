@@ -14,7 +14,7 @@
 			"
 			to="{ name: 'dashboard' }"
 		>
-			<img :src="'/img/logo.png'" class="rounded w-50" />
+			<img :src="'/img/logo1.png'" class="rounded" style="width: 100px" />
 		</router-link>
 
 		<!-- Divider -->
@@ -34,50 +34,13 @@
 		<!-- Heading -->
 		<div class="sidebar-heading">Interface</div>
 
-		<!-- Nav Item - Shipping advice -->
-		<!-- <li class="nav-item" v-if="isAbleTo(['shipping-advice-*'])">
-			<a
-				class="nav-link collapsed"
-				href="#"
-				data-toggle="collapse"
-				data-target="#collapseShippingAdvice"
-				aria-expanded="true"
-				aria-controls="collapseShippingAdvice"
-			>
-				<i class="fas fa-truck"></i>
-				<span>Shipping Advice</span>
-			</a>
-				<div
-				id="collapseShippingAdvice"
-				class="collapse"
-				aria-labelledby="headingShippingAdvice"
-				data-parent="#accordionSidebar"
-			>
-				<div class="bg-white py-2 collapse-inner rounded">
-					<router-link
-						:to="{ name: 'shipping-create' }"
-						class="collapse-item" 
-						v-if="can('shipping-advice-create')"
-					>
-						New Shipping Advice
-					</router-link>
-					<router-link
-						:to="{ name: 'shipping-list' }"
-						class="collapse-item"
-						v-if="can('shipping-advice-read')"
-					>
-						Shipping Advice List
-					</router-link>
-				
-				</div>
-			</div>
- 
-		</li> -->
-
 		<!-- Nav Item - Packing List -->
-		<li class="nav-item" v-if="isAbleTo(['packing-list-*','shipping-advice-*'])">
+		<li
+			class="nav-item"
+			v-if="isAbleTo(['packing-list-*', 'shipping-advice-*'])"
+		>
 			<router-link :to="{ name: 'logistic' }" class="nav-link">
-				<i class="fas fa-fw fa-users"></i>
+				<i class="fas fa-truck"></i>
 				<span>Logistic</span></router-link
 			>
 		</li>
@@ -91,10 +54,10 @@
 				aria-expanded="true"
 				aria-controls="collapseInvoice"
 			>
-				<i class="fas fa-fw fa-file-invoice"></i> 
-				<span>Invoice</span>
+				<i class="fas fa-book"></i>
+				<span>Booking</span>
 			</a>
-				<div
+			<div
 				id="collapseInvoice"
 				class="collapse"
 				aria-labelledby="headingInvoice"
@@ -103,19 +66,18 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<router-link
 						:to="{ name: 'invoice-create' }"
-						class="collapse-item" 
+						class="collapse-item"
 						v-if="can('invoice-create')"
 					>
-						Create Order
+						Booking
 					</router-link>
 					<router-link
-						:to="{ name: 'invoice-list' }"
+						:to="{ name: 'bookinglist' }"
 						class="collapse-item"
 						v-if="can('invoice-read')"
 					>
-						Order List
+						Booking List
 					</router-link>
-				
 				</div>
 			</div>
 
@@ -229,7 +191,7 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<router-link
 						:to="{ name: 'settings' }"
-						class="collapse-item" 
+						class="collapse-item"
 					>
 						Settings
 					</router-link>
@@ -240,7 +202,6 @@
 					>
 						Roles
 					</router-link>
-				
 				</div>
 			</div>
 		</li>

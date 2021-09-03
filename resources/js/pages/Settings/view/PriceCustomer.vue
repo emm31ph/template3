@@ -291,9 +291,7 @@ export default {
 				discount4: this.formatNumberDis(this.discount4),
 				discount5: this.formatNumberDis(this.discount5),
 				unitprice: this.formatNumberDis(this.unitprice),
-				// discount: (res.data.result[index].discount),
 			});
-		// console.log(this.$refs.itemproduct.selectedItem);
 		  this.$refs.itemproduct.selectedItem = '';
 		  this.itemdesc ='';
 		  this.itemcode ='';
@@ -404,39 +402,38 @@ export default {
 				.then((res) => {
 					this.custno = item.custno;
 					this.itemDisable = false;
-					// this.form.custno = res.data.result[0].custno
 					for (
 						let index = 0;
-						index < res.data.result.length;
+						index < res.data.length;
 						index++
 					) {
 						this.form.items.push({
 							custno: item.custno,
-							branch: res.data.result[index].branch,
-							itemcode: res.data.result[index].itemcode,
-							itemdesc: res.data.result[index].items[0].itemdesc,
+							branch: res.data[index].branch,
+							itemcode: res.data[index].itemcode,
+							itemdesc: res.data[index].items[0].itemdesc,
 							price: this.formatNumberDis(
-								res.data.result[index].price / 100
+								res.data[index].price / 100
 							),
 							discount: this.formatNumberDis(
-								res.data.result[index].discount / 100
+								res.data[index].discount / 100
 							),
 							discount2: this.formatNumberDis(
-								res.data.result[index].discount2 / 100
+								res.data[index].discount2 / 100
 							),
 							discount3: this.formatNumberDis(
-								res.data.result[index].discount3 / 100
+								res.data[index].discount3 / 100
 							),
 							discount4: this.formatNumberDis(
-								res.data.result[index].discount4 / 100
+								res.data[index].discount4 / 100
 							),
 							discount5: this.formatNumberDis(
-								res.data.result[index].discount5 / 100
+								res.data[index].discount5 / 100
 							),
 							unitprice: this.formatNumberDis(
-								res.data.result[index].unitprice / 100
+								res.data[index].unitprice / 100
 							),
-							// discount: (res.data.result[index].discount),
+							// discount: (res.data[index].discount),
 						});
 
 						

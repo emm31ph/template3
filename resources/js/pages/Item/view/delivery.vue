@@ -148,6 +148,8 @@
 										:items="getItemsOut"
 										:index="`${k}`"
 										filterby="itemdesc"
+										filterby2="itemcode"
+										filterby3="u_stockcode"
 										addOnDisplay1="expdate"
 										addOnDisplay="qtyDesc"
 										@change="onChangeItems"
@@ -303,8 +305,8 @@ export default {
 					tins: 0,
 					numperuompu: 0,
 				},
-			], 
-			reversal: {items: []},
+			],
+			reversal: { items: [] },
 		}),
 		btn: false,
 		allerrors: [],
@@ -332,8 +334,8 @@ export default {
 		this.fetchItemsOut();
 	},
 	methods: {
-		fetchItemsOut(){
-			this.$store.dispatch("Item/fetchItemsOut", { 
+		fetchItemsOut() {
+			this.$store.dispatch("Item/fetchItemsOut", {
 				branch: this.isUser.branch,
 			});
 		},
@@ -342,7 +344,7 @@ export default {
 			this.form.items[item.id].expdate = item.expdate;
 			this.form.items[item.id].bal = item.qty;
 			this.form.items[item.id].numperuompu = item.numperuompu;
-			this.toTin(item.id); 
+			this.toTin(item.id);
 			this.calculateTotal();
 		},
 		customerSelected(customer) {
@@ -358,22 +360,21 @@ export default {
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, processed!",
 			});
-			if (result) { 
-				
-			this.form.reversal.batch = '';
-			
-				await this.form.post("/api/items/dlvry-trans")
-					.then(res => { 
+			if (result) {
+				this.form.reversal.batch = "";
+
+				await this.form
+					.post("/api/items/dlvry-trans")
+					.then((res) => {
 						this.$router.push({
-						name: "report-dlvry",
-						params: { id: res.data.id },
+							name: "report-dlvry",
+							params: { id: res.data.id },
+						});
+						this.resetForm();
+					})
+					.catch((error) => {
+						console.log(error);
 					});
-					this.resetForm();
-				})
-				.catch(error => {
-					console.log(error)
-				});
-				
 			}
 		},
 		addNewLine() {
@@ -412,7 +413,7 @@ export default {
 			this.form.userid = this.isUser.id;
 		},
 		calculateTotal() {
-			var subtotal; 
+			var subtotal;
 			subtotal = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.qty);
 				if (!isNaN(lineTotal)) {
@@ -430,7 +431,7 @@ export default {
 					this.form.items[k].qty * this.form.items[k].numperuompu;
 			} else {
 				this.form.items[k].tins = this.form.items[k].qty;
-			} 
+			}
 		},
 
 		checkBtn() {

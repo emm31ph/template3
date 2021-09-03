@@ -3,42 +3,40 @@ import * as types from './mutation-types'
 
 // state
 export const state = {
-    ItemsPrice: null,
+    list: null,
 }
 
 
 export const getters = {
-    ItemsPrice: state => state.ItemsPrice,
+    list: state => state.list,
 }
 
 
 export const mutations = {
-      //ItemsPrice
-      [types.FETCH_CUSTOMER_PRICE_SUCCESS](state, { ItemsPrice }) {
-        state.ItemsPrice = ItemsPrice
+    //list
+    [types.FETCH_BOOKING_SUCCESS](state, { list }) {
+        state.list = list
     },
     [types.CLEAR_ALL](state) {
-        state.ItemsPrice = null 
+        state.list = null
     }
 }
 
 
 export const actions = {
-    async fetchCustomerPrice({ commit }, payload) {
+    async fetchInvoiceList({ commit }, payload) {
         try {
             const { data } = await axios.get('/api/invoice/process', {
                 params: {
-                    trntype: 'items-price',
-                    branch: payload.branch, 
-                    pricelist: payload.pricelist, 
-                    cid: payload.cid, 
+                    trnmode: payload.trnmode,
+                    branch: payload.branch
                 }
-            })   
-            commit(types.FETCH_CUSTOMER_PRICE_SUCCESS, { 
-                ItemsPrice: data
+            })
+            commit(types.FETCH_BOOKING_SUCCESS, {
+                list: data
             })
         } catch (e) {
-            commit(types.FETCH_CUSTOMER_PRICE_FAILURE)
+            commit(types.FETCH_BOOKING_FAILURE)
         }
     },
 }

@@ -151,6 +151,8 @@
 										:items="getAllItemsBranch"
 										:index="`${k}`"
 										filterby="itemdesc"
+										filterby2="itemcode"
+										filterby3="u_stockcode"
 										addOnDisplay="expdate"
 										@change="onChangeItems"
 										title="Itemdesc"
@@ -172,8 +174,9 @@
 									<input
 										v-model="item.expdate"
 										type="date"
-										
-										:disabled="item.drqty != 0 ? true : false"
+										:disabled="
+											item.drqty != 0 ? true : false
+										"
 										class="
 											form-control form-control-sm
 											text-center
@@ -271,7 +274,6 @@
 											fa-trash-alt
 											btn btn-danger btn-sm
 										"
-									 
 										@click="deleteRow(k, item)"
 									></i>
 								</td>
@@ -400,10 +402,11 @@ export default {
 		this.fetchAllItemsBranch();
 		this.items_variance_total = 0;
 	},
-	methods: { 
-		async fetchAllItemsBranch(){
-			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+	methods: {
+		async fetchAllItemsBranch() {
+			await this.$store.dispatch("Item/fetchAllItemsBranch", {
 				branch: this.isUser.branch,
+				isvalid: 1,
 			});
 		},
 		itemSelected(item) {
@@ -422,16 +425,19 @@ export default {
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, processed!",
 			});
-			if (result) { 
-				this.form.post("/api/items/reject-trans").then((res) => {
-					this.$router.push({
-						name: "report-rj",
-						params: { id: res.data.id },
+			if (result) {
+				this.form
+					.post("/api/items/reject-trans")
+					.then((res) => {
+						this.$router.push({
+							name: "report-rj",
+							params: { id: res.data.id },
+						});
+						this.resetForm();
+					})
+					.catch((error) => {
+						console.log(error);
 					});
-					this.resetForm();
-				}).catch(error => {
-					console.log(error)
-				});
 			}
 		},
 		addNewLine() {
@@ -479,7 +485,7 @@ export default {
 				return sum;
 			}, 0);
 			this.items_dr_total = subtotaldr;
-			this.form.drqty_total = subtotaldr; 
+			this.form.drqty_total = subtotaldr;
 			this.checkBtn();
 		},
 		calculateTotalCr() {

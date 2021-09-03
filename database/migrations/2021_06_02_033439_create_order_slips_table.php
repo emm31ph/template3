@@ -14,8 +14,10 @@ class CreateOrderSlipsTable extends Migration
     public function up()
     {
         Schema::create('order_slips', function (Blueprint $table) {
-            $table->string('os_id');
-            $table->integer('cid')->comment('customer id');
+            $table->bigIncrements('docid');
+            $table->string('batch');
+            $table->string('branch', 10)->nullable();
+            $table->string('custno', 50)->nullable()->comment('customer id');
             $table->integer('user_id')->comment('user');
             $table->integer('salesperson')->comment('salesperson');
             $table->date('trndate')->nullable();
@@ -23,8 +25,8 @@ class CreateOrderSlipsTable extends Migration
             $table->string('pono')->nullable();
             $table->date('deliverydate')->nullable();
             $table->string('terms')->nullable();
-            $table->string('deliver_to')->nullable();
-            $table->decimal('totalunit', 36, 0)->nullable();
+            $table->string('address')->nullable();
+            $table->string('deliver_to')->nullable(); 
             $table->decimal('totalamount', 36, 0)->nullable();
             $table->decimal('totaldiscount', 36, 0)->nullable();
             $table->string('remarks')->nullable();

@@ -13,7 +13,7 @@ class SignatorySeeder extends Seeder
     public function run()
     {
 
-        $branch = ['MAIN', 'CEB', 'ILO', 'MEY', 'BIC', 'ZAM', 'GEN', 'DAV', 'BTN'];
+        $branch = ['MAIN', 'CEB', 'ILO', 'MEY', 'BIC', 'ZAM', 'GEN', 'DVO', 'BTN'];
 
         $counter = [
             [

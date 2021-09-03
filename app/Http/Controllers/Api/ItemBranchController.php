@@ -90,12 +90,16 @@ class ItemBranchController extends Controller
     public function getAllItemsBranch(Request $request)
     {
 
-        $data = ItemsBranch::rightJoin('items', 'items.itemcode', 'items_branches.itemcode')
-            ->where('items_branches.branch', '=', $request->branch)
+        $data = ItemsBranch::rightJoin('items',  function($join)use ($request)
+                         {
+                             $join->on('items_branches.itemcode','items.itemcode');
+                             $join->where('items_branches.branch','=',$request->branch);
+                         })
+            // ->where('items_branches.branch', '=', $request->branch)
             
-            ->whereOr('items.itemcode','reject')
-            ->whereOr('items_branches.qty', '!=', '0')
-            
+            // ->whereOr('items.itemcode','reject')
+            // ->whereOr('items_branches.qty', '!=', '0')
+            ->select('items.*',DB::Raw('IFNULL(items_branches.qty,0) as qty'))
             ->orderByRaw("ifnull(items_branches.expdate,DATE_ADD(now(), INTERVAL 10 year)) asc , (case when itemdesc like '%label%' then 8 when itemdesc like '%ctn%' then 9 else 0 end) asc, itemdesc asc")
             ->get();
         return response()->json($data, 200);

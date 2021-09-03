@@ -56,7 +56,7 @@ export const actions = {
 
     async fetchAllItems({ commit }) {
         try {
-            const { data } = await axios.get('/api/items/getAllItems') 
+            const { data } = await axios.get('/api/items/getAllItems')
             commit(types.FETCH_ALL_ITEMS_SUCCESS, {
                 allitems: data
             })
@@ -73,10 +73,9 @@ export const actions = {
         try {
             const { data } = await axios.get('/api/items/getItemsOut', {
                 params: {
-                    branch: payload.branch 
+                    branch: payload.branch
                 }
             })
-            console.log(data);
             commit(types.FETCH_ITEMS_SUCCESS, {
                 items: data
             })
@@ -88,7 +87,7 @@ export const actions = {
         try {
             const { data } = await axios.get('/api/items/getAllitemsBranch', {
                 params: {
-                    branch: payload.branch 
+                    branch: payload.branch
                 }
             })
 

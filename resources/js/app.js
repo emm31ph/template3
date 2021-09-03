@@ -15,7 +15,10 @@ import '~/mixins'
 window.moment = require('moment')
 window.Swal = require('sweetalert2')
 window.XLSX = require('xlsx')
+import VueTheMask from 'vue-the-mask'
+import money from 'v-money'
 
+Vue.use(VueTheMask, money)
 
 const app = new Vue({
     // i18n,

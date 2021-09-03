@@ -6,10 +6,21 @@ import axios from 'axios'
 Vue.mixin({
     data() {
         return {
-            
+
         }
     },
-    methods: {
+    computed: {
+        getList() {
+            const data = store.getters['Invoice/list']
+            if (data) {
+                return data
+            }
 
+        },
+    },
+    methods: {
+        async fetchInvoiceList() {
+            await this.$store.dispatch("Invoice/fetchList");
+        },
     }
 })

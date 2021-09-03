@@ -149,6 +149,8 @@
 										:items="getAllItemsBranch"
 										:index="`${k}`"
 										filterby="itemdesc"
+										filterby2="itemcode"
+										filterby3="u_stockcode"
 										addOnDisplay="expdate"
 										@change="onChangeItems"
 										title="Itemdesc"
@@ -372,6 +374,7 @@ export default {
 					itemcode: null,
 					expdate: null,
 					unit: "CASE",
+					numperuompu: "",
 				},
 			],
 		}),
@@ -400,15 +403,17 @@ export default {
 		this.fetchAllItemsBranch();
 		this.items_variance_total = 0;
 	},
-	methods: { 
-		async fetchAllItemsBranch(){
-			await this.$store.dispatch("Item/fetchAllItemsBranch", { 
+	methods: {
+		async fetchAllItemsBranch() {
+			await this.$store.dispatch("Item/fetchAllItemsBranch", {
 				branch: this.isUser.branch,
+				isvalid: 1,
 			});
 		},
 		itemSelected(item) {
 			this.form.items[item.id].itemcode = item.itemcode;
 			this.form.items[item.id].expdate = item.expdate;
+			this.form.items[item.id].numperuompu = item.numperuompu;
 			this.calculateTotalDr();
 		},
 
@@ -423,7 +428,7 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				this.form.post("/api/items/adj-trans").then((res) => { 
+				this.form.post("/api/items/adj-trans").then((res) => {
 					this.$router.push({
 						name: "report-adj",
 						params: { id: res.data.id },
@@ -470,7 +475,12 @@ export default {
 			subtotaldr = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.drqty);
 				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
+					return (
+						sum +
+						(item.unit === "TIN"
+							? lineTotal / item.numperuompu
+							: lineTotal)
+					);
 				}
 				return sum;
 			}, 0);
@@ -484,7 +494,12 @@ export default {
 			subtotalcr = this.form.items.reduce(function (sum, item) {
 				var lineTotal = parseFloat(item.crqty);
 				if (!isNaN(lineTotal)) {
-					return sum + lineTotal;
+					return (
+						sum +
+						(item.unit === "TIN"
+							? lineTotal / item.numperuompu
+							: lineTotal)
+					);
 				}
 				return sum;
 			}, 0);

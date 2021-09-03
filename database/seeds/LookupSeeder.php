@@ -205,11 +205,31 @@ class LookupSeeder extends Seeder
             [
                 'lookup' => 'LOGS',
                 'code' => 'LGDR',
-                'fulltitle' => 'YES',
+                'fulltitle' => '',
                 'fulldesc' => 'BASE ON DR on NOT',
             ],
 
         ];
         DB::table('lookups')->insert($item);
+
+
+             $datas = DB::connection('mysql2')->select("select 'IG01' lookup,ITEMGROUP as `code`, ITEMGROUPNAME as fulltitle, ITEMGROUPNAME as fulldesc from itemgroups");
+
+           
+            foreach ($datas  as $value) { 
+             
+                $item = [
+                        
+                            'lookup' => $value->lookup,
+                            'code' => $value->code,
+                            'fulltitle' => $value->fulltitle,
+                            'fulldesc' => $value->fulldesc 
+                         
+                        ];
+
+                DB::table('lookups')->insert($item);
+             
+        }
+
     }
 }

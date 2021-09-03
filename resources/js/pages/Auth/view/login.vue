@@ -93,10 +93,26 @@ export default {
 	}),
 	methods: {
 		async handleSubmit() {
-			const res = await this.form.post("/api/login");
+			const val = [];
+			await this.form
+				.post("/api/login")
+				.then((res) => {
+					this.$store.dispatch("Auth/saveToken", {
+						token: res.data.token,
+					});
+					this.$store.dispatch("Auth/fetchUser");
+				})
+				.catch((error) => {
+					Swal.fire({
+						position: "top-end",
+						icon: "error",
+						toast: true,
+						title: "Unauthorized",
+						showConfirmButton: false,
+						timer: 2500,
+					});
+				});
 
-			this.$store.dispatch("Auth/saveToken", { token: res.data.token });
-			await this.$store.dispatch("Auth/fetchUser");
 			this.redirect();
 		},
 		redirect() {

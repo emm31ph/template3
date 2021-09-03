@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
 
-
+protected $casts = [
+    'custno' => 'string',
+];
     // protected $appends = [
     //     'SalesPersons'
     // ];
@@ -31,6 +33,9 @@ class Customer extends Model
     //     $data = SalesPerson::where('salesperson',$this->attributes['salesperson'])->get();
     //     return $data;
     // }
-
+// public function setCustnoAttribute($value)
+// {
+//     $this->attributes['custno'] = strtolower($value);
+// }
      
 }

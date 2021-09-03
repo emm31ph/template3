@@ -118,7 +118,7 @@ class PriceController extends Controller
             $datas = DB::connection('mysql2')->select("select  '' shortcode, U_STOCKCODE,ITEMCODE,replace(ITEMDESC,'**',' YT')  ITEMDESC,ITEMCLASS,
             CASE LOCATE(CONCAT(CONVERT(ROUND(NUMPERUOMPU,0),CHAR),MID(ITEMDESC,LOCATE('/',ITEMDESC,4),5)),ITEMDESC,4) WHEN 0 THEN
             '' ELSE   CONCAT(CONVERT(ROUND(NUMPERUOMPU,0),CHAR),MID(ITEMDESC,LOCATE('/',ITEMDESC,4),5)) END AS PCKGSIZE,  UOMPU,isvalid,
-            CONVERT(ROUND(NUMPERUOMPU,0),CHAR) NUMPERUOMPU,  ITEMCLASS  from items where ITEMCLASS not in ('005','006','004') order by itemdesc");
+            CONVERT(ROUND(NUMPERUOMPU,0),CHAR) NUMPERUOMPU,  ITEMCLASS,ITEMGROUP  from items where ITEMCLASS not in ('005','006','004') order by itemdesc");
         
             $chucks = array_chunk($datas,500);
             foreach($chucks as $chuck ){
@@ -132,7 +132,8 @@ class PriceController extends Controller
                         'uompu' => $data->UOMPU, 
                         'numperuompu' => $data->NUMPERUOMPU,
                         'status' => $data->isvalid,
-                        'itemclass' => $data->ITEMCLASS
+                        'itemclass' => $data->ITEMCLASS,
+                        'itemgroup' => $data->ITEMGROUP
                     ],);
                 }
             }

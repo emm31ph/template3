@@ -149,6 +149,8 @@
 										:items="getAllItemsBranch"
 										:index="`${k}`"
 										filterby="itemdesc"
+										filterby2="itemcode"
+										filterby3="u_stockcode"
 										addOnDisplay="expdate"
 										@change="onChangeItems"
 										title="Itemdesc"
@@ -327,9 +329,8 @@ export default {
 		this.fetchAllItemsBranchRRM();
 	},
 	methods: {
-		
-		async fetchAllItemsBranchRRM(){
-			await this.$store.dispatch("Item/fetchAllItemsBranchRRM", { 
+		async fetchAllItemsBranchRRM() {
+			await this.$store.dispatch("Item/fetchAllItemsBranchRRM", {
 				branch: this.isUser.branch,
 			});
 		},
@@ -350,15 +351,18 @@ export default {
 				confirmButtonText: "Yes, processed!",
 			});
 			if (result) {
-				this.form.post("/api/items/rrm-trans").then((res) => {
-					this.$router.push({
-						name: "report-rrm",
-						params: { id: res.data.id },
+				this.form
+					.post("/api/items/rrm-trans")
+					.then((res) => {
+						this.$router.push({
+							name: "report-rrm",
+							params: { id: res.data.id },
+						});
+						this.resetForm();
+					})
+					.catch((error) => {
+						console.log(error);
 					});
-					this.resetForm();
-				}).catch(error => {
-					console.log(error)
-				});
 			}
 		},
 		addNewLine() {

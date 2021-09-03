@@ -16,11 +16,11 @@ class BranchSeeder extends Seeder
             ['branch' => 'BIC', 'branchname' => 'BICOL'],
             ['branch' => 'BTN', 'branchname' => 'BICUTAN'],
             ['branch' => 'CEB', 'branchname' => 'CEBU'],
-            ['branch' => 'DAV', 'branchname' => 'DAVAO'],
+            ['branch' => 'DVO', 'branchname' => 'DAVAO'],
             ['branch' => 'GEN', 'branchname' => 'GEN SAN (CCC)'],
             ['branch' => 'ILO', 'branchname' => 'ILOILO'],
             ['branch' => 'MAIN', 'branchname' => 'BAESA'],
-            ['branch' => 'MEY', 'branchname' => 'MEYCAUAYAN'],
+            ['branch' => 'MEYC', 'branchname' => 'MEYCAUAYAN'],
             ['branch' => 'ZAM', 'branchname' => 'ZAMBOANGA'],
 
         ];

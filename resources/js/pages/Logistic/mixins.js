@@ -23,7 +23,6 @@ Vue.mixin({
         getPackingList() {
             if (this.isUser) {
                 var getPackinglist = store.getters['Logistic/PackingList']
-                console.log(getPackinglist);
                 if (getPackinglist) {
                     return getPackinglist
                 }

@@ -36,6 +36,9 @@ return [
         'warehouse' => [
             'items' => 'r,a,im,itr,itd,itdu,itf,itfu,itrr,itrru,itrm,itrmu,itrj,itrju',
         ],
+        'warehouse meyca' => [
+            'items' => 'r,a,itr,itd,itrr,itrm,itrj',
+        ],
         'sales' => [
             'invoice' => 'c,r,u,cn',
         ],

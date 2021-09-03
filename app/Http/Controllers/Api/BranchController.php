@@ -10,7 +10,7 @@ class BranchController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Branch::select('branch', 'branchname')->get();
+        $data = Branch::get();
 
         return response()->json(json_decode($data), 200);
     }

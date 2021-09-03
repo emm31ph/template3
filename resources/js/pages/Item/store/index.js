@@ -72,11 +72,11 @@ export const actions = {
 
     async fetchItemsOut({ commit }, payload) {
         try {
-            const { data } = await axios.get('/api/items/getItemsOut' ,{
+            const { data } = await axios.get('/api/items/getItemsOut', {
                 params: {
-                    branch: payload.branch, 
+                    branch: payload.branch,
                 }
-            }) 
+            })
             commit(types.FETCH_ITEMS_SUCCESS, {
                 items: data
             })
@@ -86,9 +86,10 @@ export const actions = {
     },
     async fetchAllItemsBranch({ commit }, payload) {
         try {
-            const { data } = await axios.get('/api/items/getAllitemsBranch' ,{
+            const { data } = await axios.get('/api/items/getAllitemsBranch', {
                 params: {
-                    branch: payload.branch, 
+                    branch: payload.branch,
+                    isvalid: payload.isvalid,
                 }
             })
 
@@ -99,12 +100,12 @@ export const actions = {
             commit(types.FETCH_ITEMS_FAILURE)
         }
     },
-    
+
     async fetchAllItemsBranchRRM({ commit }, payload) {
         try {
-            const { data } = await axios.get('/api/items/getAllitemsBranchRRM',{
+            const { data } = await axios.get('/api/items/getAllitemsBranchRRM', {
                 params: {
-                    branch: payload.branch, 
+                    branch: payload.branch,
                 }
             })
 

@@ -223,13 +223,12 @@
 						align="left"
 					/>
 
-					<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{
-						this.isUser.name
-					}} <br>
-					<sub>{{ setBranch(this.isUser.branch) }}</sub>
-					</span> 
-					
-					
+					<span class="mr-2 d-none d-lg-inline text-gray-600 small"
+						>{{ this.isUser.name }} <br />
+						<sub>{{
+							setBranch(this.isUser.branch, "branchname")
+						}}</sub>
+					</span>
 				</a>
 				<!-- Dropdown - User Information -->
 				<div
@@ -258,7 +257,12 @@
 					</a>
 					<a class="dropdown-item" @click="showModalBranch">
 						<i
-							class="fas fa-university fa-sm fa-fw mr-2 text-gray-400"
+							class="
+								fas
+								fa-university fa-sm fa-fw
+								mr-2
+								text-gray-400
+							"
 						></i>
 						Change Branch
 					</a>
@@ -284,7 +288,7 @@
 			</li>
 		</ul>
 
-		<modal-trnlog v-show="isModalVisible" @close="closeModal" /> 
+		<modal-trnlog v-show="isModalVisible" @close="closeModal" />
 		<modal-branch v-show="isModalBranchVisible" @close="closeModalBranch" />
 	</nav>
 </template>
@@ -300,21 +304,10 @@ export default {
 			isModalBranchVisible: false,
 		};
 	},
-	mounted(){
-		
+	mounted() {
 		this.fetchBranch();
 	},
 	methods: {
-		setBranch(data){
-			if(data){
-			let val = this.getBranch;
-			var val1 = val.filter(el => el.branch===data);
-			 	if(val1.length){ 
-					 return  val1[0]['branchname'];
-				 } 
-			}
-			return '';
-		},
 		sendMsg() {
 			bus.$emit("send", this.name);
 		},
